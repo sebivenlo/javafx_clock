@@ -41,6 +41,7 @@ public class JavaFx_clock extends Application {
  
     @Override
     public void start(Stage stage) {
+        // example from http://docs.oracle.com/javase/8/javafx/visual-effects-tutorial/basics.htm#BEIIDFJC 
     Group p = new Group();
         Scene scene = new Scene(p);
         stage.setScene(scene);
