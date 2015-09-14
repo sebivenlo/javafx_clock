@@ -51,7 +51,7 @@ public class JavaFx_clock extends Application {
         p.setTranslateY(80);
  
         //create a circle with effect
-        final Circle circle = new Circle(20,  Color.rgb(156,216,255));
+        final Circle circle = new Circle(40,  Color.rgb(156,216,255));
         circle.setEffect(new Lighting());
         //create a text inside a circle
         final Text text = new Text (i.toString());
@@ -83,22 +83,18 @@ public class JavaFx_clock extends Application {
         };
  
         //create a keyValue with factory: scaling the circle 2times
-        KeyValue keyValueX = new KeyValue(stack.scaleXProperty(), 2);
-        KeyValue keyValueY = new KeyValue(stack.scaleYProperty(), 2);
+      //  KeyValue keyValueX = new KeyValue(stack.scaleXProperty(), 2);
+      //  KeyValue keyValueY = new KeyValue(stack.scaleYProperty(), 2);
  
         //create a keyFrame, the keyValue is reached at time 2s
         Duration duration = Duration.millis(1000);
         //one can add a specific action when the keyframe is reached
         EventHandler onFinished = (EventHandler<ActionEvent>) (ActionEvent t) -> {
-            stack.setTranslateX(java.lang.Math.random()*200-100);
+           // stack.setTranslateX(java.lang.Math.random()*200-100);
             //reset counter
             i = 0;
     };
- 
-  KeyFrame keyFrame = new KeyFrame(duration, onFinished , keyValueX, keyValueY);
- 
-        //add the keyframe to the timeline
-        timeline.getKeyFrames().add(keyFrame);
+
  
         timeline.play();
         timer.start();
