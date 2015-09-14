@@ -17,7 +17,6 @@ import javafx.stage.Stage;
  *
  * @author max 
  * 
- * main entry point
  */
 public class JavaFx_clock extends Application {
     
