@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafx_clock.clock;
+package nl.fontys.jfxclock.clock;
 
 import java.time.LocalDateTime;
 

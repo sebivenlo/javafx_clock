@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafx_clock.gui;
+package nl.fontys.jfxclock;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -24,14 +24,14 @@ import javafx.scene.shape.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx_clock.clock.ClockTime;
+import nl.fontys.jfxclock.clock.ClockTime;
 
 /**
  *
  * @author max
  *
  */
-public class JavaFx_clock extends Application {
+public class ClockStarter extends Application {
 
     //main timeline
     private Timeline timeline;

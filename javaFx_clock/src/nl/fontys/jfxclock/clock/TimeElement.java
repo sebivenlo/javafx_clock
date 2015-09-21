@@ -1,4 +1,4 @@
-package javafx_clock.clock;
+package nl.fontys.jfxclock.clock;
 
 import java.util.Observable;
 
