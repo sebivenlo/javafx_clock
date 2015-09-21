@@ -1,22 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package nl.fontys.jfxclock.clock;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.time.LocalDateTime;
+import java.util.Observer;
 
 /**
  *
- * @author max
+ * @author hom
  */
-public class ClockTime implements Comparable<ClockTime>{
-
-    private final TimeElement seconds;
-    private final TimeElement minutes;
-    private final TimeElement hours;
-    private final TimeElement days;
+public class ClockTime implements ActionListener, Comparable<ClockTime> {
 
     /**
      * Create a clocktime set to a specific time.
@@ -26,7 +19,7 @@ public class ClockTime implements Comparable<ClockTime>{
      * @param minute
      * @param second
      */
-   public ClockTime( int day, int hour, int minute, int second ) {
+    ClockTime( int day, int hour, int minute, int second ) {
         seconds = new TimeElement( second, 60 );
         minutes = new TimeElement( minute, 60 );
         hours = new TimeElement( hour, 24 );
@@ -38,41 +31,32 @@ public class ClockTime implements Comparable<ClockTime>{
         hours.setNext( days );
         
     }
-        /**
+
+    /**
      * Default constructor, set value to to Thursday evening 23:59:55.
      */
-    public ClockTime() {
+    ClockTime() {
         this( 3, 23, 59, 55 );
     }
 
-    public TimeElement getSeconds() {
-        return seconds;
-    }
-
-    public TimeElement getMinutes() {
-        return minutes;
-    }
-
-    public TimeElement getHours() {
-        return hours;
-    }
-
-    public TimeElement getDays() {
-        return days;
-    }
-        /**
+    /**
      * Set the clock to time specified as LocalDateTime.
      *
      * @param time
      */
-    
     ClockTime( LocalDateTime time ) {
         this( time.getDayOfWeek().getValue() - 1,
                 time.getHour(),
                 time.getMinute(),
                 time.getSecond() );
     }
-        public void syncToWallClock() {
+    
+    private final TimeElement seconds;
+    private final TimeElement minutes;
+    private final TimeElement hours;
+    private final TimeElement days;
+    
+    public void syncToWallClock() {
         LocalDateTime time = LocalDateTime.now();
         seconds.setValue( time.getSecond() );
         minutes.setValue( time.getMinute() );
@@ -83,14 +67,33 @@ public class ClockTime implements Comparable<ClockTime>{
     /**
      * Increment clock value.
      */
-    public void tick() {
+    private void tick() {
         seconds.increment();
     }
-        @Override
+
+    /**
+     * Call back used by timer.
+     *
+     * @param e event
+     */
+    @Override
+    public void actionPerformed( ActionEvent e ) {
+        tick();
+    }
+
+    /**
+     * Attach observer to fastest running time element.
+     *
+     * @param obs observer to attach.
+     */
+    void addSecondsObserver( Observer obs ) {
+        seconds.addObserver( obs );
+    }
+    
+    @Override
     public String toString() {
         return days + " " + hours + ":" + minutes + ":" + seconds;
     }
-
 
     /**
      * Full comparison of this clock time and the other.
@@ -130,4 +133,21 @@ public class ClockTime implements Comparable<ClockTime>{
         }
         return result;
     }
+    
+    public TimeElement getSeconds() {
+        return seconds;
     }
+    
+    public TimeElement getMinutes() {
+        return minutes;
+    }
+    
+    public TimeElement getHours() {
+        return hours;
+    }
+    
+    public TimeElement getDays() {
+        return days;
+    }
+    
+}
