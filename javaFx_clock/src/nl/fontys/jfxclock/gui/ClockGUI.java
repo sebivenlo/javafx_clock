@@ -5,19 +5,9 @@
  */
 package nl.fontys.jfxclock.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import textclock.AlarmClock;
+import nl.fontys.jfxclock.clock.AlarmClock;
 
 /**
  *
@@ -25,10 +15,8 @@ import textclock.AlarmClock;
  */
 public class ClockGUI implements Observer {
 
-    private JFrame frame;
     private ClockBanner titlePanel;
-    private JPanel centerPanel;
-    private ClockDial analogDisplay;
+    private ClockAnalog analogDisplay;
     private ClockDigital digitalDisplay;
     private ClockControlPanel controlPanel;
 
@@ -75,7 +63,7 @@ public class ClockGUI implements Observer {
         centerPanel = new JPanel( new BorderLayout() );
         contentPane.add( centerPanel );
 
-        analogDisplay = ClockDial.createAnimatedClockDial(clock.getTime() );
+        analogDisplay = ClockAnalog.createAnimatedClockDial(clock.getTime() );
         centerPanel.add( analogDisplay, BorderLayout.CENTER );
 
         digitalDisplay = new ClockDigital( clock.getTime() );

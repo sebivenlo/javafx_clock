@@ -1,37 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Created in the module cmod in 2015
  */
 package nl.fontys.jfxclock;
 
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import textclock.AlarmClock;
-import textclockgui.ClockGUI;
+import nl.fontys.jfxclock.clock.AlarmClock;
+import nl.fontys.jfxclock.gui.ClockGUI;
 
 /**
- *
- * @author hvd
+ * @author Maximilian Walter, Ron Gebauer
+ * @version 1.0
  */
 public class ClockStarter {
 
     public static void main(String[] args) {
-        
-        SwingUtilities.invokeLater(new Runnable() {
+        AlarmClock alarmClock = new AlarmClock();
+        alarmClock.start();
 
-            @Override
-            public void run() {
-                
-                AlarmClock alarmClock = new AlarmClock();
-                alarmClock.start();
+        ClockGUI clockGUI = new ClockGUI(alarmClock);
+        alarmClock.addObserver(clockGUI);
 
-                ClockGUI clockTextGUI = new ClockGUI(alarmClock);
-                alarmClock.addObserver(clockTextGUI);
-
-                clockTextGUI.show();
-            }
-        });
+        clockGUI.show();
     }
 
 }

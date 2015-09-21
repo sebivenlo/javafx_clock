@@ -23,17 +23,17 @@ import nl.fontys.sebivenlo.svgparser.SVGSimplePath;
 import textclock.ClockTime;
 
 /**
- * ClockDial if an analog clock face. The background is formed by int x =
+ * ClockAnalog if an analog clock face. The background is formed by int x =
  * (int)(xOrg + radius*Math.sin( Math.toRadians( 30 * i ) )); the dial with
  * numbers, hands are placed in front of it.
  *
  * @author hom
  */
-public class ClockDial extends ClockDialPanel {
+public class ClockAnalog extends ClockDialPanel {
 
     private ClockHand[] hands;
     private final ClockTime time;
-    private ClockDial( ClockTime time ) {
+    private ClockAnalog( ClockTime time ) {
         this.time=time;
         URL url = getClass().getResource( "/resources/newhands.svg" );
         System.out.println( "url = " + url + " ext " + url.toExternalForm()
@@ -42,7 +42,7 @@ public class ClockDial extends ClockDialPanel {
         try {
             shapeMap = new SVGParser( url.toString() ).getShapeMap();
         } catch ( IOException ex ) {
-            Logger.getLogger( ClockDial.class.getName() ).log( Level.SEVERE,
+            Logger.getLogger(ClockAnalog.class.getName() ).log( Level.SEVERE,
                     null, ex );
         }
         Shape hs = SVGSimplePath.getShape( ClockHand.altPathString );
@@ -86,8 +86,8 @@ public class ClockDial extends ClockDialPanel {
         secondHand.update( time.getSeconds(), null );
 
     }
-    static ClockDial createAnimatedClockDial(ClockTime t ){
-        ClockDial result = new ClockDial(t);
+    static ClockAnalog createAnimatedClockDial(ClockTime t ){
+        ClockAnalog result = new ClockAnalog(t);
         t.getSeconds().addObserver( result);
         return result;
     }
@@ -119,7 +119,7 @@ public class ClockDial extends ClockDialPanel {
         g2.fillOval( cx, cy, w, w );
     }
 
-    final ClockDial addHands( ClockHand... hands ) {
+    final ClockAnalog addHands( ClockHand... hands ) {
         this.hands = hands;
         for ( ClockHand h : this.hands ) {
             h.setParent( this );

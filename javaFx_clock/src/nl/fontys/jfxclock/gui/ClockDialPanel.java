@@ -41,6 +41,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import nl.fontys.sebivenlo.svgparser.SVGParser;
 import nl.fontys.sebivenlo.svgparser.SVGSimplePath;
+import static java.lang.Math.min;
 
 /**
  * Utility class to do the panel clock dial painting.
@@ -296,8 +297,8 @@ public class ClockDialPanel extends JPanel implements Observer {
 
         @Override
         public void layoutContainer( Container parent ) {
-            if ( parent instanceof ClockDial ) {
-                ClockDial dial = ( ClockDial ) parent;
+            if ( parent instanceof ClockAnalog ) {
+                ClockAnalog dial = ( ClockAnalog ) parent;
                 dial.placeDigits();
             }
         }
