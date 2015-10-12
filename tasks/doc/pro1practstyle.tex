@@ -1,0 +1,54 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{mdwlist}
+\usepackage{colortbl}
+\usepackage{textcomp}
+\usepackage{multicol}
+\usepackage{savetrees}
+\usepackage{fancyhdr}
+\usepackage{fancybox, graphicx}
+\usepackage{shadowimage}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{lipsum}
+\providecommand\FootText{SEBI Venlo}
+\setlength\parindent{0pt}
+\setlength\parskip{0\baselineskip}
+\setlength\headwidth{\textwidth}
+
+\fancyhf{}
+\fancyfoot[RO,LE]{\vspace{-7.5mm}
+  \textbf{\Large\sf\bfseries\FootText}
+}
+\fancyhead[RO,LE]{Java 1}
+\fancyfoot[RE,LO]{\includegraphics[width=18mm]{figures/fon000_00c.pdf}}
+
+\renewcommand\footrule{
+  \hrule height .2pt width \headwidth
+}
+
+% \fancyfoot[RE,LO]{\includegraphics[width=2cm]{figures/fon000_00c.pdf}}
+% \fancyfoot[RO,LE]{\vspace{-12mm}
+%   \textbf{\sf{}Fontys SEBI Venlo}
+% }  
+
+\fancyfoot[C]{\vspace{-7mm}\sffamily\bfseries\thepage}
+\pagestyle{fancyplain}
+
+
+\usepackage[british]{babel}
+\definecolor{listinggray}{gray}{0.95}
+\definecolor{lbcolor}{gray}{.95}%,0.9,0.9}
+\input{pro1lstsettings}
+\lstset{language=java,basicstyle={\small}}
+%% to be able to use the euro sign
+\usepackage{eurosym}
+%% to be able to simply type the (utf-8) euro sign
+\DeclareUnicodeCharacter{20AC}{\euro}
+\usepackage[pdftex]{hyperref}
+
