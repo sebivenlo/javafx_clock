@@ -20,6 +20,10 @@ public class Time {
     private final ObjectProperty<WeekDay> day = new SimpleObjectProperty<WeekDay>();
     public StringProperty total = new SimpleStringProperty();
 
+    private StringProperty secStr = new SimpleStringProperty();
+    private StringProperty minStr = new SimpleStringProperty();
+    private StringProperty hrStr = new SimpleStringProperty();
+
     public WeekDay getDay() {
         return day.get();
     }
@@ -74,10 +78,11 @@ public class Time {
         TimeUnit sec = new TimeUnit(s, 60);
         TimeUnit min = new TimeUnit(m, 60);
         TimeUnit hr = new TimeUnit(h, 24);
+
         setMinute(min);
         setSeconds(sec);
         setHour(hr);
-        bind();
+        binding();
         addChangeListeners();
 
     }
@@ -91,12 +96,20 @@ public class Time {
         setMinute(min);
         setSeconds(sec);
         setHour(hr);
-        bind();
+        binding();
         addChangeListeners();
     }
 
-    public void bind() {
-        total.bind(getHour().valueProperty().asString().concat(":").concat(getMinute().valueProperty().asString()).concat(":").concat(getSeconds().valueProperty().asString()));
+    public void binding() {
+
+        secStr.bind(getSeconds().valueProperty().asString());
+        minStr.bind(getMinute().valueProperty().asString());
+        hrStr.bind(getHour().valueProperty().asString());
+        total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
+    }
+
+    private boolean isLower10(int a) {
+        return a < 10;
     }
 
     public void addChangeListeners() {
@@ -112,6 +125,14 @@ public class Time {
                 if ((int) newValue < 0) {
                     getHour().decrement();
                 }
+                if ((int) newValue < 10 || (int) newValue >= getMinute().getMax()) {
+                    //TODO update min
+                    StringProperty temp = new SimpleStringProperty("0");
+                    minStr.bind(temp.concat(getMinute().valueProperty().asString()));
+                } else {
+                    minStr.bind(getMinute().valueProperty().asString());
+                }
+
             }
         ;
 
@@ -131,6 +152,13 @@ public class Time {
                     //TODO update min
                     getMinute().decrement();
                 }
+                if ((int) newValue < 10 || (int) newValue >= getSeconds().getMax()) {
+                    //TODO update min
+                    StringProperty temp = new SimpleStringProperty("0");
+                    secStr.bind(temp.concat(getSeconds().valueProperty().asString()));
+                } else {
+                    secStr.bind(getSeconds().valueProperty().asString());
+                }
             }
         ;
 
@@ -148,14 +176,23 @@ public class Time {
                 if ((int) newValue < 0) {
                     //TODO update days
                 }
+                if ((int) newValue < 10 || (int) newValue >= getHour().getMax()) {
+                    //TODO update min
+                    StringProperty temp = new SimpleStringProperty("0");
+                    hrStr.bind(temp.concat(getHour().valueProperty().asString()));
+                } else {
+                    hrStr.bind(getHour().valueProperty().asString());
+                }
             }
         ;
 
-    }
+        }
 
     );
+                            total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
+
     }
-    
+
     public void sync() {
         LocalDateTime ldt = LocalDateTime.now();
 
