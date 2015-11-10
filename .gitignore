@@ -1,3 +1,10 @@
+#spezific
+JavaFXClock/nbproject/private/
+svgParser/nbproject/private/
+swingclock/nbproject/private/
+
+#default
+
 # NetBeans specific #
 nbproject/private/
 build/
@@ -18,18 +25,8 @@ nb-configuration.xml
 *.war
 *.ear
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
-/swingclock/nbproject/private/
-/svgParser/dist/
-/svgParser/build/
-/svgParser/nbproject/private/
-/swingclock/build/
-/swingclock/dist/
-
 # globs
 Makefile.in
-*.DS_Store
 *.sln.cache
 *.suo
 *.cache
@@ -59,7 +56,25 @@ Thumbs.db
 #dotCover
 *.dotCover
 
-
+#Latex
+*.log
+*.aux
+*.dvi
+*.lof
+*.lot
+*.bit
+*.idx
+*.glo
+*.bbl
+*.bcf
+*.ilg
+*.toc
+*.ind
+*.out
+*.blg
+*.fdb_latexmk
+*.fls
+*.synctex.gz
 
 ### Linux ###
 *~
