@@ -13,7 +13,7 @@ import javafx.beans.value.ObservableValue;
  */
 public class Time {
 
-    //total time string DAY:hh:mm:ss
+    //total time string hh:mm:ss
     public StringProperty total = new SimpleStringProperty();
 
     private StringProperty secStr = new SimpleStringProperty();

@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
  */
 public class WeekDay extends TimeUnit {
 
-    public  final String[] daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    protected  final String[] daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     private  final StringProperty dayString = new SimpleStringProperty();
 
     public String getDayString() {

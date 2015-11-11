@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -25,8 +24,6 @@ public class ClockController implements Initializable {
     private Label timeLabel;
     @FXML
     private Label weekdayLabel;
-    @FXML
-    private ToggleButton alarmtoToggleButton;
     private Timeline tl = new Timeline();
     private Time time = new Time(23,59,55,2);
     private Time alarmTime=new Time();
@@ -116,7 +113,7 @@ public class ClockController implements Initializable {
             public void handle(ActionEvent event) {
                 time.tick();
                 checkAlarm();
-                System.out.println(time.toString()); //toString is nicer readable
+                System.out.println(time.getDay().toString()+", "+time.toString()); //toString is nicer readable
             }
         }));
         //start cllock first time
