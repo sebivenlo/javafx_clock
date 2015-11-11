@@ -11,6 +11,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.layout.HBox;
 import javafxclock.model.Time;
 import javafxclock.util.AlarmPlayer;
 
@@ -20,6 +21,8 @@ import javafxclock.util.AlarmPlayer;
  */
 public class ClockController implements Initializable {
 
+    @FXML
+    private HBox settingsHBox;
     @FXML
     private Label timeLabel;
     @FXML
@@ -35,6 +38,15 @@ public class ClockController implements Initializable {
         // TODO
     }
 
+    @FXML
+    private void handleSettingsButtonAction(ActionEvent event) {
+        if(settingsHBox.isVisible()) {
+            settingsHBox.setVisible(false);
+        }
+        else {
+            settingsHBox.setVisible(true);
+        }
+    }
     @FXML
     private void handleSyncButtonAction(ActionEvent event) {
         time.sync();
