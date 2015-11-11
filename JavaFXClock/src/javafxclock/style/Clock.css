@@ -23,7 +23,7 @@
     -fx-background-color: #0099ff;
 }
 
-.toggle-button:selected {
+.button:armed, .toggle-button:selected {
     -fx-background-color: red;
 }
 
