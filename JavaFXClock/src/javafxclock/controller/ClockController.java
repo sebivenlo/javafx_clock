@@ -28,8 +28,8 @@ public class ClockController implements Initializable {
     @FXML
     private Label weekdayLabel;
     private Timeline tl = new Timeline();
-    private Time time = new Time(23,59,55,2);
-    private Time alarmTime=new Time();
+    private Time time = new Time(23, 59, 55, 2);
+    private Time alarmTime = new Time();
     private boolean ticking = false;
     private boolean isAlarmSet = false;
 
@@ -40,13 +40,13 @@ public class ClockController implements Initializable {
 
     @FXML
     private void handleSettingsButtonAction(ActionEvent event) {
-        if(settingsHBox.isVisible()) {
+        if (settingsHBox.isVisible()) {
             settingsHBox.setVisible(false);
-        }
-        else {
+        } else {
             settingsHBox.setVisible(true);
         }
     }
+
     @FXML
     private void handleSyncButtonAction(ActionEvent event) {
         time.sync();
@@ -59,6 +59,8 @@ public class ClockController implements Initializable {
             time.increment(time.getHour());
         } else if (sourceBtn.getId().equals("addMinuteButton")) {
             time.increment(time.getMinute());
+        } else if (sourceBtn.getId().equals("addSecondButton")) {
+            time.increment(time.getSecond());
         }
     }
 
@@ -66,15 +68,11 @@ public class ClockController implements Initializable {
     private void handleAlarmToggleButtonAction(ActionEvent event) {
         if (isAlarmSet) {
             isAlarmSet = false;
+            System.out.println("alarm not set");
         } else {
             alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
             isAlarmSet = true;
-        }
-        if(isAlarmSet) {
-            System.out.println("alarm is set");
-        }
-        else {
-            System.out.println("alarm not set");
+              System.out.println("alarm set to "+alarmTime);
         }
     }
 
@@ -90,6 +88,8 @@ public class ClockController implements Initializable {
             time.decrement(time.getHour());
         } else if (sourceBtn.getId().equals("minusMinuteButton")) {
             time.decrement(time.getMinute());
+        } else if (sourceBtn.getId().equals("minusSecondButton")) {
+            time.decrement(time.getSecond());
         }
     }
 
@@ -105,11 +105,13 @@ public class ClockController implements Initializable {
             ticking = true;
         }
     }
+
     private void checkAlarm() {
-        if(isAlarmSet && time==alarmTime) {
+        if (isAlarmSet && time == alarmTime) {
             AlarmPlayer.playAlarmSound();
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tl.setCycleCount(Timeline.INDEFINITE);
@@ -125,7 +127,7 @@ public class ClockController implements Initializable {
             public void handle(ActionEvent event) {
                 time.tick();
                 checkAlarm();
-                System.out.println(time.getDay().toString()+", "+time.toString()); //toString is nicer readable
+                System.out.println(time.getDay().toString() + ", " + time.toString()); //toString is nicer readable
             }
         }));
         //start cllock first time
