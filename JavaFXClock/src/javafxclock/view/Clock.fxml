@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="352.0" prefWidth="486.0" stylesheets="@../style/Clock.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="javafxclock.ClockController">
+   <children>
+      <ChoiceBox layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
+      <Label layoutX="327.0" layoutY="191.0" text="Label" />
+      <Label layoutX="130.0" layoutY="168.0" text="Label" />
+      <Button layoutX="413.0" layoutY="131.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="356.0" layoutY="131.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="297.0" layoutY="131.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="53.0" layoutY="199.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="112.0" layoutY="199.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="88.0" layoutY="131.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="147.0" layoutY="131.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="206.0" layoutY="131.0" mnemonicParsing="false" text="Button" />
+      <Button layoutX="171.0" layoutY="199.0" mnemonicParsing="false" text="Button" />
+   </children>
+</AnchorPane>
