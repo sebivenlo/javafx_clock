@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package javafxclock;
 
 import javafx.application.Application;
@@ -14,15 +9,16 @@ import javafx.stage.Stage;
 /**
  *
  * @author Ron Gebauer <mail@ron.gebauers.org>
+ * @version 1
  */
 public class JavaFXClock extends Application {
-    
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Clock.fxml"));
-        
+        Parent root = FXMLLoader.load(getClass().getResource("view/Clock.fxml"));
+
         Scene scene = new Scene(root);
-        
+
         stage.setTitle("Clock");
         stage.setScene(scene);
         stage.show();
@@ -34,5 +30,5 @@ public class JavaFXClock extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
+
 }
