@@ -107,7 +107,8 @@ public class ClockController implements Initializable {
     }
 
     private void checkAlarm() {
-        if (isAlarmSet && time == alarmTime) {
+        System.out.println("i was here with data like: " + time.toString() + " and alarm like: " + alarmTime.toString());
+        if (isAlarmSet && time.equals(alarmTime)) {
             AlarmPlayer.playAlarmSound();
         }
     }
@@ -121,15 +122,12 @@ public class ClockController implements Initializable {
         weekdayLabel.textProperty().bind(time.dStr);
 
         //add actions to timeLine
-        timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
-            @Override
-            //we define what should happen every second
-            public void handle(ActionEvent event) {
-                time.tick();
-                checkAlarm();
+        timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), (ActionEvent event) -> {
+            time.tick();
+            checkAlarm();
 //                System.out.println(time.getDay().toString() + ", " + time.toString()); //toString is nicer readable
-            }
-        }));
+        } //we define what should happen every second
+        ));
         //start cllock first time
         startStopAction();
     }

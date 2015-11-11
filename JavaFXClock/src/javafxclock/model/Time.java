@@ -11,7 +11,7 @@ import javafx.beans.value.ObservableValue;
  *
  *
  */
-public class Time {
+public class Time implements Comparable<Time>{
 
     //total time string hh:mm:ss
     public StringProperty total = new SimpleStringProperty();
@@ -19,9 +19,9 @@ public class Time {
     private StringProperty secStr = new SimpleStringProperty();
     private StringProperty minStr = new SimpleStringProperty();
     private StringProperty hrStr = new SimpleStringProperty();
-    public StringProperty dStr=new SimpleStringProperty();
+    public StringProperty dStr = new SimpleStringProperty();
     public StringProperty dateStr = new SimpleStringProperty();
-    
+
     private TimeUnit minute;
     private TimeUnit second;
     private TimeUnit hour;
@@ -82,8 +82,7 @@ public class Time {
     }
 
     /**
-     * bind the string properties
-     * with or without leading zero
+     * bind the string properties with or without leading zero
      */
     public void binding() {
         if (getSecond().valueProperty().getValue() < 10) {
@@ -105,8 +104,8 @@ public class Time {
         } else {
             hrStr.bind(getHour().valueProperty().asString());
         }
-         dStr.bind(getDay().dayStringProperty());
-         total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
+        dStr.bind(getDay().dayStringProperty());
+        total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
     }
 
     public void addChangeListeners() {
@@ -126,7 +125,8 @@ public class Time {
                 }
                 binding();
 
-            };
+            }
+        ;
 
         });
         //add listeners for seconds
@@ -148,7 +148,8 @@ public class Time {
                 }
 
                 binding();
-            };
+            }
+        ;
 
         });
      
@@ -167,21 +168,22 @@ public class Time {
                     getDay().decrement();
                 }
                 binding();
-            };
+            }
+        ;
 
-    }
+        }
 
     );
         //add listener for days
-        getDay().valueProperty().addListener(new ChangeListener<Object>(){
+        getDay().valueProperty().addListener(new ChangeListener<Object>() {
 
             @Override
             public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
                 int x = getDay().valueProperty().getValue();
-               getDay().setDayString(getDay().daysOfWeek[x-1]);
+                getDay().setDayString(getDay().daysOfWeek[x - 1]);
                 dStr.bind(getDay().dayStringProperty());
             }
-            
+
         });
     }
 
@@ -209,5 +211,10 @@ public class Time {
     @Override
     public String toString() {
         return getHour() + " : " + getMinute() + " : " + getSecond();
+    }
+
+    @Override
+    public int compareTo(Time time) {
+        
     }
 }
