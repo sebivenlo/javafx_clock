@@ -1,14 +1,21 @@
 package javafxclock.controller;
 
 import java.net.URL;
+import java.util.Date;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
@@ -29,20 +36,16 @@ public class ClockController implements Initializable {
     private Label weekdayLabel;
     @FXML
     private ToggleButton alarmToggleButton;
-    private Timeline timeline = new Timeline();
-    // can deleted
-    private Time time = new Time(23, 59, 55, 2);
+
+    private final Timeline timeline = new Timeline();
+    private final Time time = new Time();
     private Time alarmTime = new Time();
     private boolean ticking = false;
     private boolean isAlarmSet = false;
 
     @FXML
     private void handleSettingsButtonAction(ActionEvent event) {
-        if (settingsHBox.isVisible()) {
-            settingsHBox.setVisible(false);
-        } else {
-            settingsHBox.setVisible(true);
-        }
+        settingsHBox.setVisible(!settingsHBox.isVisible());
     }
 
     @FXML
@@ -53,26 +56,36 @@ public class ClockController implements Initializable {
     @FXML
     private void handleIncrementAction(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
-        if (sourceBtn.getId().equals("addHourButton")) {
-            time.increment(time.getHour());
-        } else if (sourceBtn.getId().equals("addMinuteButton")) {
-            time.increment(time.getMinute());
-        } else if (sourceBtn.getId().equals("addSecondButton")) {
-            time.increment(time.getSecond());
+        switch (sourceBtn.getId()) {
+            case "addHourButton":
+                time.increment(time.getHour());
+                break;
+            case "addMinuteButton":
+                time.increment(time.getMinute());
+                break;
+            case "addSecondButton":
+                time.increment(time.getSecond());
+                break;
+            default:
+                break;
         }
     }
 
     @FXML
     private void handleAlarmToggleButtonAction(ActionEvent event) {
-        if (isAlarmSet) {
-            isAlarmSet = false;
-//            System.out.println("alarm not set");
+        isAlarmSet = !isAlarmSet;
+        toggleAlarm();
+    }
+
+    private void toggleAlarm() {
+        if (!isAlarmSet) {
             alarmToggleButton.setText("Set Alarm!");
+            if (alarmToggleButton.isSelected()) {
+                alarmToggleButton.setSelected(isAlarmSet);
+            }
         } else {
-            alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
-            isAlarmSet = true;
-            alarmToggleButton.setText("Set to " + alarmTime.toString());
-//            System.out.println("set to " + alarmTime);
+            alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), 0, time.getWeekday().getValue(), time.getDate());
+            alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
         }
     }
 
@@ -84,12 +97,18 @@ public class ClockController implements Initializable {
     @FXML
     private void handleDecrementAction(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
-        if (sourceBtn.getId().equals("minusHourButton")) {
-            time.decrement(time.getHour());
-        } else if (sourceBtn.getId().equals("minusMinuteButton")) {
-            time.decrement(time.getMinute());
-        } else if (sourceBtn.getId().equals("minusSecondButton")) {
-            time.decrement(time.getSecond());
+        switch (sourceBtn.getId()) {
+            case "minusHourButton":
+                time.decrement(time.getHour());
+                break;
+            case "minusMinuteButton":
+                time.decrement(time.getMinute());
+                break;
+            case "minusSecondButton":
+                time.decrement(time.getSecond());
+                break;
+            default:
+                break;
         }
     }
 
@@ -107,9 +126,29 @@ public class ClockController implements Initializable {
     }
 
     private void checkAlarm() {
-        System.out.println("i was here with data like: " + time.toString() + " and alarm like: " + alarmTime.toString());
-        if (isAlarmSet && time.equals(alarmTime)) {
+        if (isAlarmSet && (time.compareTo(alarmTime) == 0)) {
             AlarmPlayer.playAlarmSound();
+
+            Alert alarmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+            alarmAlert.setTitle("ALARM");
+            alarmAlert.setHeaderText("!!!!!!ALARM ALARM ALARM!!!!!!");
+            alarmAlert.setContentText("Do you want to end or pause the alarm?");
+
+            ButtonType pauseButtonType = new ButtonType("Pause", ButtonData.CANCEL_CLOSE);
+            ButtonType stopButtonType = new ButtonType("Stop", ButtonData.OK_DONE);
+
+            alarmAlert.getButtonTypes().setAll(pauseButtonType, stopButtonType);
+
+            alarmAlert.show();
+            alarmAlert.resultProperty().addListener((ObservableValue<? extends ButtonType> observable, ButtonType oldValue, ButtonType newValue) -> {
+                if (observable.getValue().equals(stopButtonType)) {
+                    isAlarmSet = false;
+                    toggleAlarm();
+                } else if (observable.getValue().equals(pauseButtonType)) {
+                    alarmTime.getMinute().setValue(alarmTime.getMinute().getValue() + 9);
+                    alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
+                }
+            });
         }
     }
 
@@ -117,9 +156,9 @@ public class ClockController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         timeline.setCycleCount(Timeline.INDEFINITE);
         //bind label with time
-        timeLabel.textProperty().bind(time.total);
+        timeLabel.textProperty().bind(time.totalTimeStringProperty());
         //bind label with day
-        weekdayLabel.textProperty().bind(time.dStr);
+        weekdayLabel.textProperty().bind(time.weekdayStringProperty());
 
         //add actions to timeLine
         timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), (ActionEvent event) -> {

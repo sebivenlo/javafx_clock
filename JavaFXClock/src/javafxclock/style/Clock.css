@@ -5,16 +5,13 @@
 */
 
 .root{
-    -fx-background-color: #000;
-    -fx-text-fill: #fff;
-}
-
-.seperator {
-    -fx-background-color: #000;
+    -fx-background-color: black;
+    -fx-text-fill: white;
 }
 
 .button, .toggle-button {
-    -fx-background-color: #00ccff;
+    -fx-background-color: black;
+    -fx-text-fill: white;
 }
 
 .button:hover, .toggle-button:hover {
@@ -27,12 +24,8 @@
 
 .label {
     -fx-font-family: Helvetica Neue;
-    -fx-text-fill: #fff;
+    -fx-text-fill: white;
     -fx-effect: innershadow( three-pass-box , rgba(35,178,177,0.7) , 6, 0.0 , 0 , 2 );
-}
-
-#alarmLabel {
-    -fx-text-fill: red;
 }
 
 #weekdayLabel {
