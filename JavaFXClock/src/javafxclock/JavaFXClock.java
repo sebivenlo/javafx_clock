@@ -23,6 +23,7 @@ public class JavaFXClock extends Application {
         
         Scene scene = new Scene(root);
         
+        stage.setTitle("Clock");
         stage.setScene(scene);
         stage.show();
     }

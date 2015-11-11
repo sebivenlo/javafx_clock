@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javafxclock;
+package javafxclock.controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -25,6 +25,7 @@ public class ClockController implements Initializable {
     private void handleButtonAction(ActionEvent event) {
         System.out.println("You clicked me!");
         label.setText("Hello World!");
+        
     }
     
     @Override
