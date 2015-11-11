@@ -6,9 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clock_ws.clock_wsController">
+<AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="clock_ws.clock_wsController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
-        <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+        <Button fx:id="hrIncr" layoutX="14.0" layoutY="22.0" onAction="#handleButtonAction" text="hr++" />
+        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
+      <Button fx:id="minIncr" layoutX="14.0" layoutY="59.0" mnemonicParsing="false" onAction="#handleButtonAction" text="min++" />
+      <Button fx:id="secIncr" layoutX="14.0" layoutY="100.0" mnemonicParsing="false" onAction="#handleButtonAction" text="sec++" />
+      <Button fx:id="secDecr" layoutX="195.0" layoutY="98.0" mnemonicParsing="false" onAction="#handleButtonAction" text="sec--" />
+      <Button fx:id="minDecr" layoutX="195.0" layoutY="57.0" mnemonicParsing="false" onAction="#handleButtonAction" text="min--" />
+      <Button fx:id="hrDecr" layoutX="195.0" layoutY="20.0" onAction="#handleButtonAction" text="hr--" />
+      <Button fx:id="sync" layoutX="16.0" layoutY="161.0" mnemonicParsing="false" onAction="#handleButtonAction" text="sync" />
     </children>
 </AnchorPane>
