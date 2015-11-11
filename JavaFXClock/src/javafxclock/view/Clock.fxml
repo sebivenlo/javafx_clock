@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" stylesheets="@../style/Clock.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.controller.ClockController">
     <children>
-        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" text="alarmToggleButton" />
+        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="alarmToggleButton" />
         <Label id="weekdayLabel" fx:id="weekdayLabel" contentDisplay="CENTER" layoutX="565.0" layoutY="162.0" text="weekdayLabel" />
         <Label id="timeLabel" fx:id="timeLabel" contentDisplay="CENTER" layoutX="332.0" layoutY="248.0" text="timeLabel" />
         <Label id="dateLabel" fx:id="dateLabel" contentDisplay="CENTER" layoutX="615.0" layoutY="399.0" text="dateLabel" />
