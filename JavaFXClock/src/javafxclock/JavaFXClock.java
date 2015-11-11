@@ -13,6 +13,13 @@ import javafx.stage.Stage;
  */
 public class JavaFXClock extends Application {
 
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        launch(args);
+    }
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("view/Clock.fxml"));
@@ -22,13 +29,6 @@ public class JavaFXClock extends Application {
         stage.setTitle("Clock");
         stage.setScene(scene);
         stage.show();
-    }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
     }
 
 }

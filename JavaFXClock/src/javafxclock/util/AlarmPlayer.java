@@ -26,7 +26,7 @@ public class AlarmPlayer {
             clip.open(stream);
             clip.start();
         } catch (Exception e) {
-    //whatevers
+            //whatevers
         }
     }
 }

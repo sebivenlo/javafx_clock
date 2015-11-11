@@ -8,8 +8,13 @@ import javafx.beans.property.SimpleIntegerProperty;
  *
  */
 public class TimeUnit {
- private int max;
+
+    private int max;
     private final IntegerProperty value = new SimpleIntegerProperty(0);
+    public TimeUnit(int value, int max) {
+        setValue(value);
+        this.max = max;
+    }
 
     public int getValue() {
         return value.get();
@@ -23,10 +28,6 @@ public class TimeUnit {
         return value;
     }
 
-    public TimeUnit(int value, int max) {
-        setValue(value);
-        this.max = max;
-    }
 
     public int getMax() {
         return max;

@@ -1,7 +1,6 @@
 package javafxclock.model;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalField;
 import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
