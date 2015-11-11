@@ -15,17 +15,32 @@
     -fx-effect: innershadow( three-pass-box , rgba(35,178,177,0.7) , 6, 0.0 , 0 , 2 );
 }
 
+#alarmToggleButton {
+    -fx-background-color: #00ccff;
+}
+
+#alarmToggleButton:hover {
+    -fx-background-color: #0099ff;
+}
+
+#alarmToggleButton:checked {
+    -fx-background-color: red;
+}
+
 #weekdayLabel {
     -fx-font-style: Condensed Bold;
     -fx-font-size: 50px;
+    -fx-text-alignment: right;
 }
 
 #timeLabel {
     -fx-font-style: Condensed Black;
     -fx-font-size: 90px;
+    -fx-text-alignment: center;
 }
 
 #dateLabel {
     -fx-font-style: Condensed Bold;
     -fx-font-size: 50px;
+    -fx-text-alignment: right;
 }
