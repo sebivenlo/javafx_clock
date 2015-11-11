@@ -9,10 +9,8 @@
     -fx-text-fill: #fff;
 }
 
-.label {
-    -fx-font-family: Helvetica Neue;
-    -fx-text-fill: #fff;
-    -fx-effect: innershadow( three-pass-box , rgba(35,178,177,0.7) , 6, 0.0 , 0 , 2 );
+.seperator {
+    -fx-background-color: #000;
 }
 
 .button, .toggle-button {
@@ -25,6 +23,16 @@
 
 .button:armed, .toggle-button:selected {
     -fx-background-color: red;
+}
+
+.label {
+    -fx-font-family: Helvetica Neue;
+    -fx-text-fill: #fff;
+    -fx-effect: innershadow( three-pass-box , rgba(35,178,177,0.7) , 6, 0.0 , 0 , 2 );
+}
+
+#alarmLabel {
+    -fx-text-fill: red;
 }
 
 #weekdayLabel {
