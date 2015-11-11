@@ -11,13 +11,15 @@ public class WeekDay extends TimeUnit {
 
     protected final String[] daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     private final StringProperty dayString = new SimpleStringProperty();
+
     public WeekDay(int value, int max) {
         super(value, max);
-        setDayString(daysOfWeek[value - 1]);
+        dayString.set(daysOfWeek[value - 1]);
     }
+
     public WeekDay(int value) {
         super(value, 7);
-        setDayString(daysOfWeek[value - 1]);
+        dayString.set(daysOfWeek[value - 1]);
     }
 
     public String getDayString() {
@@ -31,7 +33,6 @@ public class WeekDay extends TimeUnit {
     public StringProperty dayStringProperty() {
         return dayString;
     }
-
 
     @Override
     public String toString() {

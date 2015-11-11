@@ -13,9 +13,9 @@ import javafx.beans.value.ObservableValue;
 public class Time implements Comparable<Time> {
 
     //total time string hh:mm:ss
-    private final StringProperty totalTimeStringProperty = new SimpleStringProperty();
+    private final StringProperty totalTimeString = new SimpleStringProperty();
     //alarm time string hh:mm
-    private final StringProperty alarmTimeStringProperty = new SimpleStringProperty();
+    private final StringProperty alarmTimeString = new SimpleStringProperty();
 
     private TimeUnit hour;
     private TimeUnit minute;
@@ -23,11 +23,11 @@ public class Time implements Comparable<Time> {
     private WeekDay weekday;
     private Date date;
 
-    private final StringProperty hourStringProperty = new SimpleStringProperty();
-    private final StringProperty minuteStringProperty = new SimpleStringProperty();
-    private final StringProperty secondStringProperty = new SimpleStringProperty();
-    private final StringProperty weekdayStringProperty = new SimpleStringProperty();
-    private final StringProperty dateStringProperty = new SimpleStringProperty();
+    private final StringProperty hourString = new SimpleStringProperty();
+    private final StringProperty minuteString = new SimpleStringProperty();
+    private final StringProperty secondString = new SimpleStringProperty();
+    private final StringProperty weekdayString = new SimpleStringProperty();
+    private final StringProperty dateString = new SimpleStringProperty();
 
     public Time(int hour, int minute, int second, int weekday, Date date) {
         this.hour = new TimeUnit(hour, 24);
@@ -92,39 +92,39 @@ public class Time implements Comparable<Time> {
     }
 
     public String getTotalTimeString() {
-        return totalTimeStringProperty.get();
+        return totalTimeString.get();
     }
 
     public void setTotalTimeString(String value) {
-        totalTimeStringProperty.set(value);
+        totalTimeString.set(value);
     }
 
     public StringProperty totalTimeStringProperty() {
-        return totalTimeStringProperty;
+        return totalTimeString;
     }
 
     public String getAlarmTimeString() {
-        return alarmTimeStringProperty.get();
+        return alarmTimeString.get();
     }
 
     public void setAlarmTimeString(String value) {
-        alarmTimeStringProperty.set(value);
+        alarmTimeString.set(value);
     }
 
     public StringProperty alarmTimeStringProperty() {
-        return alarmTimeStringProperty;
+        return alarmTimeString;
     }
 
     public String getWeekdayString() {
-        return weekdayStringProperty.get();
+        return weekdayString.get();
     }
 
     public void setWeekdayString(String value) {
-        weekdayStringProperty.set(value);
+        weekdayString.set(value);
     }
 
     public StringProperty weekdayStringProperty() {
-        return weekdayStringProperty;
+        return weekdayString;
     }
 
     /**
@@ -133,31 +133,31 @@ public class Time implements Comparable<Time> {
     private void binding() {
         if (getHour().valueProperty().getValue() < 10) {
             StringProperty leading = new SimpleStringProperty("0");
-            hourStringProperty.bind(leading.concat(getHour().valueProperty().asString()));
+            hourString.bind(leading.concat(getHour().valueProperty().asString()));
         } else {
-            hourStringProperty.bind(getHour().valueProperty().asString());
+            hourString.bind(getHour().valueProperty().asString());
         }
 
         if (getMinute().valueProperty().getValue() < 10) {
             StringProperty leading = new SimpleStringProperty("0");
-            minuteStringProperty.bind(leading.concat(getMinute().valueProperty().asString()));
+            minuteString.bind(leading.concat(getMinute().valueProperty().asString()));
         } else {
-            minuteStringProperty.bind(getMinute().valueProperty().asString());
+            minuteString.bind(getMinute().valueProperty().asString());
         }
 
         if (getSecond().valueProperty().getValue() < 10) {
             StringProperty leading = new SimpleStringProperty("0");
-            secondStringProperty.bind(leading.concat(getSecond().valueProperty().asString()));
+            secondString.bind(leading.concat(getSecond().valueProperty().asString()));
         } else {
-            secondStringProperty.bind(getSecond().valueProperty().asString());
+            secondString.bind(getSecond().valueProperty().asString());
 
         }
 
-        weekdayStringProperty.bind(getWeekday().dayStringProperty());
+        weekdayString.bind(getWeekday().dayStringProperty());
 
-        totalTimeStringProperty.bind(hourStringProperty.concat(" : ").concat(minuteStringProperty).concat(" : ").concat(secondStringProperty));
+        totalTimeString.bind(hourString.concat(" : ").concat(minuteString).concat(" : ").concat(secondString));
 
-        alarmTimeStringProperty.bind(hourStringProperty.concat(" : ").concat(minuteStringProperty));
+        alarmTimeString.bind(hourString.concat(" : ").concat(minuteString));
     }
 
     private void addChangeListeners() {
@@ -208,7 +208,7 @@ public class Time implements Comparable<Time> {
         getWeekday().valueProperty().addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> {
             int x = getWeekday().valueProperty().getValue();
             getWeekday().setDayString(getWeekday().daysOfWeek[x - 1]);
-            weekdayStringProperty.bind(getWeekday().dayStringProperty());
+            weekdayString.bind(getWeekday().dayStringProperty());
         });
     }
 
@@ -240,6 +240,6 @@ public class Time implements Comparable<Time> {
 
     @Override
     public int compareTo(Time time) {
-        return this.totalTimeStringProperty.get().compareToIgnoreCase(time.totalTimeStringProperty.get());
+        return this.totalTimeString.get().compareToIgnoreCase(time.totalTimeString.get());
     }
 }

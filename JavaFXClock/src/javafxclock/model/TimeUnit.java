@@ -11,8 +11,9 @@ public class TimeUnit {
 
     private int max;
     private final IntegerProperty value = new SimpleIntegerProperty(0);
+
     public TimeUnit(int value, int max) {
-        setValue(value);
+        this.value.set(value);
         this.max = max;
     }
 
@@ -27,7 +28,6 @@ public class TimeUnit {
     public IntegerProperty valueProperty() {
         return value;
     }
-
 
     public int getMax() {
         return max;
@@ -53,7 +53,6 @@ public class TimeUnit {
             return "0" + String.valueOf(getValue());
         }
         return String.valueOf(getValue());
-
     }
 
 }
