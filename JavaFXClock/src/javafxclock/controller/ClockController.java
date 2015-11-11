@@ -71,11 +71,11 @@ public class ClockController implements Initializable {
         if (isAlarmSet) {
             isAlarmSet = false;
             System.out.println("alarm not set");
-            alarmToggleButton.setText("alarm not set");
+            alarmToggleButton.setText("Set Alarm!");
         } else {
             alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
             isAlarmSet = true;
-            alarmToggleButton.setText("set to "+alarmTime.toString());
+            alarmToggleButton.setText("Set to "+alarmTime.toString());
             System.out.println("set to " + alarmTime);
         }
     }
