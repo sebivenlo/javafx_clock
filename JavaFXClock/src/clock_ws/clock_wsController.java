@@ -45,18 +45,23 @@ public class clock_wsController implements Initializable {
         } else if (btn.getId().equals("sync")) {
             time.sync();
         }
+        else {
+            System.out.println("unknown source "+event.getSource().toString());
+        }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tl.setCycleCount(Timeline.INDEFINITE);
-        //add actions to timeLine
+        //bind label with time
         label.textProperty().bind(time.total);
+        //add actions to timeLine
         tl.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             //we define what should happen
             public void handle(ActionEvent event) {
                 time.tick();
+                System.out.println(time.total);
             }
         }));
         tl.play();
