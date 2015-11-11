@@ -15,15 +15,15 @@
     -fx-effect: innershadow( three-pass-box , rgba(35,178,177,0.7) , 6, 0.0 , 0 , 2 );
 }
 
-#alarmToggleButton {
+.button, .toggle-button {
     -fx-background-color: #00ccff;
 }
 
-#alarmToggleButton:hover {
+.button:hover, .toggle-button:hover {
     -fx-background-color: #0099ff;
 }
 
-#alarmToggleButton:checked {
+.toggle-button:selected {
     -fx-background-color: red;
 }
 
