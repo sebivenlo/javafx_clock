@@ -18,50 +18,51 @@ public class Time {
     private StringProperty secStr = new SimpleStringProperty();
     private StringProperty minStr = new SimpleStringProperty();
     private StringProperty hrStr = new SimpleStringProperty();
+    public StringProperty dStr=new SimpleStringProperty();
+    
+    private TimeUnit minute;
+    private TimeUnit second;
+    private TimeUnit hour;
+    private WeekDay day;
 
-    private clock_ws.TimeUnit minute;
-    private clock_ws.TimeUnit second;
-    private clock_ws.TimeUnit hour;
-    private clock_ws.WeekDay day;
-
-    public clock_ws.TimeUnit getMinute() {
+    public TimeUnit getMinute() {
         return minute;
     }
 
-    public void setMinute(clock_ws.TimeUnit minute) {
+    public void setMinute(TimeUnit minute) {
         this.minute = minute;
     }
 
-    public clock_ws.TimeUnit getSecond() {
+    public TimeUnit getSecond() {
         return second;
     }
 
-    public void setSecond(clock_ws.TimeUnit second) {
+    public void setSecond(TimeUnit second) {
         this.second = second;
     }
 
-    public clock_ws.TimeUnit getHour() {
+    public TimeUnit getHour() {
         return hour;
     }
 
-    public void setHour(clock_ws.TimeUnit hour) {
+    public void setHour(TimeUnit hour) {
         this.hour = hour;
     }
 
-    public clock_ws.WeekDay getDay() {
+    public WeekDay getDay() {
         return day;
     }
 
-    public void setDay(clock_ws.WeekDay day) {
+    public void setDay(WeekDay day) {
         this.day = day;
     }
 
     public Time(int h, int m, int s, int d) {
 
-        setMinute(new clock_ws.TimeUnit(m, 60));
-        setSecond(new clock_ws.TimeUnit(s, 60));
-        setHour(new clock_ws.TimeUnit(h, 24));
-        setDay(new clock_ws.WeekDay(d));
+        setMinute(new TimeUnit(m, 60));
+        setSecond(new TimeUnit(s, 60));
+        setHour(new TimeUnit(h, 24));
+        setDay(new WeekDay(d));
         binding();
         addChangeListeners();
 
@@ -70,10 +71,10 @@ public class Time {
     public Time() {
         LocalDateTime syncTime = LocalDateTime.now();
 
-        setMinute(new clock_ws.TimeUnit(syncTime.getMinute(), 60));
-        setSecond(new clock_ws.TimeUnit(syncTime.getSecond(), 60));
-        setHour(new clock_ws.TimeUnit(syncTime.getHour(), 24));
-        setDay(new clock_ws.WeekDay(syncTime.getDayOfWeek().getValue()));
+        setMinute(new TimeUnit(syncTime.getMinute(), 60));
+        setSecond(new TimeUnit(syncTime.getSecond(), 60));
+        setHour(new TimeUnit(syncTime.getHour(), 24));
+        setDay(new WeekDay(syncTime.getDayOfWeek().getValue()));
         binding();
         addChangeListeners();
     }
@@ -102,6 +103,7 @@ public class Time {
         } else {
             hrStr.bind(getHour().valueProperty().asString());
         }
+        dStr.bind(getDay().valueProperty().asString());
         total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
     }
 
@@ -182,12 +184,12 @@ public class Time {
         getSecond().increment();
     }
 
-    public void decrement(clock_ws.TimeUnit unit) {
+    public void decrement(TimeUnit unit) {
         unit.decrement();
 
     }
 
-    public void increment(clock_ws.TimeUnit unit) {
+    public void increment(TimeUnit unit) {
         unit.increment();
     }
 
