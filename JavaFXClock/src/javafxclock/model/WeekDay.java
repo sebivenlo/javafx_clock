@@ -1,6 +1,8 @@
 package javafxclock.model;
 
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -8,17 +10,29 @@ import javafx.animation.Timeline;
  */
 public class WeekDay extends TimeUnit {
 
-    private String[] daysOfWeek;
+    public  final String[] daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    private  final StringProperty dayString = new SimpleStringProperty();
 
-    
+    public String getDayString() {
+        return dayString.get();
+    }
+
+    public void setDayString(String value) {
+        dayString.set(value);
+    }
+
+    public StringProperty dayStringProperty() {
+        return dayString;
+    }
+
     public WeekDay(int value, int max) {
         super(value, max);
-        this.daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+        setDayString(daysOfWeek[value - 1]);
     }
 
     public WeekDay(int value) {
         super(value, 7);
-        this.daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+        setDayString(daysOfWeek[value - 1]);
     }
 
     @Override

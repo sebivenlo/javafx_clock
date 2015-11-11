@@ -13,6 +13,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafxclock.model.Time;
+import javafxclock.util.AlarmPlayer;
 
 /**
  * @author Ron Gebauer <mail@ron.gebauers.org>
@@ -27,7 +28,7 @@ public class ClockController implements Initializable {
     @FXML
     private ToggleButton alarmtoToggleButton;
     private Timeline tl = new Timeline();
-    private Time time = new Time();
+    private Time time = new Time(23,59,55,2);
     private Time alarmTime=new Time();
     private boolean ticking = false;
     private boolean isAlarmSet = false;
@@ -95,7 +96,11 @@ public class ClockController implements Initializable {
             ticking = true;
         }
     }
-
+    private void checkAlarm() {
+        if(isAlarmSet && time==alarmTime) {
+            AlarmPlayer.playAlarmSound();
+        }
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tl.setCycleCount(Timeline.INDEFINITE);
@@ -110,6 +115,7 @@ public class ClockController implements Initializable {
             //we define what should happen every second
             public void handle(ActionEvent event) {
                 time.tick();
+                checkAlarm();
                 System.out.println(time.toString()); //toString is nicer readable
             }
         }));

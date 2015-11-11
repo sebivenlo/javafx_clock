@@ -3,6 +3,7 @@ package javafxclock.model;
 import java.time.LocalDateTime;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.beans.property.adapter.JavaBeanStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -19,6 +20,7 @@ public class Time {
     private StringProperty minStr = new SimpleStringProperty();
     private StringProperty hrStr = new SimpleStringProperty();
     public StringProperty dStr=new SimpleStringProperty();
+    public StringProperty dateStr = new SimpleStringProperty();
     
     private TimeUnit minute;
     private TimeUnit second;
@@ -103,8 +105,8 @@ public class Time {
         } else {
             hrStr.bind(getHour().valueProperty().asString());
         }
-        dStr.bind(getDay().valueProperty().asString());
-        total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
+         dStr.bind(getDay().dayStringProperty());
+         total.bind(hrStr.concat(" : ").concat(minStr).concat(" : ").concat(secStr));
     }
 
     public void addChangeListeners() {
@@ -170,6 +172,17 @@ public class Time {
     }
 
     );
+        //add listener for days
+        getDay().valueProperty().addListener(new ChangeListener<Object>(){
+
+            @Override
+            public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+                int x = getDay().valueProperty().getValue();
+               getDay().setDayString(getDay().daysOfWeek[x-1]);
+                dStr.bind(getDay().dayStringProperty());
+            }
+            
+        });
     }
 
     public void sync() {
