@@ -60,6 +60,12 @@ public class ClockController implements Initializable {
             alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
             isAlarmSet = true;
         }
+        if(isAlarmSet) {
+            System.out.println("alarm is set");
+        }
+        else {
+            System.out.println("alarm not set");
+        }
     }
 
     @FXML
@@ -96,7 +102,7 @@ public class ClockController implements Initializable {
         //bind label with time
         timeLabel.textProperty().bind(time.total);
         //bind label with day
-        timeLabel.textProperty().bind(time.dStr);
+        weekdayLabel.textProperty().bind(time.dStr);
 
         //add actions to timeLine
         tl.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
