@@ -4,12 +4,14 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ToggleButton;
 import javafxclock.model.Time;
 
 /**
@@ -20,13 +22,16 @@ public class ClockController implements Initializable {
 
     @FXML
     private Label timeLabel;
-        @FXML
+    @FXML
     private Label weekdayLabel;
+    @FXML
+    private ToggleButton alarmtoToggleButton;
     private Timeline tl = new Timeline();
     private Time time = new Time();
-    private Time alarmTime;
-    private boolean ticking=false;
-    
+    private Time alarmTime=new Time();
+    private boolean ticking = false;
+    private boolean isAlarmSet = false;
+
     @FXML
     private void handleButtonAction(ActionEvent event) {
         // TODO
@@ -46,13 +51,20 @@ public class ClockController implements Initializable {
             time.increment(time.getMinute());
         }
     }
-   @FXML
+
+    @FXML
     private void handleAlarmToggleButtonAction(ActionEvent event) {
-        alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
+        if (isAlarmSet) {
+            isAlarmSet = false;
+        } else {
+            alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
+            isAlarmSet = true;
+        }
     }
-   @FXML
+
+    @FXML
     private void handleStartStopButtonAction(ActionEvent event) {
-      startStopAction();
+        startStopAction();
     }
 
     @FXML
@@ -64,19 +76,20 @@ public class ClockController implements Initializable {
             time.decrement(time.getMinute());
         }
     }
+
     /**
      * starts and stops the timeline animation
      */
     private void startStopAction() {
-          if(ticking) {
+        if (ticking) {
             tl.pause();
-            ticking=false;
-        }
-        else {
+            ticking = false;
+        } else {
             tl.play();
-            ticking=true;
+            ticking = true;
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         tl.setCycleCount(Timeline.INDEFINITE);
@@ -84,6 +97,7 @@ public class ClockController implements Initializable {
         timeLabel.textProperty().bind(time.total);
         //bind label with day
         timeLabel.textProperty().bind(time.dStr);
+
         //add actions to timeLine
         tl.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
@@ -94,7 +108,7 @@ public class ClockController implements Initializable {
             }
         }));
         //start cllock first time
-       startStopAction();
+        startStopAction();
     }
 
 }
