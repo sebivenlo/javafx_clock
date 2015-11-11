@@ -20,7 +20,7 @@ import javafxclock.util.AlarmPlayer;
  * @version 1
  */
 public class ClockController implements Initializable {
-    
+
     @FXML
     private HBox settingsHBox;
     @FXML
@@ -29,17 +29,13 @@ public class ClockController implements Initializable {
     private Label weekdayLabel;
     @FXML
     private ToggleButton alarmToggleButton;
-    private Timeline tl = new Timeline();
+    private Timeline timeline = new Timeline();
+    // can deleted
     private Time time = new Time(23, 59, 55, 2);
     private Time alarmTime = new Time();
     private boolean ticking = false;
     private boolean isAlarmSet = false;
-    
-    @FXML
-    private void handleButtonAction(ActionEvent event) {
-        // TODO
-    }
-    
+
     @FXML
     private void handleSettingsButtonAction(ActionEvent event) {
         if (settingsHBox.isVisible()) {
@@ -48,12 +44,12 @@ public class ClockController implements Initializable {
             settingsHBox.setVisible(true);
         }
     }
-    
+
     @FXML
     private void handleSyncButtonAction(ActionEvent event) {
         time.sync();
     }
-    
+
     @FXML
     private void handleIncrementAction(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
@@ -65,26 +61,26 @@ public class ClockController implements Initializable {
             time.increment(time.getSecond());
         }
     }
-    
+
     @FXML
     private void handleAlarmToggleButtonAction(ActionEvent event) {
         if (isAlarmSet) {
             isAlarmSet = false;
-            System.out.println("alarm not set");
+//            System.out.println("alarm not set");
             alarmToggleButton.setText("Set Alarm!");
         } else {
             alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), time.getSecond().getValue(), time.getDay().getValue());
             isAlarmSet = true;
-            alarmToggleButton.setText("Set to "+alarmTime.toString());
-            System.out.println("set to " + alarmTime);
+            alarmToggleButton.setText("Set to " + alarmTime.toString());
+//            System.out.println("set to " + alarmTime);
         }
     }
-    
+
     @FXML
     private void handleStartStopToggleButtonAction(ActionEvent event) {
         startStopAction();
     }
-    
+
     @FXML
     private void handleDecrementAction(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
@@ -102,40 +98,40 @@ public class ClockController implements Initializable {
      */
     private void startStopAction() {
         if (ticking) {
-            tl.pause();
+            timeline.pause();
             ticking = false;
         } else {
-            tl.play();
+            timeline.play();
             ticking = true;
         }
     }
-    
+
     private void checkAlarm() {
         if (isAlarmSet && time == alarmTime) {
             AlarmPlayer.playAlarmSound();
         }
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        tl.setCycleCount(Timeline.INDEFINITE);
+        timeline.setCycleCount(Timeline.INDEFINITE);
         //bind label with time
         timeLabel.textProperty().bind(time.total);
         //bind label with day
         weekdayLabel.textProperty().bind(time.dStr);
 
         //add actions to timeLine
-        tl.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
+        timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), new EventHandler<ActionEvent>() {
             @Override
             //we define what should happen every second
             public void handle(ActionEvent event) {
                 time.tick();
                 checkAlarm();
-                System.out.println(time.getDay().toString() + ", " + time.toString()); //toString is nicer readable
+//                System.out.println(time.getDay().toString() + ", " + time.toString()); //toString is nicer readable
             }
         }));
         //start cllock first time
         startStopAction();
     }
-    
+
 }
