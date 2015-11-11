@@ -55,9 +55,9 @@ public class ClockController implements Initializable {
     @FXML
     private void handleIncrementAction(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
-        if (sourceBtn.getId().equals("plusHoursButton")) {
+        if (sourceBtn.getId().equals("addHourButton")) {
             time.increment(time.getHour());
-        } else if (sourceBtn.getId().equals("plusMinutesButton")) {
+        } else if (sourceBtn.getId().equals("addMinuteButton")) {
             time.increment(time.getMinute());
         }
     }
@@ -79,16 +79,16 @@ public class ClockController implements Initializable {
     }
 
     @FXML
-    private void handleStartStopButtonAction(ActionEvent event) {
+    private void handleStartStopToggleButtonAction(ActionEvent event) {
         startStopAction();
     }
 
     @FXML
     private void handleDecrementAction(ActionEvent event) {
         Button sourceBtn = (Button) event.getSource();
-        if (sourceBtn.getId().equals("minusHoursButton")) {
+        if (sourceBtn.getId().equals("minusHourButton")) {
             time.decrement(time.getHour());
-        } else if (sourceBtn.getId().equals("minusMinutesButton")) {
+        } else if (sourceBtn.getId().equals("minusMinuteButton")) {
             time.decrement(time.getMinute());
         }
     }
