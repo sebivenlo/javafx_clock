@@ -162,8 +162,7 @@ public class ClockController implements Initializable {
         timeLabel.textProperty().bind(time.totalTimeStringProperty());
         //bind label with day
         weekdayLabel.textProperty().bind(time.weekdayStringProperty());
-        //
-        dateLabel.setVisible(true);
+        //bind date
         dateLabel.textProperty().bind(time.getDate().dateStringProperty());
         //add actions to timeLine
         timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), (ActionEvent event) -> {
