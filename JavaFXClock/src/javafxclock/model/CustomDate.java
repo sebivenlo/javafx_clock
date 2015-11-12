@@ -8,7 +8,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
 /**
- *
+ * a date format with string properties
  *
  */
 public final class CustomDate extends Date {
@@ -70,7 +70,6 @@ public final class CustomDate extends Date {
     
     public CustomDate() {
        Calendar c = Calendar.getInstance();
-       int x = c.get(Calendar.DAY_OF_MONTH);
         setDateDay(c.get(Calendar.DAY_OF_MONTH));
         setDateMonth(c.get(Calendar.MONTH));
         setDateYear(c.get(Calendar.YEAR));
