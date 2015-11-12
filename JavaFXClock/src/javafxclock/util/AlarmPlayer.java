@@ -9,11 +9,13 @@ import javax.sound.sampled.*;
  */
 public class AlarmPlayer {
 
-    public static void playAlarmSound() {
+        public static void playAlarmSound() {
         //TODO impl
         System.out.println("ALARM ALARM !!!!!!1!11");
         try {
-            File yourFile = new File("");
+            //http://www.garrens.com/xanacreations/czero/sound/misc/alarm3.wav
+            File yourFile = new File("alarm.wav");
+            System.err.println(yourFile.getAbsolutePath());
             AudioInputStream stream;
             AudioFormat format;
             DataLine.Info info;
@@ -26,7 +28,10 @@ public class AlarmPlayer {
             clip.open(stream);
             clip.start();
         } catch (Exception e) {
-            //whatevers
+
+            System.out.println(e);
+
         }
+    
     }
 }
