@@ -9,7 +9,7 @@ import javax.sound.sampled.*;
  */
 public class AlarmPlayer {
 
-        public static void playAlarmSound() {
+    public static void playAlarmSound() {
         System.out.println("ALARM ALARM !!!!!!1!11");
         try {
             //http://www.garrens.com/xanacreations/czero/sound/misc/alarm3.wav
@@ -30,6 +30,6 @@ public class AlarmPlayer {
             System.out.println(e);
 
         }
-    
+
     }
 }

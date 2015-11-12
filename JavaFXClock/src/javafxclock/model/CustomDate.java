@@ -12,8 +12,7 @@ import javafx.beans.property.StringProperty;
  *
  */
 public final class CustomDate extends Date {
-    
-    
+
     private final IntegerProperty dateDay = new SimpleIntegerProperty();
 
     public int getDateDay() {
@@ -67,15 +66,13 @@ public final class CustomDate extends Date {
         return dateString;
     }
 
-    
     public CustomDate() {
-       Calendar c = Calendar.getInstance();
+        Calendar c = Calendar.getInstance();
         setDateDay(c.get(Calendar.DAY_OF_MONTH));
         setDateMonth(c.get(Calendar.MONTH));
         setDateYear(c.get(Calendar.YEAR));
         dateString.bind(dateDayProperty().asString().concat(".").concat(dateMonthProperty().asString().concat(".").concat(dateYearProperty().asString())));
-        
+
     }
-   
-    
+
 }
