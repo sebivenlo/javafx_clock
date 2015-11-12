@@ -26,13 +26,18 @@ public class ClockController implements Initializable {
 
     @FXML
     private HBox settingsHBox;
+
     @FXML
     private Label timeLabel;
+
     @FXML
     private Label weekdayLabel;
+
     @FXML
     private ToggleButton alarmToggleButton;
 
+    @FXML
+    private Label dateLabel;
     private final Timeline timeline = new Timeline();
     private final Time time = new Time();
     private Time alarmTime = new Time();
@@ -63,6 +68,7 @@ public class ClockController implements Initializable {
                 time.increment(time.getSecond());
                 break;
             default:
+                System.out.println("unknown source " + sourceBtn.getId());
                 break;
         }
     }
@@ -104,6 +110,7 @@ public class ClockController implements Initializable {
                 time.decrement(time.getSecond());
                 break;
             default:
+                System.out.println("unknown source " + sourceBtn.getId());
                 break;
         }
     }
@@ -155,12 +162,16 @@ public class ClockController implements Initializable {
         timeLabel.textProperty().bind(time.totalTimeStringProperty());
         //bind label with day
         weekdayLabel.textProperty().bind(time.weekdayStringProperty());
-
+        //
+        dateLabel.setVisible(true);
+        dateLabel.textProperty().bind(time.getDate().dateStringProperty());
         //add actions to timeLine
         timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), (ActionEvent event) -> {
+            //update second
             time.tick();
+            //check alarmtime
             checkAlarm();
-//                System.out.println(time.getDay().toString() + ", " + time.toString()); //toString is nicer readable
+            System.out.println(time.getWeekday() + ", " + time.toString()); //toString is nicer readable
         } //we define what should happen every second
         ));
         //start cllock first time

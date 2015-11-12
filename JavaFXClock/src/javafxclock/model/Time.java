@@ -21,7 +21,7 @@ public class Time implements Comparable<Time> {
     private TimeUnit minute;
     private TimeUnit second;
     private WeekDay weekday;
-    private Date date;
+    private CustomDate date;
 
     private final StringProperty hourString = new SimpleStringProperty();
     private final StringProperty minuteString = new SimpleStringProperty();
@@ -29,7 +29,7 @@ public class Time implements Comparable<Time> {
     private final StringProperty weekdayString = new SimpleStringProperty();
     private final StringProperty dateString = new SimpleStringProperty();
 
-    public Time(int hour, int minute, int second, int weekday, Date date) {
+    public Time(int hour, int minute, int second, int weekday, CustomDate date) {
         this.hour = new TimeUnit(hour, 24);
         this.minute = new TimeUnit(minute, 60);
         this.second = new TimeUnit(second, 60);
@@ -46,7 +46,7 @@ public class Time implements Comparable<Time> {
         this.minute = new TimeUnit(syncTime.getMinute(), 60);
         this.second = new TimeUnit(syncTime.getSecond(), 60);
         this.weekday = new WeekDay(syncTime.getDayOfWeek().getValue());
-        this.date = new Date();
+        this.date = new CustomDate();
         binding();
         addChangeListeners();
     }
@@ -83,11 +83,11 @@ public class Time implements Comparable<Time> {
         this.weekday = weekday;
     }
 
-    public Date getDate() {
+    public CustomDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(CustomDate date) {
         this.date = date;
     }
 
@@ -182,8 +182,6 @@ public class Time implements Comparable<Time> {
 
             }
             if ((int) newValue < 0) {
-                //TODO update min
-
                 getMinute().decrement();
                 getSecond().setValue(getSecond().getMax() - 1);
             }
@@ -235,7 +233,7 @@ public class Time implements Comparable<Time> {
 
     @Override
     public String toString() {
-        return getDate() + " " + getWeekday() + " " + getHour() + " : " + getMinute() + " : " + getSecond();
+        return getDate() + " " + getWeekday() + ", " + getHour() + " : " + getMinute() + " : " + getSecond();
     }
 
     @Override
