@@ -218,6 +218,7 @@ public class Time implements Comparable<Time> {
         getMinute().setValue(syncTime.getMinute());
         getSecond().setValue(syncTime.getSecond());
         getWeekday().setValue(syncTime.getDayOfWeek().getValue());
+        getDate().sync();
     }
 
     public void tick() {
