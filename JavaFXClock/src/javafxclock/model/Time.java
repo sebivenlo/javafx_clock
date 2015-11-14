@@ -194,11 +194,13 @@ public class Time implements Comparable<Time> {
             if ((int) newValue >= getHour().getMax()) {
                 getWeekday().increment();
                 getHour().setValue(0);
+                getDate().incrementDay();
             }
             if ((int) newValue < 0) {
-                //TODO update days
                 getHour().setValue(getHour().getMax() - 1);
                 getWeekday().decrement();
+                getDate().decrementDay();
+
             }
             binding();
         });

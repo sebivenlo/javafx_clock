@@ -66,6 +66,14 @@ public final class CustomDate extends Date {
         return dateString;
     }
 
+    public void incrementDay() {
+        int oldDay=getDateDay();
+        setDateDay(oldDay+1);
+    }
+    public void decrementDay() {
+        int oldDay=getDateDay();
+        setDateDay(oldDay-1);
+    }
     public CustomDate() {
         Calendar c = Calendar.getInstance();
         setDateDay(c.get(Calendar.DAY_OF_MONTH));
