@@ -1,4 +1,4 @@
-package javafxclock.controller;
+package javafxclock;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,14 +15,12 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
-import javafxclock.model.Time;
-import javafxclock.util.AlarmPlayer;
 
 /**
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class ClockController implements Initializable {
+public class ClockviewController implements Initializable {
 
     @FXML
     private HBox settingsHBox;

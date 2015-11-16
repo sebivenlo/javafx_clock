@@ -1,4 +1,4 @@
-package javafxclock.model;
+package javafxclock;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;

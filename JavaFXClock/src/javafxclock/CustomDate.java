@@ -1,4 +1,4 @@
-package javafxclock.model;
+package javafxclock;
 
 import java.util.Calendar;
 import java.util.Date;

@@ -10,7 +10,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" stylesheets="@../style/Clock.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.controller.ClockController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" stylesheets="@../Clock.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
     <children>
         <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="Set Alarm!" />
         <Label id="weekdayLabel" fx:id="weekdayLabel" layoutX="668.0" layoutY="162.0" text="DDD" />

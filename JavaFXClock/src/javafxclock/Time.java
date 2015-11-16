@@ -1,4 +1,4 @@
-package javafxclock.model;
+package javafxclock;
 
 import java.time.LocalDateTime;
 import javafx.beans.property.SimpleStringProperty;
