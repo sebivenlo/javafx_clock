@@ -1,18 +1,19 @@
 \documentclass{beamer}
 
-\usetheme{Warsaw}
-
-\usepackage[utf8]{inputenc}
-\usepackage[ngerman]{babel}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
-\usepackage{graphicx}
-\usepackage{hyperref}
+\input{praeambel}
 
 \begin{document}
-	\input{frontpage}
-	\input{neededStuff}
+	\frame{
+		\titlepage
+	}
+	
+	\frame{
+		\frametitle{Inhaltsverzeichnis}
+		\tableofcontents
+		[pausesections]
+	}
+	
+	\input{installation}
 	\input{backend}
 	\input{sceneBuilder}
 \end{document}
