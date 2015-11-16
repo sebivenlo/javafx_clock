@@ -12,32 +12,24 @@ import javafx.beans.property.StringProperty;
 public class TimeUnit {
 
     private final int max;
-    private final IntegerProperty intValue = new SimpleIntegerProperty(0);
-
-    //Add String property
-    private final StringProperty value = new SimpleStringProperty();
+    private final IntegerProperty value = new SimpleIntegerProperty(0);
 
     public TimeUnit(int value, int max) {
-        this.intValue.set(value);
-        /*
-         Bind string property to integer property 
-         format output to have a leading 0 for digit with a size of 1 
-         */
-        this.value.bind(intValue.asString("%02d"));
+        this.value.set(value);
+
         this.max = max;
     }
 
     public int getValue() {
-        return intValue.get();
+        return value.get();
     }
 
     public void setValue(int val) {
-        intValue.set(val);
+        value.set(val);
     }
 
     // Return String property
-
-    public StringProperty valueProperty() {
+    public IntegerProperty valueProperty() {
         return value;
     }
 

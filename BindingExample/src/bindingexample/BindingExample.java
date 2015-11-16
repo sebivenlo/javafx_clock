@@ -6,8 +6,6 @@
 package bindingexample;
 
 import javafx.application.Application;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -44,7 +42,7 @@ public class BindingExample extends Application {
         });
 
         //Bind TimeUnit value to label
-        label.textProperty().bind(unit.valueProperty());
+        label.textProperty().bind(unit.valueProperty().asString("%02d"));
 
         //Set up scene
         HBox box = new HBox();
