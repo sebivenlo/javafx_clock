@@ -157,7 +157,7 @@ public class ClockviewController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         timeline.setCycleCount(Timeline.INDEFINITE);
         //bind label with time
-        timeLabel.textProperty().bind(time.totalTimeStringProperty());
+        timeLabel.textProperty().bind(time.totalTimeProperty());
         //bind label with day
         weekdayLabel.textProperty().bind(time.weekdayStringProperty());
         //bind date

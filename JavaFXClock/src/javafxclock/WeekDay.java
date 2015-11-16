@@ -13,7 +13,7 @@ public class WeekDay extends TimeUnit {
     /**
      *
      */
-    protected final String[] daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    protected final Enum<String> daysOfWeek = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     private final StringProperty dayString = new SimpleStringProperty();
 
     /**

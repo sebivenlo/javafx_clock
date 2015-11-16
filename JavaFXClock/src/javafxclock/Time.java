@@ -8,12 +8,10 @@ import javafx.beans.value.ObservableValue;
 /**
  *
  *
- * @author ron
+ * @author 
  */
 public class Time implements Comparable<Time> {
 
-    //total time string hh:mm:ss
-    private final StringProperty totalTimeString = new SimpleStringProperty();
     //alarm time string hh:mm
     private final StringProperty alarmTimeString = new SimpleStringProperty();
 
