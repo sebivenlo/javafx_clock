@@ -20,6 +20,14 @@ public final class CustomDate extends Date {
     private StringProperty monthString;
     private String[] daysStrArr = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEZ"};
     private Integer[] daysIntArr = new Integer[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    private final IntegerProperty dateMonth = new SimpleIntegerProperty(1);
+    private final IntegerProperty dateYear = new SimpleIntegerProperty(1);
+    private final StringProperty dateString = new SimpleStringProperty();
+    public CustomDate() {
+        bind();
+        sync();
+        
+    }
 
     public int getDateDay() {
         return dateDay.get();
@@ -32,7 +40,6 @@ public final class CustomDate extends Date {
     public IntegerProperty dateDayProperty() {
         return dateDay;
     }
-    private final IntegerProperty dateMonth = new SimpleIntegerProperty(1);
 
     public int getDateMonth() {
         return dateMonth.get();
@@ -45,7 +52,6 @@ public final class CustomDate extends Date {
     public IntegerProperty dateMonthProperty() {
         return dateMonth;
     }
-    private final IntegerProperty dateYear = new SimpleIntegerProperty(1);
 
     public int getDateYear() {
         return dateYear.get();
@@ -58,7 +64,6 @@ public final class CustomDate extends Date {
     public IntegerProperty dateYearProperty() {
         return dateYear;
     }
-    private final StringProperty dateString = new SimpleStringProperty();
 
     public String getDateString() {
         return dateString.get();
@@ -133,10 +138,5 @@ public final class CustomDate extends Date {
         });
     }
 
-    public CustomDate() {
-        bind();
-        sync();
-
-    }
 
 }
