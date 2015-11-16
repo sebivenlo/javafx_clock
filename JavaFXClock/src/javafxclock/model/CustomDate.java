@@ -107,7 +107,7 @@ public final class CustomDate extends Date {
                 if ((int) newValue > max) {
                     int oldMonth = getDateMonth();
                     setDateDay(oldMonth + 1);
-                    monthString = new SimpleStringProperty(daysStrArr[getMonth() - 1]);
+                    monthString = new SimpleStringProperty(daysStrArr[getMonth()]);
 
                 }
 
@@ -123,15 +123,19 @@ public final class CustomDate extends Date {
                     int oldYear = getYear();
                     setYear(oldYear + 1);
                 }
+
+                if ((int) newValue < 0) {
+                    setDateMonth(0);
+                    monthString = new SimpleStringProperty(daysStrArr[getMonth()]);
+                }
             }
 
         });
     }
 
     public CustomDate() {
-         bind();
+        bind();
         sync();
-       
 
     }
 
