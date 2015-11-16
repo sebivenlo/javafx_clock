@@ -3,9 +3,6 @@
 #!! ERROR: atex is undefined. Use list command to see defined gitignore types !!#
 
 ### Custom ###
-JavaFXClock/nbproject/private/
-svgParser/nbproject/private/
-swingclock/nbproject/private/
 
 ### XamarinStudio ###
 bin/
