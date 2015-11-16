@@ -22,7 +22,7 @@ public class JavaFXClock extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("view/Clock.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Clockview.fxml"));
 
         Scene scene = new Scene(root);
 
