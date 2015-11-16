@@ -1,9 +1,15 @@
 package javafxclock;
 
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +21,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 /**
  * @author Ron Gebauer <mail@ron.gebauers.org>
@@ -36,12 +43,14 @@ public class ClockviewController implements Initializable {
 
     @FXML
     private Label dateLabel;
+    
     private final Timeline timeline = new Timeline();
-    private final Time time = new Time();
-    private Time alarmTime = new Time();
     private boolean ticking = false;
     private boolean isAlarmSet = false;
 
+    private LocalDateTime time = LocalDateTime.now();
+    private LocalDateTime alarmTime = LocalDateTime.MIN;
+    
     @FXML
     private void handleSettingsButtonAction(ActionEvent event) {
         settingsHBox.setVisible(!settingsHBox.isVisible());
@@ -49,7 +58,7 @@ public class ClockviewController implements Initializable {
 
     @FXML
     private void handleSyncButtonAction(ActionEvent event) {
-        time.sync();
+        time = LocalDateTime.now();
     }
 
     @FXML
@@ -57,13 +66,13 @@ public class ClockviewController implements Initializable {
         Button sourceBtn = (Button) event.getSource();
         switch (sourceBtn.getId()) {
             case "addHourButton":
-                time.increment(time.getHour());
+                time = time.plusHours(1);
                 break;
             case "addMinuteButton":
-                time.increment(time.getMinute());
+                time = time.plusMinutes(1);
                 break;
             case "addSecondButton":
-                time.increment(time.getSecond());
+                time = time.plusSeconds(1);
                 break;
             default:
                 System.out.println("unknown source " + sourceBtn.getId());
@@ -84,8 +93,8 @@ public class ClockviewController implements Initializable {
                 alarmToggleButton.setSelected(isAlarmSet);
             }
         } else {
-            alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), 0, time.getWeekday().getValue(), time.getDate());
-            alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
+            alarmTime = LocalDateTime.of(time.toLocalDate(), time.toLocalTime());
+            alarmToggleButton.setText("Set to " + alarmTime.format(DateTimeFormatter.ISO_DATE_TIME));
         }
     }
 
@@ -99,13 +108,13 @@ public class ClockviewController implements Initializable {
         Button sourceBtn = (Button) event.getSource();
         switch (sourceBtn.getId()) {
             case "minusHourButton":
-                time.decrement(time.getHour());
+                time = time.minusHours(1);
                 break;
             case "minusMinuteButton":
-                time.decrement(time.getMinute());
+                time = time.minusMinutes(1);
                 break;
             case "minusSecondButton":
-                time.decrement(time.getSecond());
+                time = time.minusSeconds(1);
                 break;
             default:
                 System.out.println("unknown source " + sourceBtn.getId());
@@ -146,29 +155,33 @@ public class ClockviewController implements Initializable {
                     isAlarmSet = false;
                     toggleAlarm();
                 } else if (observable.getValue().equals(pauseButtonType)) {
-                    alarmTime.getMinute().setValue(alarmTime.getMinute().getValue() + 9);
-                    alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
+                    alarmTime = alarmTime.plusMinutes(9);
+                    alarmToggleButton.setText("Set to " + alarmTime.format(DateTimeFormatter.ISO_DATE_TIME));
                 }
             });
         }
+    }
+    
+    private StringProperty stringProperty(LocalDateTime ldt) {
+        return new SimpleStringProperty(ldt.format(DateTimeFormatter.ISO_DATE_TIME));
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         timeline.setCycleCount(Timeline.INDEFINITE);
         //bind label with time
-        timeLabel.textProperty().bind(time.totalTimeStringProperty());
+        timeLabel.textProperty().bind(new SimpleStringProperty(time.toLocalTime().format(DateTimeFormatter.ISO_TIME)));
         //bind label with day
-        weekdayLabel.textProperty().bind(time.weekdayStringProperty());
+        weekdayLabel.textProperty().bind(new SimpleStringProperty(time.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.UK)));
         //bind date
-        dateLabel.textProperty().bind(time.getDate().dateStringProperty());
+        dateLabel.textProperty().bind(new SimpleStringProperty(time.toLocalDate().format(DateTimeFormatter.ISO_DATE)));
         //add actions to timeLine
         timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), (ActionEvent event) -> {
             //update second
-            time.tick();
+            time = time.plusSeconds(1);
             //check alarmtime
             checkAlarm();
-            System.out.println(time.getWeekday() + ", " + time.toString()); //toString is nicer readable
+            System.out.println(time.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.UK) + ", " + time.toString()); //toString is nicer readable
         } //we define what should happen every second
         ));
         //start cllock first time
