@@ -1,0 +1,32 @@
+\begin{frame}{The backend has these classes}
+\begin{itemize}
+\item Time 
+\item TimeUnit
+\item ClockController
+\end{itemize}
+\end{frame}
+\frame{
+	\frametitle{TimeUnit}
+    private int max; \newline
+    IntegerProperty value = new SimpleIntegerProperty(0);\newline
+    public void increment(); 
+    public void decrement(); 
+}
+\frame{
+	\frametitle{Time}
+Connects the TimeUnits
+\begin{itemize}
+  \item  private TimeUnit hour, minute, second;
+  \item ChangeListener for each property in TimeUnit
+
+  \item void sync();
+  \item void tick();
+  \item void increment();
+  \item void decrement();
+\end{itemize}
+}
+\frame{
+	\frametitle{ClockController}
+Tells the View ( FXML ) what to display
+
+}
