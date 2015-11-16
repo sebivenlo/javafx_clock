@@ -23,70 +23,131 @@ public final class CustomDate extends Date {
     private final IntegerProperty dateMonth = new SimpleIntegerProperty(1);
     private final IntegerProperty dateYear = new SimpleIntegerProperty(1);
     private final StringProperty dateString = new SimpleStringProperty();
+
+    /**
+     *
+     */
     public CustomDate() {
         bind();
         sync();
         
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDateDay() {
         return dateDay.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setDateDay(int value) {
         dateDay.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty dateDayProperty() {
         return dateDay;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDateMonth() {
         return dateMonth.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setDateMonth(int value) {
         dateMonth.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty dateMonthProperty() {
         return dateMonth;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getDateYear() {
         return dateYear.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setDateYear(int value) {
         dateYear.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty dateYearProperty() {
         return dateYear;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getDateString() {
         return dateString.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setDateString(String value) {
         dateString.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty dateStringProperty() {
         return dateString;
     }
 
+    /**
+     *
+     */
     public void incrementDay() {
         int oldDay = getDateDay();
         setDateDay(oldDay + 1);
     }
 
+    /**
+     *
+     */
     public void decrementDay() {
         int oldDay = getDateDay();
         setDateDay(oldDay - 1);
     }
 
+    /**
+     *
+     */
     public void sync() {
         Calendar c = Calendar.getInstance();
         setDateDay(c.get(Calendar.DAY_OF_MONTH));
@@ -103,6 +164,9 @@ public final class CustomDate extends Date {
 
     }
 
+    /**
+     *
+     */
     public void addChangeListener() {
         dateDay.addListener(new ChangeListener<Object>() {
 

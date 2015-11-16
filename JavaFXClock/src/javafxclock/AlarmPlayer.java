@@ -6,9 +6,13 @@ import javax.sound.sampled.*;
 /**
  *
  *
+ * @author ron
  */
 public class AlarmPlayer {
 
+    /**
+     *
+     */
     public static void playAlarmSound() {
         System.out.println("ALARM ALARM !!!!!!1!11");
         try {

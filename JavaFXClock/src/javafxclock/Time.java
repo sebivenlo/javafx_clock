@@ -8,6 +8,7 @@ import javafx.beans.value.ObservableValue;
 /**
  *
  *
+ * @author ron
  */
 public class Time implements Comparable<Time> {
 
@@ -28,6 +29,14 @@ public class Time implements Comparable<Time> {
     private final StringProperty weekdayString = new SimpleStringProperty();
     private final StringProperty dateString = new SimpleStringProperty();
 
+    /**
+     *
+     * @param hour
+     * @param minute
+     * @param second
+     * @param weekday
+     * @param date
+     */
     public Time(int hour, int minute, int second, int weekday, CustomDate date) {
         this.hour = new TimeUnit(hour, 24);
         this.minute = new TimeUnit(minute, 60);
@@ -38,6 +47,9 @@ public class Time implements Comparable<Time> {
         addChangeListeners();
     }
 
+    /**
+     *
+     */
     public Time() {
         LocalDateTime syncTime = LocalDateTime.now();
 
@@ -50,78 +62,154 @@ public class Time implements Comparable<Time> {
         addChangeListeners();
     }
 
+    /**
+     *
+     * @return
+     */
     public TimeUnit getHour() {
         return hour;
     }
 
+    /**
+     *
+     * @param hour
+     */
     public void setHour(TimeUnit hour) {
         this.hour = hour;
     }
 
+    /**
+     *
+     * @return
+     */
     public TimeUnit getMinute() {
         return minute;
     }
 
+    /**
+     *
+     * @param minute
+     */
     public void setMinute(TimeUnit minute) {
         this.minute = minute;
     }
 
+    /**
+     *
+     * @return
+     */
     public TimeUnit getSecond() {
         return second;
     }
 
+    /**
+     *
+     * @param second
+     */
     public void setSecond(TimeUnit second) {
         this.second = second;
     }
 
+    /**
+     *
+     * @return
+     */
     public WeekDay getWeekday() {
         return weekday;
     }
 
+    /**
+     *
+     * @param weekday
+     */
     public void setWeekday(WeekDay weekday) {
         this.weekday = weekday;
     }
 
+    /**
+     *
+     * @return
+     */
     public CustomDate getDate() {
         return date;
     }
 
+    /**
+     *
+     * @param date
+     */
     public void setDate(CustomDate date) {
         this.date = date;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTotalTimeString() {
         return totalTimeString.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setTotalTimeString(String value) {
         totalTimeString.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty totalTimeStringProperty() {
         return totalTimeString;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getAlarmTimeString() {
         return alarmTimeString.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setAlarmTimeString(String value) {
         alarmTimeString.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty alarmTimeStringProperty() {
         return alarmTimeString;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getWeekdayString() {
         return weekdayString.get();
     }
 
+    /**
+     *
+     * @param value
+     */
     public void setWeekdayString(String value) {
         weekdayString.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public StringProperty weekdayStringProperty() {
         return weekdayString;
     }
@@ -211,6 +299,9 @@ public class Time implements Comparable<Time> {
         });
     }
 
+    /**
+     *
+     */
     public void sync() {
         LocalDateTime syncTime = LocalDateTime.now();
         getHour().setValue(syncTime.getHour());
@@ -220,15 +311,26 @@ public class Time implements Comparable<Time> {
         getDate().sync();
     }
 
+    /**
+     *
+     */
     public void tick() {
         getSecond().increment();
     }
 
+    /**
+     *
+     * @param timeUnit
+     */
     public void decrement(TimeUnit timeUnit) {
         timeUnit.decrement();
 
     }
 
+    /**
+     *
+     * @param timeUnit
+     */
     public void increment(TimeUnit timeUnit) {
         timeUnit.increment();
     }

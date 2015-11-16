@@ -6,53 +6,84 @@ import javafx.beans.property.SimpleIntegerProperty;
 /**
  *
  *
+ * @author ron
  */
 public class TimeUnit {
 
-    private int max;
+    private final int max;
     private final IntegerProperty value = new SimpleIntegerProperty(0);
+    private boolean next;
 
+    /**
+     *
+     * @param value
+     * @param max
+     */
     public TimeUnit(int value, int max) {
         this.value.set(value);
         this.max = max;
+        this.next = false;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getValue() {
-        return value.get();
+        return this.value.get();
     }
 
-    public void setValue(int val) {
-        value.set(val);
+    /**
+     *
+     * @param value
+     */
+    public void setValue(int value) {
+        this.value.set(value);
     }
 
+    /**
+     *
+     * @return
+     */
     public IntegerProperty valueProperty() {
-        return value;
+        return this.value;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getMax() {
-        return max;
+        return this.max;
     }
 
-    public void setMax(int max) {
-        this.max = max;
-    }
-
+    /**
+     *
+     */
     public void increment() {
-        int old = getValue();
-        setValue(old + 1);
-
+        if ((this.getValue()+ 1) > this.getMax()) {
+            this.setValue(0);
+            this.next = true;
+        } else {
+            this.setValue(this.getValue() + 1);
+        }
     }
 
+    /**
+     *
+     */
     public void decrement() {
-        setValue(getValue() - 1);
+        if ((this.getValue() - 1) < 0) {
+            this.setValue(0);
+            this.next = false;
+        } else {
+            this.setValue(this.getValue() - 1);
+        }
     }
 
     @Override
     public String toString() {
-        if (getValue() < 10) {
-            return "0" + String.valueOf(getValue());
-        }
-        return String.valueOf(getValue());
+        return String.valueOf(valueProperty().asString("%02d"));
     }
 
 }
