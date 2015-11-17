@@ -6,13 +6,14 @@ import javafx.beans.property.SimpleIntegerProperty;
 /**
  *
  *
- * @author ron
+ * @author Ron Gebauer <mail@ron.gebauers.org>
+ * @version 1
  */
 public class TimeUnit {
 
     private final int max;
-    private final IntegerProperty value = new SimpleIntegerProperty(0);
-    private boolean next;
+    private final IntegerProperty value;
+    private boolean previous, next;
 
     /**
      *
@@ -20,8 +21,12 @@ public class TimeUnit {
      * @param max
      */
     public TimeUnit(int value, int max) {
-        this.value.set(value);
+        if (value >= max) {
+            throw new ExceptionInInitializerError("value is bigger as max");
+        }
+        this.value = new SimpleIntegerProperty(value);
         this.max = max;
+        this.previous = false;
         this.next = false;
     }
 
@@ -59,10 +64,27 @@ public class TimeUnit {
 
     /**
      *
+     * @return
+     */
+    public boolean isPrevious() {
+        return previous;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isNext() {
+        return next;
+    }
+
+    /**
+     *
      */
     public void increment() {
-        if ((this.getValue()+ 1) > this.getMax()) {
+        if ((this.getValue() + 1) >= this.getMax()) {
             this.setValue(0);
+            this.previous = false;
             this.next = true;
         } else {
             this.setValue(this.getValue() + 1);
@@ -73,17 +95,12 @@ public class TimeUnit {
      *
      */
     public void decrement() {
-        if ((this.getValue() - 1) < 0) {
-            this.setValue(0);
+        if ((this.getValue() - 1) <= 0) {
+            this.setValue(this.getMax() - 1);
+            this.previous = true;
             this.next = false;
         } else {
             this.setValue(this.getValue() - 1);
         }
     }
-
-    @Override
-    public String toString() {
-        return String.valueOf(valueProperty().asString("%02d"));
-    }
-
 }
