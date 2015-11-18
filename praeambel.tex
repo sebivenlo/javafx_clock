@@ -1,13 +1,43 @@
-\usepackage[utf8]{inputenc}
+\makeatletter
+	\@ifclassloaded{article}{\usepackage{beamerarticle}}{}
+\makeatother
+
 \usepackage[ngerman]{babel}
-\usepackage{amsmath}
-\usepackage{amsfonts}
-\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb}
+
 \usepackage{graphicx}
 \usepackage{hyperref}
 
-\usetheme{Warsaw}
+\usepackage{pgfpages}
+\pgfpagesuselayout{resize to}[a4paper,border shrink=5mm,landscape]
 
-\title{JavaFX workshop}
-\author[Ron Gebauer \& Maximlian Walter]{Ron Gebauer \\Maximilian Walter}
-\date{\today}
+
+\usetheme{Hannover}
+\usecolortheme{orchid}
+\usefonttheme{professionalfonts}
+\useinnertheme{rounded}
+\useoutertheme{default}
+
+
+\setbeamercovered{transparent}
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamertemplate{footline}[frame number]
+
+
+\title[JavaFX]{JavaFX workshop}
+\subtitle[Clock]{Create a clock}
+
+\author[RG \& MW]{Ron Gebauer \& Maximilian Walter}
+\institute[FUoASV]{Fontys University of Applied Science Venlo}
+
+\date[\today]{\today}
+
+%\logo{\pgfimage[width=2cm,height=2cm]{hulogo}}
+
+%\titlegraphic{\includegraphics[width=2cm,height=2cm]{hulogo}}
+
+\subject{Clock created in JavaFX FXML Application}
+\keywords{JavaFX, FXML Application, FXML, CSS, Java, Clock}
