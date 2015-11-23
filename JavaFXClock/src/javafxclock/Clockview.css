@@ -34,12 +34,12 @@
     -fx-text-alignment: right;
 }
 
-#timeLabel {
+.timeLabel {
     -fx-font-style: Condensed Black;
-    -fx-font-size: 90px;
+    /*    -fx-font-size: 90px;*/
     -fx-text-alignment: center;
 }
-
+#timeBox{-fx-font-size: 90px;}
 #dateLabel {
     -fx-font-style: Condensed Bold;
     -fx-font-size: 50px;

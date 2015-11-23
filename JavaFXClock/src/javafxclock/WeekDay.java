@@ -13,7 +13,8 @@ public class WeekDay extends TimeUnit {
     /**
      *
      */
-    protected final String[] daysOfWeek = new String[]{"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    private static final String[] daysOfWeek = new String[]{"MON", "TUE", "WED",
+        "THU", "FRI", "SAT", "SUN"};
     private final StringProperty dayString = new SimpleStringProperty();
 
     /**
@@ -21,18 +22,18 @@ public class WeekDay extends TimeUnit {
      * @param value
      * @param max
      */
-    public WeekDay(int value, int max) {
-        super(value, max);
-        dayString.set(daysOfWeek[value - 1]);
+    public WeekDay( int value, int max ) {
+        super( value, max );
+        dayString.set( daysOfWeek[value - 1] );
     }
 
     /**
      *
      * @param value
      */
-    public WeekDay(int value) {
-        super(value, 7);
-        dayString.set(daysOfWeek[value - 1]);
+    public WeekDay( int value ) {
+        super( value, daysOfWeek.length);
+        dayString.set( daysOfWeek[value - 1] );
     }
 
     /**
@@ -47,8 +48,8 @@ public class WeekDay extends TimeUnit {
      *
      * @param value
      */
-    public void setDayString(String value) {
-        dayString.set(value);
+    public void setDayString( String value ) {
+        dayString.set( value );
     }
 
     /**
@@ -61,7 +62,19 @@ public class WeekDay extends TimeUnit {
 
     @Override
     public String toString() {
-        return daysOfWeek[getValue() - 1];
+        return daysOfWeek[getValue()];
+    }
+
+    @Override
+    public void decrement() {
+        super.decrement();
+        dayString.set( toString() );
+    }
+
+    @Override
+    public void increment() {
+        super.increment();
+        dayString.set( toString() );
     }
 
 }

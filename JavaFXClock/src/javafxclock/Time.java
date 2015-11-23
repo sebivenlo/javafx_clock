@@ -1,6 +1,10 @@
 package javafxclock;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
+import java.util.Objects;
+import javafx.beans.binding.StringBinding;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ObservableValue;
@@ -10,7 +14,7 @@ import javafx.beans.value.ObservableValue;
  *
  * @author ron
  */
-public class Time implements Comparable<Time> {
+public class Time {
 
     //total time string hh:mm:ss
     private final StringProperty totalTimeString = new SimpleStringProperty();
@@ -21,7 +25,7 @@ public class Time implements Comparable<Time> {
     private TimeUnit minute;
     private TimeUnit second;
     private WeekDay weekday;
-    private CustomDate date;
+    private LocalDate date;
 
     private final StringProperty hourString = new SimpleStringProperty();
     private final StringProperty minuteString = new SimpleStringProperty();
@@ -37,48 +41,58 @@ public class Time implements Comparable<Time> {
      * @param weekday
      * @param date
      */
-    public Time(int hour, int minute, int second, int weekday, CustomDate date) {
-        this.hour = new TimeUnit(hour, 24);
-        this.minute = new TimeUnit(minute, 60);
-        this.second = new TimeUnit(second, 60);
-        this.weekday = new WeekDay(weekday);
-        this.date = date;
-        binding();
-        addChangeListeners();
-    }
-
+//    public Time( int hour, int minute, int second, int weekday ) {
+//        LocalDateTime x = LocalDateTime.of( date.getDateYear(),hour, minute,second);
+//        this.weekday = new WeekDay( weekday );
+//        this.hour = new TimeUnit( hour, 24 ).setNext( this.weekday );
+//        this.minute = new TimeUnit( minute, 60 ).setNext( this.hour );
+//        this.second = new TimeUnit( second, 60 ).setNext( this.minute );
+//        this.date = date;
+//        binding();
+//        //     addChangeListeners();
+//    }
     /**
+     * Create Time from LocalDateTime.
      *
+     * @param syncTime time to start with
      */
-    public Time() {
-        LocalDateTime syncTime = LocalDateTime.now();
+    public Time( LocalDateTime syncTime ) {
+        //  LocalDateTime syncTime = LocalDateTime.now();
 
-        this.hour = new TimeUnit(syncTime.getHour(), 24);
-        this.minute = new TimeUnit(syncTime.getMinute(), 60);
-        this.second = new TimeUnit(syncTime.getSecond(), 60);
-        this.weekday = new WeekDay(syncTime.getDayOfWeek().getValue());
-        this.date = new CustomDate();
+        weekday = new WeekDay( syncTime.getDayOfWeek().getValue() );
+        hour = new TimeUnit( syncTime.getHour(), 24 ).setNext( weekday );
+        minute = new TimeUnit( syncTime.getMinute(), 60 ).setNext( hour );
+        second = new TimeUnit( syncTime.getSecond(), 60 ).setNext( minute );
+        date = LocalDate.now();
+        dateString.set( date.toString());
         binding();
-        addChangeListeners();
+        //   addChangeListeners();
+    }
+
+    public Time() {
+        this( LocalDateTime.now() );
     }
 
     /**
+     * Get hour.
      *
-     * @return
+     * @return current hour
      */
     public TimeUnit getHour() {
         return hour;
     }
 
     /**
+     * Set the hour.
      *
      * @param hour
      */
-    public void setHour(TimeUnit hour) {
+    public void setHour( TimeUnit hour ) {
         this.hour = hour;
     }
 
     /**
+     * Get the minute.
      *
      * @return
      */
@@ -87,11 +101,13 @@ public class Time implements Comparable<Time> {
     }
 
     /**
+     * Set the Minute.
      *
      * @param minute
      */
-    public void setMinute(TimeUnit minute) {
+    public Time setMinute( TimeUnit minute ) {
         this.minute = minute;
+        return this;
     }
 
     /**
@@ -106,8 +122,9 @@ public class Time implements Comparable<Time> {
      *
      * @param second
      */
-    public void setSecond(TimeUnit second) {
+    public Time setSecond( TimeUnit second ) {
         this.second = second;
+        return this;
     }
 
     /**
@@ -122,15 +139,17 @@ public class Time implements Comparable<Time> {
      *
      * @param weekday
      */
-    public void setWeekday(WeekDay weekday) {
+    public Time setWeekday( WeekDay weekday ) {
         this.weekday = weekday;
+        return this;
+
     }
 
     /**
      *
      * @return
      */
-    public CustomDate getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
@@ -138,8 +157,10 @@ public class Time implements Comparable<Time> {
      *
      * @param date
      */
-    public void setDate(CustomDate date) {
+    public Time setDate( LocalDate date ) {
         this.date = date;
+        dateString.set( date.toString());
+        return this;
     }
 
     /**
@@ -154,8 +175,8 @@ public class Time implements Comparable<Time> {
      *
      * @param value
      */
-    public void setTotalTimeString(String value) {
-        totalTimeString.set(value);
+    public void setTotalTimeString( String value ) {
+        totalTimeString.set( value );
     }
 
     /**
@@ -178,8 +199,8 @@ public class Time implements Comparable<Time> {
      *
      * @param value
      */
-    public void setAlarmTimeString(String value) {
-        alarmTimeString.set(value);
+    public void setAlarmTimeString( String value ) {
+        alarmTimeString.set( value );
     }
 
     /**
@@ -202,8 +223,8 @@ public class Time implements Comparable<Time> {
      *
      * @param value
      */
-    public void setWeekdayString(String value) {
-        weekdayString.set(value);
+    public void setWeekdayString( String value ) {
+        weekdayString.set( value );
     }
 
     /**
@@ -215,88 +236,20 @@ public class Time implements Comparable<Time> {
     }
 
     /**
-     * bind the string properties with or without leading zero
+     * Bind string properties bind the string properties with or without leading zero
      */
     private void binding() {
-        if (getHour().valueProperty().getValue() < 10) {
-            StringProperty leading = new SimpleStringProperty("0");
-            hourString.bind(leading.concat(getHour().valueProperty().asString()));
-        } else {
-            hourString.bind(getHour().valueProperty().asString());
-        }
+        hourString.bind( hour.valueProperty().asString( "%02d" ) );
+        minuteString.bind( minute.valueProperty().asString( "%02d" ) );
+        secondString.bind( second.valueProperty().asString( "%02d" ) );
 
-        if (getMinute().valueProperty().getValue() < 10) {
-            StringProperty leading = new SimpleStringProperty("0");
-            minuteString.bind(leading.concat(getMinute().valueProperty().asString()));
-        } else {
-            minuteString.bind(getMinute().valueProperty().asString());
-        }
+        weekdayString.bind( getWeekday().dayStringProperty() );
 
-        if (getSecond().valueProperty().getValue() < 10) {
-            StringProperty leading = new SimpleStringProperty("0");
-            secondString.bind(leading.concat(getSecond().valueProperty().asString()));
-        } else {
-            secondString.bind(getSecond().valueProperty().asString());
+        totalTimeString.bind(
+                hourString.concat( " : " ).concat( minuteString ).concat( " : " ).concat(
+                secondString ) );
 
-        }
-
-        weekdayString.bind(getWeekday().dayStringProperty());
-
-        totalTimeString.bind(hourString.concat(" : ").concat(minuteString).concat(" : ").concat(secondString));
-
-        alarmTimeString.bind(hourString.concat(" : ").concat(minuteString));
-    }
-
-    private void addChangeListeners() {
-        //add Listeners to minutes
-        getMinute().valueProperty().addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> {
-            if ((int) newValue >= getMinute().getMax()) {
-                getHour().increment();
-                getMinute().setValue(0);
-            }
-            if ((int) newValue < 0) {
-
-                getHour().decrement();
-                getMinute().setValue(getMinute().getMax() - 1);
-            }
-            binding();
-        });
-        //add listeners for seconds
-        getSecond().valueProperty().addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> {
-            if ((int) newValue >= getSecond().getMax()) {
-                getMinute().increment();
-                getSecond().setValue(0);
-
-            }
-            if ((int) newValue < 0) {
-                getMinute().decrement();
-                getSecond().setValue(getSecond().getMax() - 1);
-            }
-
-            binding();
-        });
-
-        //add listeners for hours
-        getHour().valueProperty().addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> {
-            if ((int) newValue >= getHour().getMax()) {
-                getWeekday().increment();
-                getHour().setValue(0);
-                getDate().incrementDay();
-            }
-            if ((int) newValue < 0) {
-                getHour().setValue(getHour().getMax() - 1);
-                getWeekday().decrement();
-                getDate().decrementDay();
-
-            }
-            binding();
-        });
-        //add listener for days
-        getWeekday().valueProperty().addListener((ObservableValue<? extends Object> observable, Object oldValue, Object newValue) -> {
-            int x = getWeekday().valueProperty().getValue();
-            getWeekday().setDayString(getWeekday().daysOfWeek[x - 1]);
-            weekdayString.bind(getWeekday().dayStringProperty());
-        });
+        alarmTimeString.bind( hourString.concat( " : " ).concat( minuteString ) );
     }
 
     /**
@@ -304,11 +257,11 @@ public class Time implements Comparable<Time> {
      */
     public void sync() {
         LocalDateTime syncTime = LocalDateTime.now();
-        getHour().setValue(syncTime.getHour());
-        getMinute().setValue(syncTime.getMinute());
-        getSecond().setValue(syncTime.getSecond());
-        getWeekday().setValue(syncTime.getDayOfWeek().getValue());
-        getDate().sync();
+        getHour().setValue( syncTime.getHour() );
+        getMinute().setValue( syncTime.getMinute() );
+        getSecond().setValue( syncTime.getSecond() );
+        getWeekday().setValue( syncTime.getDayOfWeek().getValue() );
+        date = LocalDate.now();
     }
 
     /**
@@ -322,7 +275,7 @@ public class Time implements Comparable<Time> {
      *
      * @param timeUnit
      */
-    public void decrement(TimeUnit timeUnit) {
+    public void decrement( TimeUnit timeUnit ) {
         timeUnit.decrement();
 
     }
@@ -331,17 +284,56 @@ public class Time implements Comparable<Time> {
      *
      * @param timeUnit
      */
-    public void increment(TimeUnit timeUnit) {
+    public void increment( TimeUnit timeUnit ) {
         timeUnit.increment();
     }
 
     @Override
     public String toString() {
-        return getDate() + " " + getWeekday() + ", " + getHour() + " : " + getMinute() + " : " + getSecond();
+        return getDate() + " " + getWeekday() + ", " + getHour() + " : "
+                + getMinute() + " : " + getSecond();
     }
 
     @Override
-    public int compareTo(Time time) {
-        return this.totalTimeString.get().compareToIgnoreCase(time.totalTimeString.get());
+    public int hashCode() {
+        int hash = 5;
+        hash = 61 * hash + Objects.hashCode( this.hour );
+        hash = 61 * hash + Objects.hashCode( this.minute );
+        return hash;
+    }
+
+    @Override
+    public boolean equals( Object obj ) {
+        if ( this == obj ) {
+            return true;
+        }
+        if ( obj == null ) {
+            return false;
+        }
+        if ( getClass() != obj.getClass() ) {
+            return false;
+        }
+        final Time other = (Time) obj;
+        if ( !Objects.equals( this.hour, other.hour ) ) {
+            return false;
+        }
+        if ( !Objects.equals( this.minute, other.minute ) ) {
+            return false;
+        }
+        return true;
+    }
+
+    public StringProperty dateStringProperty(){
+        return dateString;
+    }
+    
+    public StringBinding hourStringBinding(){
+        return hour.asStringBinding();
+    }
+    public StringBinding minStringBinding(){
+        return minute.asStringBinding();
+    }
+    public StringBinding secStringBinding(){
+        return second.asStringBinding();
     }
 }

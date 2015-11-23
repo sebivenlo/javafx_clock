@@ -22,14 +22,20 @@ import javafx.scene.layout.HBox;
  */
 public class ClockviewController implements Initializable {
 
-    @FXML
-    private HBox settingsHBox;
-
-    @FXML
-    private Label timeLabel;
-
+    private WeekDay weekday = new WeekDay( 7 );
     @FXML
     private Label weekdayLabel;
+    @FXML
+    private HBox settingsHBox;
+    TimeUnit hour = new TimeUnit( 24 ).named("h").setNext( weekday );
+    @FXML
+    private Label hourLabel;
+    TimeUnit minute = new TimeUnit( 60 ).named("m").setNext( hour );
+    @FXML
+    private Label minLabel;
+    TimeUnit second = new TimeUnit( 60 ).named("s").setNext( minute );
+    @FXML
+    private Label secLabel;
 
     @FXML
     private ToggleButton alarmToggleButton;
@@ -43,81 +49,74 @@ public class ClockviewController implements Initializable {
     private boolean isAlarmSet = false;
 
     @FXML
-    private void handleSettingsButtonAction(ActionEvent event) {
-        settingsHBox.setVisible(!settingsHBox.isVisible());
+    private void handleSettingsButtonAction( ActionEvent event ) {
+        settingsHBox.setVisible( !settingsHBox.isVisible() );
     }
 
     @FXML
-    private void handleSyncButtonAction(ActionEvent event) {
+    private void handleSyncButtonAction( ActionEvent event ) {
         time.sync();
     }
 
     @FXML
-    private void handleIncrementAction(ActionEvent event) {
-        Button sourceBtn = (Button) event.getSource();
-        switch (sourceBtn.getId()) {
-            case "addHourButton":
-                time.increment(time.getHour());
-                break;
-            case "addMinuteButton":
-                time.increment(time.getMinute());
-                break;
-            case "addSecondButton":
-                time.increment(time.getSecond());
-                break;
-            default:
-                System.out.println("unknown source " + sourceBtn.getId());
-                break;
-        }
+    private void incrementSeconds( ActionEvent e ) {
+        second.increment();
     }
 
     @FXML
-    private void handleAlarmToggleButtonAction(ActionEvent event) {
+    private void decrementSeconds( ActionEvent e ) {
+        second.decrement();
+    }
+
+    @FXML
+    private void incrementMinutes( ActionEvent e ) {
+        minute.increment();
+    }
+
+    @FXML
+    private void decrementMinutes( ActionEvent e ) {
+        minute.decrement();
+    }
+
+    @FXML
+    private void incrementHours( ActionEvent e ) {
+        hour.increment();
+    }
+
+    @FXML
+    private void decrementHours( ActionEvent e ) {
+        hour.decrement();
+    }
+
+    @FXML
+    private void handleAlarmToggleButtonAction( ActionEvent event ) {
         isAlarmSet = !isAlarmSet;
         toggleAlarm();
     }
 
     private void toggleAlarm() {
-        if (!isAlarmSet) {
-            alarmToggleButton.setText("Set Alarm!");
-            if (alarmToggleButton.isSelected()) {
-                alarmToggleButton.setSelected(isAlarmSet);
+        if ( !isAlarmSet ) {
+            alarmToggleButton.setText( "Set Alarm!" );
+            if ( alarmToggleButton.isSelected() ) {
+                alarmToggleButton.setSelected( isAlarmSet );
             }
         } else {
-            alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), 0, time.getWeekday().getValue(), time.getDate());
-            alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
+            // alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), 0, time.getWeekday().getValue(), time.getDate());
+            alarmToggleButton.setText( "Set to "
+                    + alarmTime.getAlarmTimeString() );
         }
     }
 
     @FXML
-    private void handleStartStopToggleButtonAction(ActionEvent event) {
+    private void handleStartStopToggleButtonAction( ActionEvent event ) {
         startStopAction();
-    }
-
-    @FXML
-    private void handleDecrementAction(ActionEvent event) {
-        Button sourceBtn = (Button) event.getSource();
-        switch (sourceBtn.getId()) {
-            case "minusHourButton":
-                time.decrement(time.getHour());
-                break;
-            case "minusMinuteButton":
-                time.decrement(time.getMinute());
-                break;
-            case "minusSecondButton":
-                time.decrement(time.getSecond());
-                break;
-            default:
-                System.out.println("unknown source " + sourceBtn.getId());
-                break;
-        }
     }
 
     /**
      * starts and stops the timeline animation
      */
     private void startStopAction() {
-        if (ticking) {
+        if ( ticking ) {
             timeline.pause();
             ticking = false;
         } else {
@@ -127,52 +126,63 @@ public class ClockviewController implements Initializable {
     }
 
     private void checkAlarm() {
-        if (isAlarmSet && (time.compareTo(alarmTime) == 0)) {
+        if ( isAlarmSet && ( time.equals( alarmTime ) ) ) {
             AlarmPlayer.playAlarmSound();
 
-            Alert alarmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-            alarmAlert.setTitle("ALARM");
-            alarmAlert.setHeaderText("!!!!!!ALARM ALARM ALARM!!!!!!");
-            alarmAlert.setContentText("Do you want to end or pause the alarm?");
+            Alert alarmAlert = new Alert( Alert.AlertType.CONFIRMATION );
+            alarmAlert.setTitle( "ALARM" );
+            alarmAlert.setHeaderText( "!!!!!!ALARM ALARM ALARM!!!!!!" );
+            alarmAlert.setContentText( "Do you want to end or pause the alarm?" );
 
-            ButtonType pauseButtonType = new ButtonType("Pause", ButtonData.CANCEL_CLOSE);
-            ButtonType stopButtonType = new ButtonType("Stop", ButtonData.OK_DONE);
+            ButtonType pauseButtonType = new ButtonType( "Pause",
+                    ButtonData.CANCEL_CLOSE );
+            ButtonType stopButtonType = new ButtonType( "Stop",
+                    ButtonData.OK_DONE );
 
-            alarmAlert.getButtonTypes().setAll(pauseButtonType, stopButtonType);
+            alarmAlert.getButtonTypes().setAll( pauseButtonType, stopButtonType );
 
             alarmAlert.show();
-            alarmAlert.resultProperty().addListener((ObservableValue<? extends ButtonType> observable, ButtonType oldValue, ButtonType newValue) -> {
-                if (observable.getValue().equals(stopButtonType)) {
+            alarmAlert.resultProperty().addListener(
+                    ( ObservableValue<? extends ButtonType> observable, ButtonType oldValue, ButtonType newValue ) -> {
+                if ( observable.getValue().equals( stopButtonType ) ) {
                     isAlarmSet = false;
                     toggleAlarm();
-                } else if (observable.getValue().equals(pauseButtonType)) {
-                    alarmTime.getMinute().setValue(alarmTime.getMinute().getValue() + 9);
-                    alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
+                } else if ( observable.getValue().equals( pauseButtonType ) ) {
+                    alarmTime.getMinute().setValue(
+                            alarmTime.getMinute().getValue() + 9 );
+                    alarmToggleButton.setText( "Set to "
+                            + alarmTime.getAlarmTimeString() );
                 }
-            });
+            } );
         }
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        timeline.setCycleCount(Timeline.INDEFINITE);
+    public void initialize( URL url, ResourceBundle rb ) {
+        timeline.setCycleCount( Timeline.INDEFINITE );
         //bind label with time
-        timeLabel.textProperty().bind(time.totalTimeStringProperty());
+        hourLabel.textProperty().bind( hour.asStringBinding() );
+        minLabel.textProperty().bind( minute.asStringBinding() );
+        secLabel.textProperty().bind( second.asStringBinding() );
         //bind label with day
-        weekdayLabel.textProperty().bind(time.weekdayStringProperty());
+        weekdayLabel.textProperty().bind( weekday.dayStringProperty());
         //bind date
-        dateLabel.textProperty().bind(time.getDate().dateStringProperty());
+        dateLabel.textProperty().bind( time.dateStringProperty() );
         //add actions to timeLine
-        timeline.getKeyFrames().add(new KeyFrame(javafx.util.Duration.seconds(1), (ActionEvent event) -> {
+        timeline.getKeyFrames().add( new KeyFrame(
+                javafx.util.Duration.seconds( 1 ), ( ActionEvent event ) -> {
             //update second
-            time.tick();
+            this.tick();
             //check alarmtime
             checkAlarm();
-            System.out.println(time.getWeekday() + ", " + time.toString()); //toString is nicer readable
+            System.out.println( time.getWeekday() + ", " + time.toString() ); //toString is nicer readable
         } //we define what should happen every second
-        ));
+        ) );
         //start cllock first time
         startStopAction();
     }
 
+    void tick() {
+        second.increment();
+    }
 }

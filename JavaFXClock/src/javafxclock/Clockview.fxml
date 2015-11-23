@@ -10,30 +10,38 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" styleClass="timeLabel" stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
     <children>
-        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="Set Alarm!" />
+        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="Set Alarm!" textOverrun="CLIP" />
         <Label id="weekdayLabel" fx:id="weekdayLabel" layoutX="668.0" layoutY="162.0" text="DDD" />
-        <Label id="timeLabel" fx:id="timeLabel" layoutX="337.0" layoutY="244.0" text="HH:MM:SS" />
         <Label id="dateLabel" fx:id="dateLabel" layoutX="452.0" layoutY="392.0" text="D. MMM YYYY" />
         <Button id="settingsButton" fx:id="settingsButton" layoutX="14.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleSettingsButtonAction" text="Settings" />
         <ToggleButton id="startStopToggleButton" fx:id="startStopToggleButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleStartStopToggleButtonAction" text="Start/Stop" />
         <HBox id="settingsHBox" fx:id="settingsHBox" layoutX="175.0" layoutY="553.0" prefHeight="27.0" prefWidth="720.0" visible="false">
             <children>
-                <Button id="syncButton" fx:id="syncButton" mnemonicParsing="false" onAction="#handleSyncButtonAction" text="Synchronize with PC" />
+                <Button id="syncButton" fx:id="syncButton" mnemonicParsing="false" onAction="#handleSyncButtonAction" text="Sync to Wall Clock" />
                 <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                <Button id="addHourButton" fx:id="addHourButton" mnemonicParsing="false" onAction="#handleIncrementAction" text="Add Hour" />
-                <Button id="minusHourButton" fx:id="minusHourButton" mnemonicParsing="false" onAction="#handleDecrementAction" text="Minus Hour" />
+                <Button id="addHourButton" fx:id="addHourButton" mnemonicParsing="false" onAction="#incrementHours" text="++ Hr" />
+                <Button id="minusHourButton" fx:id="minusHourButton" mnemonicParsing="false" onAction="#decrementHours" text="-- Hr" />
                 <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                <Button id="addMinuteButton" fx:id="addMinuteButton" mnemonicParsing="false" onAction="#handleIncrementAction" text="Add Minute" />
-                <Button id="minusMinuteButton" fx:id="minusMinuteButton" mnemonicParsing="false" onAction="#handleDecrementAction" text="Minus Minute" />
+                <Button id="addMinuteButton" fx:id="addMinuteButton" mnemonicParsing="false" onAction="#incrementMinutes" text="++ Min" />
+                <Button id="minusMinuteButton" fx:id="minusMinuteButton" mnemonicParsing="false" onAction="#decrementMinutes" text="-- Min" />
                 <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                <Button id="addSecondButton" fx:id="addSecondButton" mnemonicParsing="false" onAction="#handleIncrementAction" text="Add Second" />
-                <Button id="minusSecondButton" fx:id="minusSecondButton" mnemonicParsing="false" onAction="#handleDecrementAction" text="Minus Second" />
+                <Button id="addSecondButton" fx:id="addSecondButton" mnemonicParsing="false" onAction="#incrementSeconds" text="++ Sec" />
+                <Button id="minusSecondButton" fx:id="minusSecondButton" mnemonicParsing="false" onAction="#decrementSeconds" text="-- Sec" />
             </children>
             <opaqueInsets>
                 <Insets />
             </opaqueInsets>
+        </HBox>
+        <HBox layoutX="359.0" layoutY="287.0" id="timeBox" fx:id="timeBox">
+            <children>
+                <Label id="hourLabel" fx:id="hourLabel" styleClass="timeLabel" text="HH" textOverrun="CLIP" />
+                <Label id="colon1" fx:id="colon1" styleClass="timeLabel" text=":" />
+                <Label id="minLabel" fx:id="minLabel" styleClass="timeLabel" text="MM" textOverrun="CLIP" />
+                <Label id="colon2" fx:id="colon2" styleClass="timeLabel" text=":" />
+                <Label id="secLabel" fx:id="secLabel" styleClass="timeLabel" text="SS" textOverrun="CLIP" />
+            </children>
         </HBox>
     </children>
 </AnchorPane>

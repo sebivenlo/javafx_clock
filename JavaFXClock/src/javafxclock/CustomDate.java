@@ -15,13 +15,16 @@ import javafx.beans.value.ObservableValue;
  */
 public final class CustomDate extends Date {
 
-    private final IntegerProperty dateDay = new SimpleIntegerProperty(1);
+    private final IntegerProperty dateDay = new SimpleIntegerProperty( 1 );
 
     private StringProperty monthString;
-    private String[] daysStrArr = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OKT", "NOV", "DEZ"};
-    private Integer[] daysIntArr = new Integer[]{31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    private final IntegerProperty dateMonth = new SimpleIntegerProperty(1);
-    private final IntegerProperty dateYear = new SimpleIntegerProperty(1);
+    private String[] daysStrArr
+            = new String[]{"JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL",
+                "AUG", "SEP", "OKT", "NOV", "DEZ"};
+    private Integer[] daysIntArr = new Integer[]{31, 28, 31, 30, 31, 30, 31, 31,
+        30, 31, 30, 31};
+    private final IntegerProperty dateMonth = new SimpleIntegerProperty( 1 );
+    private final IntegerProperty dateYear = new SimpleIntegerProperty( 1 );
     private final StringProperty dateString = new SimpleStringProperty();
 
     /**
@@ -30,7 +33,7 @@ public final class CustomDate extends Date {
     public CustomDate() {
         bind();
         sync();
-        
+
     }
 
     /**
@@ -45,8 +48,8 @@ public final class CustomDate extends Date {
      *
      * @param value
      */
-    public void setDateDay(int value) {
-        dateDay.set(value);
+    public void setDateDay( int value ) {
+        dateDay.set( value );
     }
 
     /**
@@ -69,8 +72,8 @@ public final class CustomDate extends Date {
      *
      * @param value
      */
-    public void setDateMonth(int value) {
-        dateMonth.set(value);
+    public void setDateMonth( int value ) {
+        dateMonth.set( value );
     }
 
     /**
@@ -93,8 +96,8 @@ public final class CustomDate extends Date {
      *
      * @param value
      */
-    public void setDateYear(int value) {
-        dateYear.set(value);
+    public void setDateYear( int value ) {
+        dateYear.set( value );
     }
 
     /**
@@ -117,8 +120,8 @@ public final class CustomDate extends Date {
      *
      * @param value
      */
-    public void setDateString(String value) {
-        dateString.set(value);
+    public void setDateString( String value ) {
+        dateString.set( value );
     }
 
     /**
@@ -134,7 +137,7 @@ public final class CustomDate extends Date {
      */
     public void incrementDay() {
         int oldDay = getDateDay();
-        setDateDay(oldDay + 1);
+        setDateDay( oldDay + 1 );
     }
 
     /**
@@ -142,7 +145,7 @@ public final class CustomDate extends Date {
      */
     public void decrementDay() {
         int oldDay = getDateDay();
-        setDateDay(oldDay - 1);
+        setDateDay( oldDay - 1 );
     }
 
     /**
@@ -150,17 +153,18 @@ public final class CustomDate extends Date {
      */
     public void sync() {
         Calendar c = Calendar.getInstance();
-        setDateDay(c.get(Calendar.DAY_OF_MONTH));
-        setDateMonth(c.get(Calendar.MONTH));
-        setDateYear(c.get(Calendar.YEAR));
-        dateString.bind(dateDayProperty().asString().concat(".").concat(monthString).concat(".").concat(dateYearProperty().asString()));
-
+        setDateDay( c.get( Calendar.DAY_OF_MONTH ) );
+        setDateMonth( c.get( Calendar.MONTH ) );
+        setDateYear( c.get( Calendar.YEAR ) );
+        dateString.bind( dateDayProperty().asString().concat( "." ).concat( 
+                monthString ).concat( "." ).concat( 
+                dateYearProperty().asString() ) );
     }
 
     private void bind() {
 
-        monthString = new SimpleStringProperty("JAN");
-        monthString.setValue(daysStrArr[getMonth()]);
+        monthString = new SimpleStringProperty( "JAN" );
+        monthString.setValue( daysStrArr[getMonth()] );
 
     }
 
@@ -168,39 +172,42 @@ public final class CustomDate extends Date {
      *
      */
     public void addChangeListener() {
-        dateDay.addListener(new ChangeListener<Object>() {
+        dateDay.addListener( new ChangeListener<Object>() {
 
             @Override
-            public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+            public void changed( ObservableValue<? extends Object> observable,
+                    Object oldValue, Object newValue ) {
                 int max = daysIntArr[getDateMonth() - 1];
-                if ((int) newValue > max) {
+                if ( (int) newValue > max ) {
                     int oldMonth = getDateMonth();
-                    setDateDay(oldMonth + 1);
-                    monthString = new SimpleStringProperty(daysStrArr[getMonth()]);
+                    setDateDay( oldMonth + 1 );
+                    monthString = new SimpleStringProperty( 
+                            daysStrArr[getMonth()] );
 
                 }
 
             }
 
-        });
-        dateMonth.addListener(new ChangeListener<Object>() {
+        } );
+        dateMonth.addListener( new ChangeListener<Object>() {
 
             @Override
-            public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
-                if ((int) newValue > 12) {
-                    setDateMonth(1);
+            public void changed( ObservableValue<? extends Object> observable,
+                    Object oldValue, Object newValue ) {
+                if ( (int) newValue > 12 ) {
+                    setDateMonth( 1 );
                     int oldYear = getYear();
-                    setYear(oldYear + 1);
+                    setYear( oldYear + 1 );
                 }
 
-                if ((int) newValue < 0) {
-                    setDateMonth(0);
-                    monthString = new SimpleStringProperty(daysStrArr[getMonth()]);
+                if ( (int) newValue < 0 ) {
+                    setDateMonth( 0 );
+                    monthString = new SimpleStringProperty( 
+                            daysStrArr[getMonth()] );
                 }
             }
 
-        });
+        } );
     }
-
 
 }
