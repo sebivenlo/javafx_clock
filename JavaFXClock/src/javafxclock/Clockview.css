@@ -39,6 +39,10 @@
     /*    -fx-font-size: 90px;*/
     -fx-text-alignment: center;
 }
+.alarmLabel {
+    -fx-text-fill: red;
+    
+}
 #timeBox{-fx-font-size: 90px;}
 #dateLabel {
     -fx-font-style: Condensed Bold;

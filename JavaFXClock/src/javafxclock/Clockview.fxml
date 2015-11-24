@@ -10,7 +10,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" styleClass="timeLabel" stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" 
+            id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" styleClass="timeLabel" 
+            stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" fx:controller="javafxclock.ClockviewController">
     <children>
         <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="956.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="Set Alarm!" textOverrun="CLIP" />
         <Label id="weekdayLabel" fx:id="weekdayLabel" layoutX="668.0" layoutY="162.0" text="DDD" />
@@ -43,5 +45,14 @@
                 <Label id="secLabel" fx:id="secLabel" styleClass="timeLabel" text="SS" textOverrun="CLIP" />
             </children>
         </HBox>
-    </children>
+        <HBox id="alarmBox" fx:id="alarmBox" layoutX="359.0" layoutY="387.0">
+            <children>
+                <Label id="alarmHourLabel" fx:id="alarmHourLabel" styleClass="alarmLabel" text="HH" textOverrun="CLIP" />
+                <Label id="colon3" fx:id="colon3" styleClass="timeLabel" text=":" />
+                <Label id="alarmMinLabel" fx:id="alarmMinLabel" styleClass="alarmLabel" text="MM" textOverrun="CLIP" />
+                
+            </children>
+        </HBox>
+           
+        </children>
 </AnchorPane>

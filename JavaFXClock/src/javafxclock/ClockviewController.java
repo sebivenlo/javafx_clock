@@ -48,8 +48,16 @@ public class ClockviewController implements Initializable {
     @FXML
     private Label dateLabel;
 //    private final Timeline timeline = new Timeline();
-    private final Time time = new Time();
-    private Time alarmTime = new Time();
+    
+    private TimeUnit alarmHour = new TimeUnit(24).named( "ah");
+    @FXML
+    private Label alarmHourLabel;
+    
+    private TimeUnit alarmMinute = new TimeUnit(60).named( "am");;
+    @FXML
+    private Label alarmMinLabel;
+//    private final Time time = new Time();
+//    private Time alarmTime = new Time();
     private boolean ticking = false;
     private boolean isAlarmSet = false;
 
@@ -108,42 +116,42 @@ public class ClockviewController implements Initializable {
         } else {
             // alarmTime = new Time(time.getHour().getValue(), time.getMinute().getValue(), 0, time.getWeekday().getValue(), time.getDate());
             alarmToggleButton.setText( "Set to "
-                    + alarmTime.getAlarmTimeString() );
+                    + alarmHourLabel.getText()+ ':'+ alarmMinLabel.getText());
         }
     }
 
     private void checkAlarm() {
-        if ( isAlarmSet && ( time.equals( alarmTime ) ) ) {
+        if (! minute.equals( alarmMinute)) return ;
+        if (! hour.equals( alarmHour)) return;
             AlarmPlayer.playAlarmSound();
 
-            Alert alarmAlert = new Alert( Alert.AlertType.CONFIRMATION );
-            alarmAlert.setTitle( "ALARM" );
-            alarmAlert.setHeaderText( "!!!!!!ALARM ALARM ALARM!!!!!!" );
-            alarmAlert.setContentText( "Do you want to end or pause the alarm?" );
-
-            ButtonType pauseButtonType = new ButtonType( "Pause",
-                    ButtonData.CANCEL_CLOSE );
-            ButtonType stopButtonType = new ButtonType( "Stop",
-                    ButtonData.OK_DONE );
-
-            alarmAlert.getButtonTypes().setAll( pauseButtonType, stopButtonType );
-
-            alarmAlert.show();
-            alarmAlert.resultProperty().addListener(
-                    ( ObservableValue<? extends ButtonType> observable, ButtonType oldValue, ButtonType newValue ) -> {
-                if ( observable.getValue().equals( stopButtonType ) ) {
-                    isAlarmSet = false;
-                    toggleAlarm();
-                } else if ( observable.getValue().equals( pauseButtonType ) ) {
-                    alarmTime.getMinute().setValue(
-                            alarmTime.getMinute().getValue() + 9 );
-                    alarmToggleButton.setText( "Set to "
-                            + alarmTime.getAlarmTimeString() );
-                }
-            } );
-        }
+//            Alert alarmAlert = new Alert( Alert.AlertType.CONFIRMATION );
+//            alarmAlert.setTitle( "ALARM" );
+//            alarmAlert.setHeaderText( "!!!!!!ALARM ALARM ALARM!!!!!!" );
+//            alarmAlert.setContentText( "Do you want to end or pause the alarm?" );
+//
+//            ButtonType pauseButtonType = new ButtonType( "Pause",
+//                    ButtonData.CANCEL_CLOSE );
+//            ButtonType stopButtonType = new ButtonType( "Stop",
+//                    ButtonData.OK_DONE );
+//
+//            alarmAlert.getButtonTypes().setAll( pauseButtonType, stopButtonType );
+//
+//            alarmAlert.show();
+//            alarmAlert.resultProperty().addListener(
+//                    ( ObservableValue<? extends ButtonType> observable, ButtonType oldValue, ButtonType newValue ) -> {
+//                if ( observable.getValue().equals( stopButtonType ) ) {
+//                    isAlarmSet = false;
+//                    toggleAlarm();
+//                } else if ( observable.getValue().equals( pauseButtonType ) ) {
+//                    alarmTime.getMinute().setValue(
+//                            alarmTime.getMinute().getValue() + 9 );
+//                    alarmToggleButton.setText( "Set to "
+//                            + alarmTime.getAlarmTimeString() );
+//                }
+//            } );
     }
-    TickerHelper tickerHelper;
+    private TickerHelper tickerHelper;
 
     @Override
     public void initialize( URL url, ResourceBundle rb ) {
@@ -154,7 +162,9 @@ public class ClockviewController implements Initializable {
         //bind label with day
         weekdayLabel.textProperty().bind( weekday.dayStringProperty() );
         //bind date
-        dateLabel.textProperty().bind( time.dateStringProperty() );
+        //dateLabel.textProperty().bind( time.dateStringProperty() );
+        alarmHourLabel.textProperty().bind( alarmHour.asStringBinding());
+        alarmMinLabel.textProperty().bind( alarmMinute.asStringBinding());
         tickerHelper = new TickerHelper( this::tick );
         tickerHelper.start();
         Platform.runLater( this::sync );
@@ -170,6 +180,7 @@ public class ClockviewController implements Initializable {
         minute.setValue( syncTime.getMinute() );
         second.setValue( syncTime.getSecond() );
         weekday.setValue( syncTime.getDayOfWeek().getValue() );
+        
     }
 
     void tick() {

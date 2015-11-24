@@ -85,7 +85,7 @@ public class Time {
     /**
      * Set the hour.
      *
-     * @param hour
+     * @param hour to set
      */
     public void setHour( TimeUnit hour ) {
         this.hour = hour;
@@ -94,7 +94,7 @@ public class Time {
     /**
      * Get the minute.
      *
-     * @return
+     * @return the 
      */
     public TimeUnit getMinute() {
         return minute;
