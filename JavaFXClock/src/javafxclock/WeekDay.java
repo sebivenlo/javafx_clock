@@ -77,4 +77,17 @@ public class WeekDay extends TimeUnit {
         dayString.set( toString() );
     }
 
+    @Override
+    public void setValue( int value ) {
+        super.setValue( value ); 
+        dayString.set( toString() );
+    }
+
+    @Override
+    public WeekDay named( String n ) {
+        super.named( n );
+        return this;
+    }
+
+    
 }

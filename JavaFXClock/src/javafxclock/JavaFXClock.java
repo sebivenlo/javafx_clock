@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author Ron Gebauer <mail@ron.gebauers.org>
+ * @author Ron Gebauer 
  * @version 1
  */
 public class JavaFXClock extends Application {
@@ -29,6 +29,11 @@ public class JavaFXClock extends Application {
         stage.setTitle("Clock");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() throws Exception {
+        ClockviewController.INSTANCE.stopApp();
     }
 
 }

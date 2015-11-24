@@ -1,9 +1,12 @@
 package javafxclock;
 
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,25 +18,27 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
+import nl.fontys.sebivenlo.tickerhelper.TickerHelper;
 
 /**
- * @author Ron Gebauer <mail@ron.gebauers.org>
+ * @author Ron Gebauer &lt;mail@ron.gebauers.org&gt;
  * @version 1
  */
 public class ClockviewController implements Initializable {
 
     private WeekDay weekday = new WeekDay( 7 );
+    
     @FXML
     private Label weekdayLabel;
     @FXML
     private HBox settingsHBox;
-    TimeUnit hour = new TimeUnit( 24 ).named("h").setNext( weekday );
+    TimeUnit hour = new TimeUnit( 24 ).named( "h" ).setNext( weekday );
     @FXML
     private Label hourLabel;
-    TimeUnit minute = new TimeUnit( 60 ).named("m").setNext( hour );
+    TimeUnit minute = new TimeUnit( 60 ).named( "m" ).setNext( hour );
     @FXML
     private Label minLabel;
-    TimeUnit second = new TimeUnit( 60 ).named("s").setNext( minute );
+    TimeUnit second = new TimeUnit( 60 ).named( "s" ).setNext( minute );
     @FXML
     private Label secLabel;
 
@@ -42,7 +47,7 @@ public class ClockviewController implements Initializable {
 
     @FXML
     private Label dateLabel;
-    private final Timeline timeline = new Timeline();
+//    private final Timeline timeline = new Timeline();
     private final Time time = new Time();
     private Time alarmTime = new Time();
     private boolean ticking = false;
@@ -55,7 +60,7 @@ public class ClockviewController implements Initializable {
 
     @FXML
     private void handleSyncButtonAction( ActionEvent event ) {
-        time.sync();
+        this.sync();
     }
 
     @FXML
@@ -107,24 +112,6 @@ public class ClockviewController implements Initializable {
         }
     }
 
-    @FXML
-    private void handleStartStopToggleButtonAction( ActionEvent event ) {
-        startStopAction();
-    }
-
-    /**
-     * starts and stops the timeline animation
-     */
-    private void startStopAction() {
-        if ( ticking ) {
-            timeline.pause();
-            ticking = false;
-        } else {
-            timeline.play();
-            ticking = true;
-        }
-    }
-
     private void checkAlarm() {
         if ( isAlarmSet && ( time.equals( alarmTime ) ) ) {
             AlarmPlayer.playAlarmSound();
@@ -156,33 +143,47 @@ public class ClockviewController implements Initializable {
             } );
         }
     }
+    TickerHelper tickerHelper;
 
     @Override
     public void initialize( URL url, ResourceBundle rb ) {
-        timeline.setCycleCount( Timeline.INDEFINITE );
         //bind label with time
         hourLabel.textProperty().bind( hour.asStringBinding() );
         minLabel.textProperty().bind( minute.asStringBinding() );
         secLabel.textProperty().bind( second.asStringBinding() );
         //bind label with day
-        weekdayLabel.textProperty().bind( weekday.dayStringProperty());
+        weekdayLabel.textProperty().bind( weekday.dayStringProperty() );
         //bind date
         dateLabel.textProperty().bind( time.dateStringProperty() );
-        //add actions to timeLine
-        timeline.getKeyFrames().add( new KeyFrame(
-                javafx.util.Duration.seconds( 1 ), ( ActionEvent event ) -> {
-            //update second
-            this.tick();
-            //check alarmtime
-            checkAlarm();
-            System.out.println( time.getWeekday() + ", " + time.toString() ); //toString is nicer readable
-        } //we define what should happen every second
-        ) );
-        //start cllock first time
-        startStopAction();
+        tickerHelper = new TickerHelper( this::tick );
+        tickerHelper.start();
+        Platform.runLater( this::sync );
+
+    }
+
+    /**
+     *
+     */
+    public void sync() {
+        LocalDateTime syncTime = LocalDateTime.now();
+        hour.setValue( syncTime.getHour() );
+        minute.setValue( syncTime.getMinute() );
+        second.setValue( syncTime.getSecond() );
+        weekday.setValue( syncTime.getDayOfWeek().getValue() );
     }
 
     void tick() {
-        second.increment();
+        Platform.runLater( second::increment );
     }
+
+    public void stopApp() {
+        tickerHelper.stop();
+    }
+
+    static ClockviewController INSTANCE;
+
+    public ClockviewController() {
+        INSTANCE = this;
+    }
+
 }

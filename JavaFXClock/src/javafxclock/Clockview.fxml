@@ -12,11 +12,11 @@
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" styleClass="timeLabel" stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
     <children>
-        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="Set Alarm!" textOverrun="CLIP" />
+        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="956.0" layoutY="546.0" mnemonicParsing="false" onAction="#handleAlarmToggleButtonAction" text="Set Alarm!" textOverrun="CLIP" />
         <Label id="weekdayLabel" fx:id="weekdayLabel" layoutX="668.0" layoutY="162.0" text="DDD" />
         <Label id="dateLabel" fx:id="dateLabel" layoutX="452.0" layoutY="392.0" text="D. MMM YYYY" />
         <Button id="settingsButton" fx:id="settingsButton" layoutX="14.0" layoutY="553.0" mnemonicParsing="false" onAction="#handleSettingsButtonAction" text="Settings" />
-        <ToggleButton id="startStopToggleButton" fx:id="startStopToggleButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleStartStopToggleButtonAction" text="Start/Stop" />
+<!--        <ToggleButton id="startStopToggleButton" fx:id="startStopToggleButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleStartStopToggleButtonAction" text="Start/Stop" />-->
         <HBox id="settingsHBox" fx:id="settingsHBox" layoutX="175.0" layoutY="553.0" prefHeight="27.0" prefWidth="720.0" visible="false">
             <children>
                 <Button id="syncButton" fx:id="syncButton" mnemonicParsing="false" onAction="#handleSyncButtonAction" text="Sync to Wall Clock" />
@@ -34,7 +34,7 @@
                 <Insets />
             </opaqueInsets>
         </HBox>
-        <HBox layoutX="359.0" layoutY="287.0" id="timeBox" fx:id="timeBox">
+        <HBox id="timeBox" fx:id="timeBox" layoutX="359.0" layoutY="287.0">
             <children>
                 <Label id="hourLabel" fx:id="hourLabel" styleClass="timeLabel" text="HH" textOverrun="CLIP" />
                 <Label id="colon1" fx:id="colon1" styleClass="timeLabel" text=":" />
