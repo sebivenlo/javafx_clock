@@ -31,4 +31,9 @@ public class JavaFXClock extends Application {
         stage.show();
     }
 
+    @Override
+    public void stop() throws Exception {
+        ClockviewController.INSTANCE.stopApp();
+    }
+
 }

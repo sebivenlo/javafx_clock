@@ -1,6 +1,9 @@
 package javafxclock;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+import javafx.beans.binding.StringBinding;
+import javafx.event.ActionEvent;
 
 /**
  *
@@ -8,30 +11,25 @@ import java.time.LocalDateTime;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class Time implements Comparable<Time> {
+public class Time {
 
-    private final TimeUnit hourTimeUnit;
-    private final TimeUnit minuteTimeUnit;
-    private final TimeUnit secondTimeUnit;
-    private final Weekday weekdayTimeUnit;
-    private final CustomDate customDate;
+    private final DayOfWeek dayOfWeek = new DayOfWeek(7);
+    private final TimeUnit hour = new TimeUnit(24).named("hour").setNext(dayOfWeek);
+    private final TimeUnit minute = new TimeUnit(60).named("minute").setNext(hour);
+    private final TimeUnit second = new TimeUnit(60).named("second").setNext(minute);
 
     /**
      *
      * @param hour
      * @param minute
      * @param second
-     * @param weekday
-     * @param date
+     * @param dayOfWeek
      */
-    public Time(int hour, int minute, int second, int weekday, CustomDate date) {
-        this.hourTimeUnit = new TimeUnit(hour, 24);
-        this.minuteTimeUnit = new TimeUnit(minute, 60);
-        this.secondTimeUnit = new TimeUnit(second, 60);
-        this.weekdayTimeUnit = new Weekday(weekday, 7);
-        this.customDate = date;
-
-        addChangeListeners();
+    public Time(int hour, int minute, int second, int dayOfWeek) {
+        this.hour.setValue(hour);
+        this.minute.setValue(minute);
+        this.second.setValue(second);
+        this.dayOfWeek.setValue(dayOfWeek);
     }
 
     /**
@@ -41,109 +39,115 @@ public class Time implements Comparable<Time> {
         this(LocalDateTime.now().getHour(),
                 LocalDateTime.now().getMinute(),
                 LocalDateTime.now().getSecond(),
-                LocalDateTime.now().getDayOfWeek().getValue(),
-                new CustomDate());
-    }
-
-    private void addChangeListeners() {
-        getHourTimeUnit().valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (getHourTimeUnit().isNext()) {
-                getWeekdayTimeUnit().increment();
-                getCustomDate().incrementDay();
-            } else if (getHourTimeUnit().isPrevious()) {
-                getWeekdayTimeUnit().decrement();
-                getCustomDate().decrementDay();
-            }
-        });
-
-        getMinuteTimeUnit().valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (getMinuteTimeUnit().isNext()) {
-                getHourTimeUnit().increment();
-            } else if (getMinuteTimeUnit().isPrevious()) {
-                getHourTimeUnit().decrement();
-            }
-        });
-
-        getSecondTimeUnit().valueProperty().addListener((observable, oldValue, newValue) -> {
-            if (getSecondTimeUnit().isNext()) {
-                getMinuteTimeUnit().increment();
-            } else if (getSecondTimeUnit().isPrevious()) {
-                getMinuteTimeUnit().decrement();
-            }
-        });
+                LocalDateTime.now().getDayOfWeek().getValue());
     }
 
     /**
      *
      * @return
      */
-    public TimeUnit getHourTimeUnit() {
-        return hourTimeUnit;
+    public StringBinding getWeekday() {
+        return dayOfWeek.asStringBinding();
     }
 
     /**
      *
      * @return
      */
-    public TimeUnit getMinuteTimeUnit() {
-        return minuteTimeUnit;
+    public StringBinding getHour() {
+        return hour.asStringBinding();
+    }
+
+    public void hourIncrement(ActionEvent event) {
+        hour.increment();
+    }
+
+    public void hourDecrement(ActionEvent event) {
+        hour.decrement();
     }
 
     /**
      *
      * @return
      */
-    public TimeUnit getSecondTimeUnit() {
-        return secondTimeUnit;
+    public StringBinding getMinute() {
+        return minute.asStringBinding();
+    }
+
+    public void minuteIncrement(ActionEvent event) {
+        minute.increment();
+    }
+
+    public void minuteDecrement(ActionEvent event) {
+        minute.decrement();
     }
 
     /**
      *
      * @return
      */
-    public Weekday getWeekdayTimeUnit() {
-        return weekdayTimeUnit;
+    public StringBinding getSecond() {
+        return second.asStringBinding();
+    }
+
+    public void secondIncrement(ActionEvent event) {
+        second.increment();
+    }
+
+    public void secondDecrement(ActionEvent event) {
+        second.decrement();
     }
 
     /**
      *
-     * @return
+     * @param event
      */
-    public CustomDate getCustomDate() {
-        return customDate;
-    }
-
-    /**
-     *
-     */
-    public void sync() {
+    public void sync(ActionEvent event) {
         LocalDateTime syncTime = LocalDateTime.now();
-        getHourTimeUnit().setValue(syncTime.getHour());
-        getMinuteTimeUnit().setValue(syncTime.getMinute());
-        getSecondTimeUnit().setValue(syncTime.getSecond());
-        getWeekdayTimeUnit().setValue(syncTime.getDayOfWeek().getValue());
-        getCustomDate().sync();
+        hour.setValue(syncTime.getHour());
+        minute.setValue(syncTime.getMinute());
+        second.setValue(syncTime.getSecond());
+        dayOfWeek.setValue(syncTime.getDayOfWeek().getValue());
     }
 
     /**
      *
      */
     public void tick() {
-        getSecondTimeUnit().increment();
+        second.increment();
     }
 
     @Override
-    public int compareTo(Time time) {
-        StringBuilder stringBuilder1 = new StringBuilder();
-        stringBuilder1.append(this.getHourTimeUnit().getValue());
-        stringBuilder1.append(this.getMinuteTimeUnit().getValue());
-        stringBuilder1.append(this.getSecondTimeUnit().getValue());
+    public boolean equals(Object object) {
+        if (this == object) {
+            return true;
+        }
 
-        StringBuilder stringBuilder2 = new StringBuilder();
-        stringBuilder2.append(time.getHourTimeUnit().getValue());
-        stringBuilder2.append(time.getMinuteTimeUnit().getValue());
-        stringBuilder2.append(time.getSecondTimeUnit().getValue());
+        if (object == null) {
+            return false;
+        }
 
-        return stringBuilder1.toString().compareToIgnoreCase(stringBuilder2.toString());
+        if (getClass() != object.getClass()) {
+            return false;
+        }
+
+        final Time other = (Time) object;
+        if (hour.getValue() == other.hour.getValue()) {
+            if (minute.getValue() == other.minute.getValue()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(hour);
+        hash = 97 * hash + Objects.hashCode(minute);
+        hash = 97 * hash + Objects.hashCode(second);
+        hash = 97 * hash + Objects.hashCode(dayOfWeek);
+        return hash;
     }
 }
