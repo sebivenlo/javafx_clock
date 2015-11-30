@@ -13,25 +13,15 @@ public class DayOfWeek extends TimeUnit {
 
     private static final String[] DAYS_OF_WEEK_EN = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
 
-    private final StringProperty dayOfWeekAsString = new SimpleStringProperty();
-
-    /**
-     *
-     * @param value
-     * @param limit
-     */
-    public DayOfWeek(int value, int limit) {
-        super(value, limit);
-        dayOfWeekAsString.set(DAYS_OF_WEEK_EN[value - 1]);
-    }
+    private final StringProperty dayOfWeek = new SimpleStringProperty();
 
     /**
      *
      * @param value
      */
     public DayOfWeek(int value) {
-        super(value, DAYS_OF_WEEK_EN.length);
-        dayOfWeekAsString.set(DAYS_OF_WEEK_EN[value - 1]);
+        super(value - 1, DAYS_OF_WEEK_EN.length);
+        dayOfWeek.set(DAYS_OF_WEEK_EN[value - 1]);
     }
 
     @Override
@@ -41,38 +31,33 @@ public class DayOfWeek extends TimeUnit {
     }
 
     public String getWeekday() {
-        return DAYS_OF_WEEK_EN[super.getValue() - 1];
-    }
-
-    public void setWeekday(int value) {
-        dayOfWeekAsString.set(DAYS_OF_WEEK_EN[value - 1]);
-    }
-
-    public StringProperty weekdayProperty() {
-        return dayOfWeekAsString;
-    }
-
-    @Override
-    public String toString() {
-        return DAYS_OF_WEEK_EN[getValue()];
-    }
-
-    @Override
-    public void decrement() {
-        super.decrement();
-        dayOfWeekAsString.set(toString());
-    }
-
-    @Override
-    public void increment() {
-        super.increment();
-        dayOfWeekAsString.set(toString());
+        return DAYS_OF_WEEK_EN[super.getValue()];
     }
 
     @Override
     public void setValue(int value) {
         super.setValue(value);
-        dayOfWeekAsString.set(toString());
+        dayOfWeek.set(toString());
     }
 
+    public StringProperty weekdayProperty() {
+        return dayOfWeek;
+    }
+
+    @Override
+    public String toString() {
+        return DAYS_OF_WEEK_EN[super.getValue()];
+    }
+
+    @Override
+    public void decrement() {
+        super.decrement();
+        dayOfWeek.set(toString());
+    }
+
+    @Override
+    public void increment() {
+        super.increment();
+        dayOfWeek.set(toString());
+    }
 }

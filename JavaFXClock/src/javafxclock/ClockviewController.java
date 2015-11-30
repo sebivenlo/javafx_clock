@@ -2,20 +2,17 @@ package javafxclock;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ObservableValue;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar.ButtonData;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.layout.HBox;
-import static javafx.util.Duration.seconds;
+import nl.fontys.sebivenlo.tickerhelper.TickerHelper;
 
 /**
  * @author Ron Gebauer <mail@ron.gebauers.org>
@@ -25,10 +22,13 @@ public class ClockviewController implements Initializable {
 
     @FXML
     private ToggleButton startStopToggleButton;
+    @FXML
+    private ToggleButton alarmToggleButton;
+    @FXML
+    private ToggleButton settingsToggleButton;
 
     @FXML
     private Label weekdayLabel;
-
     @FXML
     private Label hourLabel;
     @FXML
@@ -37,15 +37,8 @@ public class ClockviewController implements Initializable {
     private Label secondLabel;
 
     @FXML
-    private Label dateLabel;
-
-    @FXML
-    private ToggleButton alarmToggleButton;
-
-    @FXML
-    private ToggleButton settingsToggleButton;
-    @FXML
     private HBox settingsHBox;
+
     @FXML
     private Button syncButton;
     @FXML
@@ -64,21 +57,39 @@ public class ClockviewController implements Initializable {
     private final Timeline timeline = new Timeline();
 
     private final Time time = new Time();
-    private final Time alarmTime = new Time();
+    private Time alarmTime = new Time();
 
-    private boolean ticking = true;
-    private boolean isAlarmSet = false;
+    private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
 
-    private void toggleAlarm() {
-//        if (!isAlarmSet) {
-//            alarmToggleButton.setText("Set Alarm!");
-//            if (alarmToggleButton.isSelected()) {
-//                alarmToggleButton.setSelected(isAlarmSet);
-//            }
-//        } else {
-////            alarmTime = new Time(time.getHourTimeUnit().getValue(), time.getMinute().getValue(), 0, time.getWeekday().getValue(), time.getDate());
-////            alarmToggleButton.setText("Set to " + alarmTime.getAlarmTimeString());
-//        }
+    private TickerHelper tickerHelper;
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        initializeTimeline();
+        initializeLabels();
+        initializeButtons();
+    }
+
+    private void initializeTimeline() {
+//        timeline.setCycleCount(Timeline.INDEFINITE);
+//        timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event) -> {
+//            time.tick();
+//
+//            checkAlarm();
+//        }));
+//        timeline.play();
+
+        tickerHelper = new TickerHelper(this::tick);
+        tickerHelper.start();
+        Platform.runLater(time::sync);
+    }
+
+    void tick() {
+        Platform.runLater(time::second);
+    }
+
+    public void stopApp() {
+        tickerHelper.stop();
     }
 
     private void checkAlarm() {
@@ -108,73 +119,35 @@ public class ClockviewController implements Initializable {
 //        }
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        initializeTimeline();
-        initializeLabels();
-        initializeButtons();
-    }
-
-    private void initializeTimeline() {
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event) -> {
-            time.tick();
-
-            checkAlarm();
-        }));
-        timeline.play();
-    }
-
     private void initializeLabels() {
         //bind label with day
-        weekdayLabel.textProperty().bind(time.getWeekdayTimeUnit().weekdayProperty());
+        weekdayLabel.textProperty().bind(time.getWeekday());
         //bind label with time
-        hourLabel.textProperty().bind(time.getHourTimeUnit().valueProperty().asString("%02d"));
-        minuteLabel.textProperty().bind(time.getMinuteTimeUnit().valueProperty().asString("%02d"));
-        secondLabel.textProperty().bind(time.getSecondTimeUnit().valueProperty().asString("%02d"));
-        //bind date
-        dateLabel.textProperty().bind(time.getCustomDate().dateStringProperty());
+        hourLabel.textProperty().bind(time.getHour());
+        minuteLabel.textProperty().bind(time.getMinute());
+        secondLabel.textProperty().bind(time.getSecond());
     }
 
     private void initializeButtons() {
         startStopToggleButton.setOnAction((event) -> {
-            ticking = !ticking;
-            if (!ticking) {
-                timeline.pause();
-            } else {
-                timeline.play();
-            }
+            System.out.println(startStopToggleButton.selectedProperty());
+            stopApp();
         });
 
-        alarmToggleButton.setOnAction((event) -> {
-            isAlarmSet = !isAlarmSet;
-            toggleAlarm();
-        });
+        alarmToggleButton.setOnAction(this::setAlarmTime);
+        alarm.bind(alarmToggleButton.selectedProperty());
 
-        settingsToggleButton.setOnAction((event) -> {
-            settingsHBox.setVisible(!settingsHBox.isVisible());
-        });
-        syncButton.setOnAction((event) -> {
-            // syncronize time with local time
-            time.sync();
-        });
-        addHourButton.setOnAction((event) -> {
-            time.getHourTimeUnit().increment();
-        });
-        minusHourButton.setOnAction((event) -> {
-            time.getHourTimeUnit().decrement();
-        });
-        addMinuteButton.setOnAction((event) -> {
-            time.getMinuteTimeUnit().increment();
-        });
-        minusMinuteButton.setOnAction((event) -> {
-            time.getMinuteTimeUnit().decrement();
-        });
-        addSecondButton.setOnAction((event) -> {
-            time.getSecondTimeUnit().increment();
-        });
-        minusSecondButton.setOnAction((event) -> {
-            time.getSecondTimeUnit().decrement();
-        });
+        settingsHBox.visibleProperty().bind(settingsToggleButton.selectedProperty());
+        syncButton.setOnAction(time::sync);
+        addHourButton.setOnAction(time::hourIncrement);
+        minusHourButton.setOnAction(time::hourDecrement);
+        addMinuteButton.setOnAction(time::minuteIncrement);
+        minusMinuteButton.setOnAction(time::minuteDecrement);
+        addSecondButton.setOnAction(time::secondIncrement);
+        minusSecondButton.setOnAction(time::secondDecrement);
+    }
+
+    private void setAlarmTime(ActionEvent event) {
+        alarmTime = new Time();
     }
 }

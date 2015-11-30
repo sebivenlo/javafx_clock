@@ -20,9 +20,13 @@ public class JavaFXClock extends Application {
         launch(args);
     }
 
+    FXMLLoader fXMLLoader = new FXMLLoader();
+
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Clockview.fxml"));
+        fXMLLoader.setLocation(getClass().getResource("Clockview.fxml"));
+
+        Parent root = fXMLLoader.load();
 
         Scene scene = new Scene(root);
 
@@ -33,7 +37,9 @@ public class JavaFXClock extends Application {
 
     @Override
     public void stop() throws Exception {
-        ClockviewController.INSTANCE.stopApp();
+        ClockviewController clockviewController = (ClockviewController) fXMLLoader.getController();
+
+        clockviewController.stopApp();
     }
 
 }

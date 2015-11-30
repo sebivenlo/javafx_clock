@@ -3,6 +3,7 @@ package javafxclock;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import javafx.beans.binding.StringBinding;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 
 /**
@@ -13,7 +14,7 @@ import javafx.event.ActionEvent;
  */
 public class Time {
 
-    private final DayOfWeek dayOfWeek = new DayOfWeek(7);
+    private final DayOfWeek dayOfWeek = new DayOfWeek(7).named("weekday");
     private final TimeUnit hour = new TimeUnit(24).named("hour").setNext(dayOfWeek);
     private final TimeUnit minute = new TimeUnit(60).named("minute").setNext(hour);
     private final TimeUnit second = new TimeUnit(60).named("second").setNext(minute);
@@ -46,8 +47,8 @@ public class Time {
      *
      * @return
      */
-    public StringBinding getWeekday() {
-        return dayOfWeek.asStringBinding();
+    public StringProperty getWeekday() {
+        return dayOfWeek.weekdayProperty();
     }
 
     /**
@@ -86,6 +87,14 @@ public class Time {
      *
      * @return
      */
+    public TimeUnit second() {
+        return second;
+    }
+
+    /**
+     *
+     * @return
+     */
     public StringBinding getSecond() {
         return second.asStringBinding();
     }
@@ -103,11 +112,15 @@ public class Time {
      * @param event
      */
     public void sync(ActionEvent event) {
+        sync();
+    }
+
+    public void sync() {
         LocalDateTime syncTime = LocalDateTime.now();
         hour.setValue(syncTime.getHour());
         minute.setValue(syncTime.getMinute());
         second.setValue(syncTime.getSecond());
-        dayOfWeek.setValue(syncTime.getDayOfWeek().getValue());
+        dayOfWeek.setValue(syncTime.getDayOfWeek().getValue() - 1);
     }
 
     /**
