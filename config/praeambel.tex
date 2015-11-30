@@ -12,8 +12,6 @@
 \usepackage{pgfpages}
 \usepackage{handoutWithNotes}
 
-\pgfpagesuselayout{resize to}[a4paper,border shrink=5mm,landscape]
-
 
 \usetheme{Hannover}
 \usecolortheme{orchid}
@@ -24,7 +22,9 @@
 
 \setbeamercovered{transparent}
 \setbeamertemplate{footline}[frame number]
-\beamertemplatenavigationsymbolsempty
+\makeatletter
+	\@ifclassloaded{article}{}{\beamertemplatenavigationsymbolsempty}
+\makeatother
 
 
 \title[JavaFX]{JavaFX workshop}
