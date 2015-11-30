@@ -1,7 +1,9 @@
-
+\begin{frame}{Context}
+With the next steps you will build a running digital clock with JavaFx. The clock will be able to show the current time and you will be able to increment and decrement the time. 
+\end{frame}
 \begin{frame}{Task 1}
 \begin{block}{First steps}
-Drag four labels on the pallette in SceneBuilder. Label the label like  this: “Day”, “HH”, “mm”, “SS”, 
+Start with the example project.Drag four labels on the pallette in SceneBuilder. Label them like  this: “Day”, “HH”, “mm”, “SS”, 
 \end{block}
 \pause
 \begin{exampleblock}{Hint}
@@ -18,22 +20,197 @@ Making the textsize of a label bigger can be done using the scenebuilder, or mod
 \end{exampleblock}
 \end{frame}
 \begin{frame}{Task 3}
-\begin{block}{styling}
-Style your clock with css files. Add a CSS file to your project and to your scene.
+\begin{block}{Styling}
+Style your clock with css files. Add a CSS file to your project and to your scene. Make sure to use the -fx-prefix in the CSS files.
 \end{block}
 \pause
 \begin{exampleblock}{Hint}
-There are differet ways to style a FXML file. In the SceneBuilder you can
-
+In the SceneBuilder you can
+\begin{itemize}
+\item add a style
+\item add a class
+\item add a id
+\end{itemize}
+In the CSS-File you can add rules that apply for 
+\begin{itemize}
+\item default elements
+\item certain ids
+\item certain classes
+\item combination of classes
+\end{itemize}
 \end{exampleblock}
 \end{frame}
 \begin{frame}{Tasks 4}
 \begin{block}{Buttons}
-Add a button to the screen which enables user interaction with the 
-application. Use simple system.out.printline to show that the button has been clicked. 
+Add a method to the controller which reacts on the click of a button. Use simple system.out.printline to show that the button has been clicked. 
 \end{block}
 \pause
 \begin{exampleblock}{Hint}
+In the controller add a method and annotate it with @FXML. This way the SceneBuilder can recognize the method. Next select the button in the SceneBuilder, go to the \emph{Code} folds and search the main Action. Now select the method that will be executed when clicking on the button.
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 5}
+\begin{block}{Creating classes}
+To make our clock work, we need to have classes that deal with the logic. Create a clock class and a TimeUnit class. The TimeUit class represents hours, minutes and seconds. Add a WeekDay class that inherits from the TimeUnit class. 
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+use \\
+class ChildClass extends Parent
+\\ to make the ChildClass inherit from the Parent class.
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 6}
+\begin{block}{TimeUnit}
+Go to the TimeUnit class. Add the following properties to the class. 
+ \begin{itemize}
+ \item int limit
+ \item final IntegerProperty value
+ \item TimeUnit next (default value should be null)
+ \item String name (default value should be "TimeUnit")
+ \end{itemize}
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+Do not forget getter and setter for the properties.
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 7}
+\begin{block}{TimeUnit continued}
+Go to the TimeUnit class. Add constructors wit the following arguments to the class.  
+ \begin{itemize}
+ \item limit (initial value should be 0)
+ \item value and limit
+ \end{itemize}
+\end{block}
+\end{frame}
+\begin{frame}{Task 8}
+\begin{block}{TimeUnit StringProperty}
+Go to the TimeUnit class. Write a method that returns the value as a StringProperty. Make sure to print a leading zero if the value is <10
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+This is an example for a StringBinding.\newline
+StringBinding sb = integerProperty.asString("\%02d" )
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 9}
+\begin{block}{TimeUnit incrementing and decrementing}
+Go to the TimeUnit class. Add methods for decrementing and incrementing the value. When the limit of the class is reached, the next TimeUnit should be incremented and the value should be reset to 0.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+The check could look like this:\\
+if(value+1>=max) 
+ next.increment();\\
+ setValue(0);\\
+\end{exampleblock}
+\end{frame}
 
+\begin{frame}{Task 10}
+\begin{block}{Time Class}
+Go to the Time class. Add a the following properties:
+ \begin{itemize}
+ \item TimeUnit hour, minute, second
+ \item WeekDay day, 
+ \item LocalDate date,
+ \item StringPropery hourString, minuteString, secondString, weekdayString, dateString
+ \end{itemize}
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+StringPropery string = new SimpleStringProperty();
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 11}
+\begin{block}{Time binding TimeUnit}
+Go to the Time class. Add a binding from the valueProperty of the TimeUnit with the associated StringProperty of the Time class.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+ hourString.bind( hour.valueProperty().asString( "\%02d" ) );
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 12}
+\begin{block}{Time is ticking and syncing}
+Go to the Time class. Write a tick() method that increments the second by one.Write a sync method that synchronizes the clock time with the current time.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+Create a LocalDateTime object to synchronize with the current time. 
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 13}
+\begin{block}{ClockviewController properties}
+Go to the ClockviewController class. Add a the following properties:
+\begin{itemize}
+\item TimeUnit for hours, minutes and seconds
+\item WeekdDay for the day
+\end{itemize}
+For add a increment and a decrement action for  hours, minutes and seconds
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+Use the @FXML annotation above methods to make them visible to the SceneBuilder.
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 13}
+\begin{block}{ClockviewController methods}
+Go to the ClockviewController class. Add a the following methods:
+\begin{itemize}
+\item increment for hours, minutes and seconds
+\item decrement for hours, minutes and seconds
+\item sync method
+\end{itemize}
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+Use the @FXML annotation above methods to make them visible to the SceneBuilder.
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 14}
+\begin{block}{Clockview Buttons}
+Go to the SceneBuilder. Add a the following buttons:
+\begin{itemize}
+\item increment for hours, minutes and seconds
+\item decrement for hours, minutes and seconds
+\item sync method
+\end{itemize}
+Connect the buttons with the method you created in step 13.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+Use the @FXML annotation above methods to make them visible to the SceneBuilder.
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 15}
+\begin{block}{ClockviewController binding}
+Go to the ClockviewController class. Add a the following buttons:
+Bind the TimeUnit with the textproperties of the four labels.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+ label.textProperty().bind( timeUnit.asStringBinding() );
+\end{exampleblock}
+\end{frame}
+\begin{frame}{Task 15}
+\begin{block}{ClockviewController ticking}
+Go to the ClockviewController class. Add TickerHelper.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+ tickerHelper = new TickerHelper( this::tick );
+        tickerHelper.start();
+        Platform.runLater( this::sync );
+\end{exampleblock}
+\end{frame}
+\begin{block}{ticking}
+Go to the ClockviewController class. Add a method that starts and stops the clock.
+\end{block}
+\pause
+\begin{exampleblock}{Hint}
+ tickerHelper = new TickerHelper( this::tick );
+        tickerHelper.start();
+        Platform.runLater( this::sync );
 \end{exampleblock}
 \end{frame}
