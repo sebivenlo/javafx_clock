@@ -93,6 +93,32 @@ public class ClockviewController implements Initializable
         startApp(startStopToggleButton.selectedProperty().get());
     }
 
+    private void checkLabel()
+    {
+        if (alarmRuns)
+        {
+            System.out.println(opacity.getValue());
+            if (opacity.getValue() <= 0.75)
+            {
+                opacity.setValue(1.0);
+            }
+            else
+            {
+                opacity.setValue(opacity.getValue() - 0.25);
+            }
+        }
+    }
+
+    private void checkAlarm()
+    {
+        if (alarm.get() && time.equals(alarmTime))
+        {
+            AlarmPlayer.playAlarmSound();
+            alarmRuns = true;
+            alarmToggleButton.setText("SNOOZE");
+        }
+    }
+
     /**
      * This method start or stops the clock.
      *
@@ -110,36 +136,17 @@ public class ClockviewController implements Initializable
         }
     }
 
-    private void checkLabel()
-    {
-        if (alarm.getValue())
-        {
-            if (opacity.getValue() <= 0.1)
-            {
-                opacity.setValue(1);
-            }
-            opacity.setValue(opacity.getValue() - 0.1);
-        }
-    }
-
-    private void checkAlarm()
-    {
-        if (alarm.get() && time.equals(alarmTime))
-        {
-            AlarmPlayer.playAlarmSound();
-            alarmRuns = true;
-            alarmToggleButton.setText("SNOOZE");
-        }
-    }
-
     private void initializeLabels()
     {
         //bind label with day
         weekdayLabel.textProperty().bind(time.getDayOfWeek());
         //bind label with time
         hourLabel.textProperty().bind(time.getHour());
+        hourLabel.opacityProperty().bind(opacity);
         minuteLabel.textProperty().bind(time.getMinute());
+        minuteLabel.opacityProperty().bind(opacity);
         secondLabel.textProperty().bind(time.getSecond());
+        secondLabel.opacityProperty().bind(opacity);
     }
 
     private void initializeButtons()
@@ -178,7 +185,11 @@ public class ClockviewController implements Initializable
         else
         {
             alarmToggleButton.setText("Set Alarm!");
-            alarmRuns = false;
+            if (alarmRuns)
+            {
+                alarmRuns = false;
+                opacity.set(1.0);
+            }
         }
     }
 }
