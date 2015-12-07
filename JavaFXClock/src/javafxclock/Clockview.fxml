@@ -10,19 +10,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="1069.0" stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="323.0" prefWidth="848.0" stylesheets="@Clockview.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="javafxclock.ClockviewController">
     <children>
-        <ToggleButton id="startStopToggleButton" fx:id="startStopToggleButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Start/Stop" />
-        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="135.0" mnemonicParsing="false" text="Set Alarm!" />
-        <Label id="weekdayLabel" fx:id="weekdayLabel" layoutX="668.0" layoutY="162.0" text="DDD" />
-        <Label id="hourLabel" fx:id="hourLabel" layoutX="337.0" layoutY="244.0" text="00" />
-        <Label id="colonLabel" fx:id="hourColonLabel" layoutX="477.0" layoutY="244.0" text=":" />
-        <Label id="minuteLabel" fx:id="minuteLabel" layoutX="538.0" layoutY="244.0" text="00" />
-        <Label id="colonLabel" fx:id="minuteColonLabel" layoutX="677.0" layoutY="244.0" prefHeight="107.0" prefWidth="26.0" text=":" />
-        <Label id="secondLabel" fx:id="secondLabel" layoutX="737.0" layoutY="244.0" text="00" />
-        <Label id="dateLabel" fx:id="dateLabel" layoutX="452.0" layoutY="392.0" text="D. MMM YYYY" />
-        <ToggleButton id="settingsToggleButton" fx:id="settingsToggleButton" layoutX="14.0" layoutY="553.0" mnemonicParsing="false" text="Settings" />
-        <HBox id="settingsHBox" fx:id="settingsHBox" layoutX="175.0" layoutY="553.0" prefHeight="27.0" prefWidth="720.0" visible="false">
+        <ToggleButton id="startStopToggleButton" fx:id="startStopToggleButton" layoutX="14.0" layoutY="12.0" mnemonicParsing="false" text="Start/Stop" />
+        <ToggleButton id="alarmToggleButton" fx:id="alarmToggleButton" layoutX="178.0" layoutY="28.0" mnemonicParsing="false" text="Set Alarm!" />
+        <Label id="weekdayLabel" fx:id="weekdayLabel" layoutX="548.0" layoutY="45.0" text="DDD" />
+        <Label id="hourLabel" fx:id="hourLabel" layoutX="218.0" layoutY="136.0" text="00" />
+        <Label id="colonLabel" fx:id="hourColonLabel" layoutX="357.0" layoutY="127.0" text=":" />
+        <Label id="minuteLabel" fx:id="minuteLabel" layoutX="423.0" layoutY="142.0" text="00" />
+        <Label id="colonLabel" fx:id="minuteColonLabel" layoutX="557.0" layoutY="127.0" prefHeight="107.0" prefWidth="26.0" text=":" />
+        <Label id="secondLabel" fx:id="secondLabel" layoutX="618.0" layoutY="148.0" text="00" />
+        <ToggleButton id="settingsToggleButton" fx:id="settingsToggleButton" layoutX="14.0" layoutY="273.0" mnemonicParsing="false" text="Settings" />
+        <HBox id="settingsHBox" fx:id="settingsHBox" layoutX="105.0" layoutY="272.0" prefHeight="27.0" prefWidth="720.0">
             <children>
                 <Button id="syncButton" fx:id="syncButton" mnemonicParsing="false" text="Synchronize with PC" />
                 <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />

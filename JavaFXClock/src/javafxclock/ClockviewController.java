@@ -77,7 +77,9 @@ public class ClockviewController implements Initializable {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event) -> {
             time.tick();
-            checkAlarm();
+            if (Integer.compare(time.second().getValue(), 0) == 0) {
+                checkAlarm();
+            }
         }));
 
         startApp(startStopToggleButton.selectedProperty().get());
@@ -95,28 +97,6 @@ public class ClockviewController implements Initializable {
         if (alarmAlert == null) {
             if (alarm.get() && time.equals(alarmTime)) {
                 AlarmPlayer.playAlarmSound();
-
-                alarmAlert = new Alert(Alert.AlertType.CONFIRMATION);
-                alarmAlert.setTitle("ALARM");
-                alarmAlert.setHeaderText("!!!!!!ALARM ALARM ALARM!!!!!!");
-                alarmAlert.setContentText("Do you want to end or pause the alarm?");
-
-                ButtonType pauseButtonType = new ButtonType("Pause", ButtonData.CANCEL_CLOSE);
-                ButtonType stopButtonType = new ButtonType("Stop", ButtonData.OK_DONE);
-
-                alarmAlert.getButtonTypes().setAll(pauseButtonType, stopButtonType);
-
-                alarmAlert.show();
-                alarmAlert.resultProperty().addListener((ObservableValue<? extends ButtonType> observable, ButtonType oldValue, ButtonType newValue) -> {
-                    if (observable.getValue().equals(stopButtonType)) {
-                        alarmToggleButton.selectedProperty().set(false);
-                        setAlarmTime(null);
-                    } else if (observable.getValue().equals(pauseButtonType)) {
-                        alarmTime.minute().setValue(alarmTime.minute().getValue() + 9);
-                        alarmToggleButton.setText("Alarm set to " + alarmTime.toString());
-                        alarmAlert = null;
-                    }
-                });
             }
         }
     }
