@@ -29,31 +29,25 @@
 }
 
 #weekdayLabel {
-    -fx-font-style: Condensed Bold;
+    -fx-font-weight: lighter;
     -fx-font-size: 50px;
     -fx-text-alignment: right;
 }
 
 #hourLabel, #colonLabel {
-    -fx-font-style: Condensed Black;
+    -fx-font-weight: normal;
     -fx-font-size: 90px;
     -fx-text-alignment: center;
 }
 
 #minuteLabel {
-    -fx-font-style: Condensed Black;
+    -fx-font-weight: normal;
     -fx-font-size: 80px;
     -fx-text-alignment: center;
 }
 
 #secondLabel {
-    -fx-font-style: Condensed Black;
+    -fx-font-weight: normal;
     -fx-font-size: 70px;
     -fx-text-alignment: center;
-}
-
-dateLabel {
-    -fx-font-style: Condensed Bold;
-    -fx-font-size: 50px;
-    -fx-text-alignment: right;
 }

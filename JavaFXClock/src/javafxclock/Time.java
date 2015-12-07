@@ -12,12 +12,16 @@ import javafx.event.ActionEvent;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class Time {
+public class Time
+{
 
     private final DayOfWeek dayOfWeek = new DayOfWeek(7).named("weekday");
-    private final TimeUnit hour = new TimeUnit(24).named("hour").setNext(dayOfWeek);
-    private final TimeUnit minute = new TimeUnit(60).named("minute").setNext(hour);
-    private final TimeUnit second = new TimeUnit(60).named("second").setNext(minute);
+    private final TimeUnit hour = new TimeUnit(24).named("hour").setNext(
+            dayOfWeek);
+    private final TimeUnit minute = new TimeUnit(60).named("minute").setNext(
+            hour);
+    private final TimeUnit second = new TimeUnit(60).named("second").setNext(
+            minute);
 
     /**
      *
@@ -26,7 +30,11 @@ public class Time {
      * @param second
      * @param dayOfWeek
      */
-    public Time(int hour, int minute, int second, int dayOfWeek) {
+    public Time(int hour,
+                int minute,
+                int second,
+                int dayOfWeek)
+    {
         this.hour.setValue(hour);
         this.minute.setValue(minute);
         this.second.setValue(second);
@@ -36,18 +44,20 @@ public class Time {
     /**
      *
      */
-    public Time() {
+    public Time()
+    {
         this(LocalDateTime.now().getHour(),
-                LocalDateTime.now().getMinute(),
-                LocalDateTime.now().getSecond(),
-                LocalDateTime.now().getDayOfWeek().getValue());
+             LocalDateTime.now().getMinute(),
+             LocalDateTime.now().getSecond(),
+             LocalDateTime.now().getDayOfWeek().getValue());
     }
 
     /**
      *
      * @return
      */
-    public DayOfWeek dayOfWeek() {
+    public DayOfWeek dayOfWeek()
+    {
         return dayOfWeek;
     }
 
@@ -55,7 +65,8 @@ public class Time {
      *
      * @return
      */
-    public StringProperty getDayOfWeek() {
+    public StringProperty getDayOfWeek()
+    {
         return dayOfWeek.weekdayProperty();
     }
 
@@ -63,7 +74,8 @@ public class Time {
      *
      * @return
      */
-    public TimeUnit hour() {
+    public TimeUnit hour()
+    {
         return hour;
     }
 
@@ -71,15 +83,26 @@ public class Time {
      *
      * @return
      */
-    public StringBinding getHour() {
+    public StringBinding getHour()
+    {
         return hour.asStringBinding();
     }
 
-    public void hourIncrement(ActionEvent event) {
+    /**
+     *
+     * @param event
+     */
+    public void hourIncrement(ActionEvent event)
+    {
         hour.increment();
     }
 
-    public void hourDecrement(ActionEvent event) {
+    /**
+     *
+     * @param event
+     */
+    public void hourDecrement(ActionEvent event)
+    {
         hour.decrement();
     }
 
@@ -87,7 +110,8 @@ public class Time {
      *
      * @return
      */
-    public TimeUnit minute() {
+    public TimeUnit minute()
+    {
         return minute;
     }
 
@@ -95,15 +119,26 @@ public class Time {
      *
      * @return
      */
-    public StringBinding getMinute() {
+    public StringBinding getMinute()
+    {
         return minute.asStringBinding();
     }
 
-    public void minuteIncrement(ActionEvent event) {
+    /**
+     *
+     * @param event
+     */
+    public void minuteIncrement(ActionEvent event)
+    {
         minute.increment();
     }
 
-    public void minuteDecrement(ActionEvent event) {
+    /**
+     *
+     * @param event
+     */
+    public void minuteDecrement(ActionEvent event)
+    {
         minute.decrement();
     }
 
@@ -111,7 +146,8 @@ public class Time {
      *
      * @return
      */
-    public TimeUnit second() {
+    public TimeUnit second()
+    {
         return second;
     }
 
@@ -119,15 +155,26 @@ public class Time {
      *
      * @return
      */
-    public StringBinding getSecond() {
+    public StringBinding getSecond()
+    {
         return second.asStringBinding();
     }
 
-    public void secondIncrement(ActionEvent event) {
+    /**
+     *
+     * @param event
+     */
+    public void secondIncrement(ActionEvent event)
+    {
         second.increment();
     }
 
-    public void secondDecrement(ActionEvent event) {
+    /**
+     *
+     * @param event
+     */
+    public void secondDecrement(ActionEvent event)
+    {
         second.decrement();
     }
 
@@ -135,11 +182,16 @@ public class Time {
      *
      * @param event
      */
-    public void sync(ActionEvent event) {
+    public void sync(ActionEvent event)
+    {
         sync();
     }
 
-    public void sync() {
+    /**
+     *
+     */
+    public void sync()
+    {
         LocalDateTime syncTime = LocalDateTime.now();
         hour.setValue(syncTime.getHour());
         minute.setValue(syncTime.getMinute());
@@ -150,32 +202,51 @@ public class Time {
     /**
      *
      */
-    public void tick() {
+    public void tick()
+    {
         second.increment();
     }
 
-    @Override
-    public String toString() {
-        return hour.getValue() + ":" + minute.getValue();
+    public String toHhMmString()
+    {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(
+                hour.getValue() < 10
+                ? "0" + hour.getValue()
+                : hour.getValue());
+        stringBuilder.append(":");
+        stringBuilder.append(
+                minute.getValue() < 10
+                ? "0" + minute.getValue()
+                : minute.getValue());
+
+        return stringBuilder.toString();
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object) {
+    public boolean equals(Object object)
+    {
+        if (this == object)
+        {
             return true;
         }
 
-        if (object == null) {
+        if (object == null)
+        {
             return false;
         }
 
-        if (getClass() != object.getClass()) {
+        if (getClass() != object.getClass())
+        {
             return false;
         }
 
         final Time other = (Time) object;
-        if (hour.getValue() == other.hour.getValue()) {
-            if (minute.getValue() == other.minute.getValue()) {
+        if (hour.getValue() == other.hour.getValue())
+        {
+            if (minute.getValue() == other.minute.getValue())
+            {
                 return true;
             }
         }
@@ -184,7 +255,8 @@ public class Time {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 5;
         hash = 97 * hash + Objects.hashCode(hour);
         hash = 97 * hash + Objects.hashCode(minute);

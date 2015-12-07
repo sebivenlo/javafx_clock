@@ -9,9 +9,13 @@ import javafx.beans.property.StringProperty;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class DayOfWeek extends TimeUnit {
+public class DayOfWeek extends TimeUnit
+{
 
-    private static final String[] DAYS_OF_WEEK_EN = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
+    private static final String[] DAYS_OF_WEEK_EN =
+    {
+        "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"
+    };
 
     private final StringProperty dayOfWeek = new SimpleStringProperty();
 
@@ -19,44 +23,67 @@ public class DayOfWeek extends TimeUnit {
      *
      * @param value
      */
-    public DayOfWeek(int value) {
-        super(value - 1, DAYS_OF_WEEK_EN.length);
+    public DayOfWeek(int value)
+    {
+        super(value - 1,
+              DAYS_OF_WEEK_EN.length);
         dayOfWeek.set(DAYS_OF_WEEK_EN[value - 1]);
     }
 
+    /**
+     *
+     * @param name
+     *
+     * @return
+     */
     @Override
-    public DayOfWeek named(String name) {
+    public DayOfWeek named(String name)
+    {
         super.named(name);
         return this;
     }
 
-    public String getWeekday() {
+    /**
+     *
+     * @return
+     */
+    public String getWeekday()
+    {
         return DAYS_OF_WEEK_EN[super.getValue()];
     }
 
     @Override
-    public void setValue(int value) {
+    public void setValue(int value)
+    {
         super.setValue(value);
         dayOfWeek.set(toString());
     }
 
-    public StringProperty weekdayProperty() {
+    /**
+     *
+     * @return
+     */
+    public StringProperty weekdayProperty()
+    {
         return dayOfWeek;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return DAYS_OF_WEEK_EN[super.getValue()];
     }
 
     @Override
-    public void decrement() {
+    public void decrement()
+    {
         super.decrement();
         dayOfWeek.set(toString());
     }
 
     @Override
-    public void increment() {
+    public void increment()
+    {
         super.increment();
         dayOfWeek.set(toString());
     }
