@@ -47,8 +47,24 @@ public class Time {
      *
      * @return
      */
-    public StringProperty getWeekday() {
+    public DayOfWeek dayOfWeek() {
+        return dayOfWeek;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public StringProperty getDayOfWeek() {
         return dayOfWeek.weekdayProperty();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public TimeUnit hour() {
+        return hour;
     }
 
     /**
@@ -65,6 +81,14 @@ public class Time {
 
     public void hourDecrement(ActionEvent event) {
         hour.decrement();
+    }
+
+    /**
+     *
+     * @return
+     */
+    public TimeUnit minute() {
+        return minute;
     }
 
     /**
@@ -128,6 +152,11 @@ public class Time {
      */
     public void tick() {
         second.increment();
+    }
+
+    @Override
+    public String toString() {
+        return hour.getValue() + ":" + minute.getValue();
     }
 
     @Override

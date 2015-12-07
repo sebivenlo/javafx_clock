@@ -103,7 +103,7 @@ public class TimeUnit {
      *
      */
     public void decrement() {
-        if ((getValue() - 1) <= 0) {
+        if ((getValue() - 1) < 0) {
             if (null != next) {
                 next.decrement();
             }

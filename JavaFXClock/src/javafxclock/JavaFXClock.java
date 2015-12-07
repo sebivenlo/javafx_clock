@@ -39,7 +39,7 @@ public class JavaFXClock extends Application {
     public void stop() throws Exception {
         ClockviewController clockviewController = (ClockviewController) fXMLLoader.getController();
 
-        clockviewController.stopApp();
+        clockviewController.startApp(false);
     }
 
 }
