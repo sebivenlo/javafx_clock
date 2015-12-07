@@ -4,7 +4,9 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -64,6 +66,8 @@ public class ClockviewController implements Initializable
     private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
     private boolean alarmRuns = false;
 
+    private DoubleProperty opacity=new SimpleDoubleProperty(1);
+
     @Override
     public void initialize(URL url,
                            ResourceBundle rb)
@@ -80,6 +84,7 @@ public class ClockviewController implements Initializable
                                                  (ActionEvent event)
                                                  -> 
                                                  {
+                                                     checkLabel();
                                                      time.tick();
                                                      if (Integer.compare(
                                                              time.second().getValue(),
@@ -109,13 +114,22 @@ public class ClockviewController implements Initializable
         }
     }
 
-    /**
-     * This method checks if the alarm should be start.
-     */
-    private void checkAlarm()
-    {
-        if (alarm.get() && time.equals(alarmTime))
-        {
+
+    private void checkLabel() {
+
+        if(alarm.getValue()) {
+            if(opacity.getValue()<=0.1) {
+                opacity.setValue(1);
+            }
+         opacity.setValue(opacity.getValue()-0.1);
+        }
+
+    }
+    private void checkAlarm() {
+
+
+            if (alarm.get() && time.equals(alarmTime)) {
+
             AlarmPlayer.playAlarmSound();
         }
     }
