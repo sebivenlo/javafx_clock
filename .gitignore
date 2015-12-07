@@ -3,6 +3,7 @@
 #!! ERROR: atex is undefined. Use list command to see defined gitignore types !!#
 
 ### Custom ###
+JavaFXClock/lib/tickerhelper-api.zip
 
 ### XamarinStudio ###
 bin/
