@@ -4,11 +4,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -61,8 +62,10 @@ public class ClockviewController implements Initializable
     private final Time time = new Time();
     private Time alarmTime = new Time();
 
-    private Alert alarmAlert = null;
     private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
+    private boolean alarmRuns = false;
+
+    private final DoubleProperty opacity = new SimpleDoubleProperty(1);
 
     @Override
     public void initialize(URL url,
@@ -76,20 +79,44 @@ public class ClockviewController implements Initializable
     private void initializeTimeline()
     {
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(seconds(1),
-                                                 (ActionEvent event)
-                                                 -> 
+        timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event) ->
                                                  {
+                                                     checkLabel();
                                                      time.tick();
-                                                     if (Integer.compare(
-                                                             time.second().getValue(),
-                                                             0) == 0)
+                                                     if (Integer.compare(time.second().getValue(),
+                                                                         0) == 0)
                                                      {
                                                          checkAlarm();
                                                      }
-                                         }));
+                                                 }));
 
         startApp(startStopToggleButton.selectedProperty().get());
+    }
+
+    private void checkLabel()
+    {
+        if (alarmRuns)
+        {
+            System.out.println(opacity.getValue());
+            if (opacity.getValue() >= 1.0)
+            {
+                opacity.setValue(0.5);
+            }
+            else
+            {
+                opacity.setValue(opacity.getValue() + 0.5);
+            }
+        }
+    }
+
+    private void checkAlarm()
+    {
+        if (alarm.get() && time.equals(alarmTime))
+        {
+            AlarmPlayer.playAlarmSound();
+            alarmRuns = true;
+            alarmToggleButton.setText("SNOOZE");
+        }
     }
 
     /**
@@ -109,37 +136,27 @@ public class ClockviewController implements Initializable
         }
     }
 
-    /**
-     * This method checks if the alarm should be start.
-     */
-    private void checkAlarm()
-    {
-        if (alarmAlert == null)
-        {
-            if (alarm.get() && time.equals(alarmTime))
-            {
-                AlarmPlayer.playAlarmSound();
-            }
-        }
-    }
-
     private void initializeLabels()
     {
         //bind label with day
         weekdayLabel.textProperty().bind(time.getDayOfWeek());
         //bind label with time
         hourLabel.textProperty().bind(time.getHour());
+        hourLabel.opacityProperty().bind(opacity);
         minuteLabel.textProperty().bind(time.getMinute());
+        minuteLabel.opacityProperty().bind(opacity);
         secondLabel.textProperty().bind(time.getSecond());
+        secondLabel.opacityProperty().bind(opacity);
+
+        opacity.set(0.5);
     }
 
     private void initializeButtons()
     {
-        startStopToggleButton.setOnAction((ActionEvent event)
-                -> 
+        startStopToggleButton.setOnAction((ActionEvent event) ->
                 {
                     startApp(startStopToggleButton.selectedProperty().get());
-        });
+                });
 
         alarmToggleButton.setOnAction(this::setAlarmTime);
         alarm.bind(alarmToggleButton.selectedProperty());
@@ -170,7 +187,11 @@ public class ClockviewController implements Initializable
         else
         {
             alarmToggleButton.setText("Set Alarm!");
-            alarmAlert = null;
+            if (alarmRuns)
+            {
+                alarmRuns = false;
+                opacity.set(1.0);
+            }
         }
     }
 }
