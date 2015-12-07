@@ -10,7 +10,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -66,7 +65,7 @@ public class ClockviewController implements Initializable
     private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
     private boolean alarmRuns = false;
 
-    private DoubleProperty opacity=new SimpleDoubleProperty(1);
+    private final DoubleProperty opacity = new SimpleDoubleProperty(1);
 
     @Override
     public void initialize(URL url,
@@ -80,19 +79,16 @@ public class ClockviewController implements Initializable
     private void initializeTimeline()
     {
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(seconds(1),
-                                                 (ActionEvent event)
-                                                 -> 
+        timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event) ->
                                                  {
                                                      checkLabel();
                                                      time.tick();
-                                                     if (Integer.compare(
-                                                             time.second().getValue(),
-                                                             0) == 0)
+                                                     if (Integer.compare(time.second().getValue(),
+                                                                         0) == 0)
                                                      {
                                                          checkAlarm();
                                                      }
-                                         }));
+                                                 }));
 
         startApp(startStopToggleButton.selectedProperty().get());
     }
@@ -114,23 +110,25 @@ public class ClockviewController implements Initializable
         }
     }
 
-
-    private void checkLabel() {
-
-        if(alarm.getValue()) {
-            if(opacity.getValue()<=0.1) {
+    private void checkLabel()
+    {
+        if (alarm.getValue())
+        {
+            if (opacity.getValue() <= 0.1)
+            {
                 opacity.setValue(1);
             }
-         opacity.setValue(opacity.getValue()-0.1);
+            opacity.setValue(opacity.getValue() - 0.1);
         }
-
     }
-    private void checkAlarm() {
 
-
-            if (alarm.get() && time.equals(alarmTime)) {
-
+    private void checkAlarm()
+    {
+        if (alarm.get() && time.equals(alarmTime))
+        {
             AlarmPlayer.playAlarmSound();
+            alarmRuns = true;
+            alarmToggleButton.setText("SNOOZE");
         }
     }
 
@@ -146,11 +144,10 @@ public class ClockviewController implements Initializable
 
     private void initializeButtons()
     {
-        startStopToggleButton.setOnAction((ActionEvent event)
-                -> 
+        startStopToggleButton.setOnAction((ActionEvent event) ->
                 {
                     startApp(startStopToggleButton.selectedProperty().get());
-        });
+                });
 
         alarmToggleButton.setOnAction(this::setAlarmTime);
         alarm.bind(alarmToggleButton.selectedProperty());
@@ -177,7 +174,6 @@ public class ClockviewController implements Initializable
                     0);
 
             alarmToggleButton.setText("Alarm set to " + alarmTime.toHhMmString());
-            alarmRuns = true;
         }
         else
         {
