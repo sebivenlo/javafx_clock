@@ -61,8 +61,8 @@ public class ClockviewController implements Initializable
     private final Time time = new Time();
     private Time alarmTime = new Time();
 
-    private Alert alarmAlert = null;
     private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
+    private boolean alarmRuns = false;
 
     @Override
     public void initialize(URL url,
@@ -114,12 +114,9 @@ public class ClockviewController implements Initializable
      */
     private void checkAlarm()
     {
-        if (alarmAlert == null)
+        if (alarm.get() && time.equals(alarmTime))
         {
-            if (alarm.get() && time.equals(alarmTime))
-            {
-                AlarmPlayer.playAlarmSound();
-            }
+            AlarmPlayer.playAlarmSound();
         }
     }
 
@@ -166,11 +163,12 @@ public class ClockviewController implements Initializable
                     0);
 
             alarmToggleButton.setText("Alarm set to " + alarmTime.toHhMmString());
+            alarmRuns = true;
         }
         else
         {
             alarmToggleButton.setText("Set Alarm!");
-            alarmAlert = null;
+            alarmRuns = false;
         }
     }
 }
