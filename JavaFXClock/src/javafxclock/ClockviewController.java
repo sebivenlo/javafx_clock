@@ -98,13 +98,13 @@ public class ClockviewController implements Initializable
         if (alarmRuns)
         {
             System.out.println(opacity.getValue());
-            if (opacity.getValue() <= 0.75)
+            if (opacity.getValue() >= 1.0)
             {
-                opacity.setValue(1.0);
+                opacity.setValue(0.5);
             }
             else
             {
-                opacity.setValue(opacity.getValue() - 0.25);
+                opacity.setValue(opacity.getValue() + 0.5);
             }
         }
     }
@@ -147,6 +147,8 @@ public class ClockviewController implements Initializable
         minuteLabel.opacityProperty().bind(opacity);
         secondLabel.textProperty().bind(time.getSecond());
         secondLabel.opacityProperty().bind(opacity);
+
+        opacity.set(0.5);
     }
 
     private void initializeButtons()
