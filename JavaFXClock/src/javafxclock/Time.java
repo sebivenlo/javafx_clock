@@ -243,9 +243,9 @@ public class Time
         }
 
         final Time other = (Time) object;
-        if (hour.getValue() == other.hour.getValue())
+        if (Integer.compare(hour.getValue(), other.hour.getValue()) == 0)
         {
-            if (minute.getValue() == other.minute.getValue())
+            if (Integer.compare(minute.getValue(), other.minute.getValue()) == 0)
             {
                 return true;
             }
