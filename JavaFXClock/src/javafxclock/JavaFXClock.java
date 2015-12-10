@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 public class JavaFXClock extends Application
 {
 
+    private final FXMLLoader fXMLLoader = new FXMLLoader();
+
     /**
      * @param args the command line arguments
      */
@@ -21,8 +23,6 @@ public class JavaFXClock extends Application
     {
         launch(args);
     }
-
-    FXMLLoader fXMLLoader = new FXMLLoader();
 
     @Override
     public void start(Stage stage) throws Exception

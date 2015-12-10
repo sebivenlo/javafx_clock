@@ -2,6 +2,7 @@ package javafxclock;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Logger;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.property.DoubleProperty;
@@ -22,6 +23,8 @@ import static javafx.util.Duration.seconds;
  */
 public class ClockviewController implements Initializable
 {
+
+    private static final Logger LOG = Logger.getLogger(ClockviewController.class.getName());
 
     @FXML
     private ToggleButton startStopToggleButton;
@@ -174,6 +177,8 @@ public class ClockviewController implements Initializable
 
     private void setAlarmTime(ActionEvent event)
     {
+        LOG.info(event.toString());
+
         if (alarmToggleButton.selectedProperty().get())
         {
             alarmTime = new Time(
