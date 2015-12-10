@@ -207,6 +207,10 @@ public class Time
         second.increment();
     }
 
+    /**
+     *
+     * @return
+     */
     public String toHhMmString()
     {
         StringBuilder stringBuilder = new StringBuilder();
