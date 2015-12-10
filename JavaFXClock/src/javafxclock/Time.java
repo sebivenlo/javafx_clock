@@ -243,15 +243,8 @@ public class Time
         }
 
         final Time other = (Time) object;
-        if (Integer.compare(hour.getValue(), other.hour.getValue()) == 0)
-        {
-            if (Integer.compare(minute.getValue(), other.minute.getValue()) == 0)
-            {
-                return true;
-            }
-        }
-
-        return false;
+        
+        return Integer.compare(hour.getValue(), other.hour.getValue()) + Integer.compare(minute.getValue(), other.minute.getValue()) == 0;
     }
 
     @Override
