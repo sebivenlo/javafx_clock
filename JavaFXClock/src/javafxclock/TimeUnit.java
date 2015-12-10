@@ -17,7 +17,7 @@ public class TimeUnit
     private final int limit;
     private final IntegerProperty value;
 
-    private TimeUnit next = null;
+    private TimeUnit next;
     private String name = "TimeUnit";
 
     /**

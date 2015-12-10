@@ -27,11 +27,11 @@ public class ClockviewController implements Initializable
     private static final Logger LOG = Logger.getLogger(ClockviewController.class.getName());
 
     @FXML
-    private ToggleButton startStopToggleButton;
+    private ToggleButton startStopButton;
     @FXML
-    private ToggleButton alarmToggleButton;
+    private ToggleButton alarmButton;
     @FXML
-    private ToggleButton settingsToggleButton;
+    private ToggleButton settingsButton;
 
     @FXML
     private Label weekdayLabel;
@@ -66,9 +66,13 @@ public class ClockviewController implements Initializable
     private Time alarmTime = new Time();
 
     private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
-    private boolean alarmRuns = false;
+    private boolean alarmRuns;
 
     private final DoubleProperty opacity = new SimpleDoubleProperty(1);
+
+    public ClockviewController()
+    {
+    }
 
     @Override
     public void initialize(URL url,
@@ -93,7 +97,7 @@ public class ClockviewController implements Initializable
                                                      }
                                                  }));
 
-        startApp(startStopToggleButton.selectedProperty().get());
+        startApp(startStopButton.selectedProperty().get());
     }
 
     private void checkLabel()
@@ -118,7 +122,7 @@ public class ClockviewController implements Initializable
         {
             AlarmPlayer.playAlarmSound();
             alarmRuns = true;
-            alarmToggleButton.setText("SNOOZE");
+            alarmButton.setText("SNOOZE");
         }
     }
 
@@ -156,16 +160,16 @@ public class ClockviewController implements Initializable
 
     private void initializeButtons()
     {
-        startStopToggleButton.setOnAction((ActionEvent event) ->
+        startStopButton.setOnAction((ActionEvent event) ->
                 {
-                    startApp(startStopToggleButton.selectedProperty().get());
+                    startApp(startStopButton.selectedProperty().get());
                 });
 
-        alarmToggleButton.setOnAction(this::setAlarmTime);
-        alarm.bind(alarmToggleButton.selectedProperty());
+        alarmButton.setOnAction(this::setAlarmTime);
+        alarm.bind(alarmButton.selectedProperty());
 
         settingsHBox.visibleProperty().bind(
-                settingsToggleButton.selectedProperty());
+                settingsButton.selectedProperty());
         syncButton.setOnAction(time::sync);
         addHourButton.setOnAction(time::hourIncrement);
         minusHourButton.setOnAction(time::hourDecrement);
@@ -179,7 +183,7 @@ public class ClockviewController implements Initializable
     {
         LOG.info(event.toString());
 
-        if (alarmToggleButton.selectedProperty().get())
+        if (alarmButton.selectedProperty().get())
         {
             alarmTime = new Time(
                     time.hour().getValue(),
@@ -187,11 +191,11 @@ public class ClockviewController implements Initializable
                     0,
                     0);
 
-            alarmToggleButton.setText("Alarm set to " + alarmTime.toHhMmString());
+            alarmButton.setText("Alarm set to " + alarmTime.toHhMmString());
         }
         else
         {
-            alarmToggleButton.setText("Set Alarm!");
+            alarmButton.setText("Set Alarm!");
             if (alarmRuns)
             {
                 alarmRuns = false;
