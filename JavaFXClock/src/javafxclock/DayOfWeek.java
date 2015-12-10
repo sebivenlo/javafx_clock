@@ -17,7 +17,7 @@ public class DayOfWeek extends TimeUnit
         "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"
     };
 
-    private final StringProperty dayOfWeek = new SimpleStringProperty();
+    private final StringProperty value = new SimpleStringProperty();
 
     /**
      *
@@ -27,7 +27,7 @@ public class DayOfWeek extends TimeUnit
     {
         super(value - 1,
               DAYS_OF_WEEK_EN.length);
-        dayOfWeek.set(DAYS_OF_WEEK_EN[value - 1]);
+        this.value.set(DAYS_OF_WEEK_EN[value - 1]);
     }
 
     /**
@@ -56,7 +56,7 @@ public class DayOfWeek extends TimeUnit
     public void setValue(int value)
     {
         super.setValue(value);
-        dayOfWeek.set(toString());
+        this.value.set(toString());
     }
 
     /**
@@ -65,7 +65,7 @@ public class DayOfWeek extends TimeUnit
      */
     public StringProperty weekdayProperty()
     {
-        return dayOfWeek;
+        return value;
     }
 
     @Override
@@ -78,13 +78,13 @@ public class DayOfWeek extends TimeUnit
     public void decrement()
     {
         super.decrement();
-        dayOfWeek.set(toString());
+        value.set(toString());
     }
 
     @Override
     public void increment()
     {
         super.increment();
-        dayOfWeek.set(toString());
+        value.set(toString());
     }
 }

@@ -13,6 +13,10 @@ import javax.sound.sampled.*;
 public class AlarmPlayer
 {
 
+    private AlarmPlayer()
+    {
+    }
+
     /**
      * Plays the alarm sound
      */

@@ -12,7 +12,7 @@ import javafx.event.ActionEvent;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class Time
+public class TimeManager
 {
 
     private final DayOfWeek dayOfWeek = new DayOfWeek(7).named("weekday");
@@ -30,10 +30,10 @@ public class Time
      * @param second
      * @param dayOfWeek
      */
-    public Time(int hour,
-                int minute,
-                int second,
-                int dayOfWeek)
+    public TimeManager(int hour,
+                       int minute,
+                       int second,
+                       int dayOfWeek)
     {
         this.hour.setValue(hour);
         this.minute.setValue(minute);
@@ -44,7 +44,7 @@ public class Time
     /**
      *
      */
-    public Time()
+    public TimeManager()
     {
         this(LocalDateTime.now().getHour(),
              LocalDateTime.now().getMinute(),
@@ -56,7 +56,7 @@ public class Time
      *
      * @return
      */
-    public DayOfWeek dayOfWeek()
+    public DayOfWeek getDayOfWeek()
     {
         return dayOfWeek;
     }
@@ -65,7 +65,7 @@ public class Time
      *
      * @return
      */
-    public StringProperty getDayOfWeek()
+    public StringProperty getDayOfWeekProperty()
     {
         return dayOfWeek.weekdayProperty();
     }
@@ -74,7 +74,7 @@ public class Time
      *
      * @return
      */
-    public TimeUnit hour()
+    public TimeUnit getHour()
     {
         return hour;
     }
@@ -83,7 +83,7 @@ public class Time
      *
      * @return
      */
-    public StringBinding getHour()
+    public StringBinding getHourBinding()
     {
         return hour.asStringBinding();
     }
@@ -110,7 +110,7 @@ public class Time
      *
      * @return
      */
-    public TimeUnit minute()
+    public TimeUnit getMinute()
     {
         return minute;
     }
@@ -119,7 +119,7 @@ public class Time
      *
      * @return
      */
-    public StringBinding getMinute()
+    public StringBinding getMinuteBinding()
     {
         return minute.asStringBinding();
     }
@@ -146,7 +146,7 @@ public class Time
      *
      * @return
      */
-    public TimeUnit second()
+    public TimeUnit getSecond()
     {
         return second;
     }
@@ -155,7 +155,7 @@ public class Time
      *
      * @return
      */
-    public StringBinding getSecond()
+    public StringBinding getSecondBinding()
     {
         return second.asStringBinding();
     }
@@ -246,7 +246,7 @@ public class Time
             return false;
         }
 
-        final Time other = (Time) object;
+        final TimeManager other = (TimeManager) object;
 
         return Integer.compare(hour.getValue(), other.hour.getValue()) + Integer.compare(minute.getValue(), other.minute.getValue()) == 0;
     }
@@ -255,10 +255,11 @@ public class Time
     public int hashCode()
     {
         int hash = 5;
-        hash = 97 * hash + Objects.hashCode(hour);
-        hash = 97 * hash + Objects.hashCode(minute);
-        hash = 97 * hash + Objects.hashCode(second);
-        hash = 97 * hash + Objects.hashCode(dayOfWeek);
+        hash = 31 * hash + Objects.hashCode(this.dayOfWeek);
+        hash = 31 * hash + Objects.hashCode(this.hour);
+        hash = 31 * hash + Objects.hashCode(this.minute);
+        hash = 31 * hash + Objects.hashCode(this.second);
         return hash;
     }
+
 }

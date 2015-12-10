@@ -19,7 +19,7 @@ public class JavaFXClock extends Application
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args)
+    public static void main(String... args)
     {
         launch(args);
     }
@@ -41,9 +41,9 @@ public class JavaFXClock extends Application
     @Override
     public void stop() throws Exception
     {
-        ClockviewController clockviewController = (ClockviewController) fXMLLoader.getController();
+        ClockviewController controller = (ClockviewController) fXMLLoader.getController();
 
-        clockviewController.startApp(false);
+        controller.startApp(false);
     }
 
 }

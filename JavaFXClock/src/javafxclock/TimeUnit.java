@@ -217,9 +217,11 @@ public class TimeUnit
     @Override
     public int hashCode()
     {
-        int hash = 3;
-        hash = 67 * hash + this.limit;
-        hash = 67 * hash + Objects.hashCode(this.value);
+        int hash = 7;
+        hash = 23 * hash + this.limit;
+        hash = 23 * hash + Objects.hashCode(this.value);
+        hash = 23 * hash + Objects.hashCode(this.next);
+        hash = 23 * hash + Objects.hashCode(this.name);
         return hash;
     }
 

@@ -62,8 +62,8 @@ public class ClockviewController implements Initializable
 
     private final Timeline timeline = new Timeline();
 
-    private final Time time = new Time();
-    private Time alarmTime = new Time();
+    private final TimeManager time = new TimeManager();
+    private TimeManager alarmTime = new TimeManager();
 
     private final SimpleBooleanProperty alarm = new SimpleBooleanProperty(false);
     private boolean alarmRuns;
@@ -76,7 +76,7 @@ public class ClockviewController implements Initializable
 
     @Override
     public void initialize(URL url,
-                           ResourceBundle rb)
+                           ResourceBundle resourceBundle)
     {
         initializeTimeline();
         initializeLabels();
@@ -90,7 +90,7 @@ public class ClockviewController implements Initializable
                                                  {
                                                      checkLabel();
                                                      time.tick();
-                                                     if (Integer.compare(time.second().getValue(),
+                                                     if (Integer.compare(time.getSecond().getValue(),
                                                                          0) == 0)
                                                      {
                                                          checkAlarm();
@@ -102,10 +102,11 @@ public class ClockviewController implements Initializable
 
     private void checkLabel()
     {
+        final double DEFAULT_OPACITY = 1.0;
+        
         if (alarmRuns)
         {
-            System.out.println(opacity.getValue());
-            if (opacity.getValue() >= 1.0)
+            if (opacity.getValue() >= DEFAULT_OPACITY)
             {
                 opacity.setValue(0.5);
             }
@@ -146,13 +147,13 @@ public class ClockviewController implements Initializable
     private void initializeLabels()
     {
         //bind label with day
-        weekdayLabel.textProperty().bind(time.getDayOfWeek());
+        weekdayLabel.textProperty().bind(time.getDayOfWeekProperty());
         //bind label with time
-        hourLabel.textProperty().bind(time.getHour());
+        hourLabel.textProperty().bind(time.getHourBinding());
         hourLabel.opacityProperty().bind(opacity);
-        minuteLabel.textProperty().bind(time.getMinute());
+        minuteLabel.textProperty().bind(time.getMinuteBinding());
         minuteLabel.opacityProperty().bind(opacity);
-        secondLabel.textProperty().bind(time.getSecond());
+        secondLabel.textProperty().bind(time.getSecondBinding());
         secondLabel.opacityProperty().bind(opacity);
 
         opacity.set(0.5);
@@ -185,9 +186,9 @@ public class ClockviewController implements Initializable
 
         if (alarmButton.selectedProperty().get())
         {
-            alarmTime = new Time(
-                    time.hour().getValue(),
-                    time.minute().getValue(),
+            alarmTime = new TimeManager(
+                    time.getHour().getValue(),
+                    time.getMinute().getValue(),
                     0,
                     0);
 
