@@ -10,7 +10,7 @@ import javax.sound.sampled.*;
  *
  * @author Maximilian Walter <m.walter@student.fonty.nl>
  */
-public class AlarmPlayer
+public final class AlarmPlayer
 {
 
     private AlarmPlayer()

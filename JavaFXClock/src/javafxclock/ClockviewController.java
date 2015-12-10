@@ -72,6 +72,7 @@ public class ClockviewController implements Initializable
 
     public ClockviewController()
     {
+        //all steps needed to run will be in initialize method
     }
 
     @Override
