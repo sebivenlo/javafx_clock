@@ -9,13 +9,12 @@ import javafx.beans.property.StringProperty;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class DayOfWeek extends TimeUnit
-{
+public class DayOfWeek extends TimeUnit {
 
-    private static final String[] DAYS_OF_WEEK_EN =
-    {
-        "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"
-    };
+    private static final String[] DAYS_OF_WEEK_EN
+            = {
+                "MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"
+            };
 
     private final StringProperty value = new SimpleStringProperty();
 
@@ -23,10 +22,9 @@ public class DayOfWeek extends TimeUnit
      *
      * @param value
      */
-    public DayOfWeek(int value)
-    {
+    public DayOfWeek(int value) {
         super(value - 1,
-              DAYS_OF_WEEK_EN.length);
+                DAYS_OF_WEEK_EN.length);
         this.value.set(DAYS_OF_WEEK_EN[value - 1]);
     }
 
@@ -37,8 +35,7 @@ public class DayOfWeek extends TimeUnit
      * @return
      */
     @Override
-    public DayOfWeek named(String name)
-    {
+    public DayOfWeek named(String name) {
         super.named(name);
         return this;
     }
@@ -47,14 +44,12 @@ public class DayOfWeek extends TimeUnit
      *
      * @return
      */
-    public String getWeekday()
-    {
+    public String getWeekday() {
         return DAYS_OF_WEEK_EN[super.getValue()];
     }
 
     @Override
-    public void setValue(int value)
-    {
+    public void setValue(int value) {
         super.setValue(value);
         this.value.set(toString());
     }
@@ -63,27 +58,23 @@ public class DayOfWeek extends TimeUnit
      *
      * @return
      */
-    public StringProperty weekdayProperty()
-    {
+    public StringProperty weekdayProperty() {
         return value;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return DAYS_OF_WEEK_EN[super.getValue()];
     }
 
     @Override
-    public void decrement()
-    {
+    public void decrement() {
         super.decrement();
         value.set(toString());
     }
 
     @Override
-    public void increment()
-    {
+    public void increment() {
         super.increment();
         value.set(toString());
     }

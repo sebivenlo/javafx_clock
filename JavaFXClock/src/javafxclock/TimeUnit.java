@@ -11,8 +11,7 @@ import javafx.beans.property.SimpleIntegerProperty;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class TimeUnit
-{
+public class TimeUnit {
 
     private final int limit;
     private final IntegerProperty value;
@@ -26,10 +25,8 @@ public class TimeUnit
      * @param limit
      */
     public TimeUnit(int value,
-                    int limit)
-    {
-        if (value >= limit)
-        {
+            int limit) {
+        if (value >= limit) {
             throw new ExceptionInInitializerError("value is bigger as max");
         }
         this.value = new SimpleIntegerProperty(value);
@@ -40,10 +37,9 @@ public class TimeUnit
      *
      * @param limit
      */
-    public TimeUnit(int limit)
-    {
+    public TimeUnit(int limit) {
         this(0,
-             limit);
+                limit);
     }
 
     /**
@@ -52,8 +48,7 @@ public class TimeUnit
      *
      * @return
      */
-    public TimeUnit named(String name)
-    {
+    public TimeUnit named(String name) {
         this.name = name;
         return this;
     }
@@ -62,8 +57,7 @@ public class TimeUnit
      *
      * @return
      */
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
@@ -71,8 +65,7 @@ public class TimeUnit
      *
      * @param name
      */
-    public void setName(String name)
-    {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -80,8 +73,7 @@ public class TimeUnit
      *
      * @return
      */
-    public int getValue()
-    {
+    public int getValue() {
         return value.get();
     }
 
@@ -89,8 +81,7 @@ public class TimeUnit
      *
      * @param value
      */
-    public void setValue(int value)
-    {
+    public void setValue(int value) {
         this.value.set(value);
     }
 
@@ -98,8 +89,7 @@ public class TimeUnit
      *
      * @return
      */
-    public IntegerProperty valueProperty()
-    {
+    public IntegerProperty valueProperty() {
         return value;
     }
 
@@ -107,26 +97,20 @@ public class TimeUnit
      *
      * @return
      */
-    public int getLimit()
-    {
+    public int getLimit() {
         return limit;
     }
 
     /**
      *
      */
-    public void increment()
-    {
-        if ((getValue() + 1) >= getLimit())
-        {
-            if (null != next)
-            {
+    public void increment() {
+        if ((getValue() + 1) >= getLimit()) {
+            if (null != next) {
                 next.increment();
             }
             setValue(0);
-        }
-        else
-        {
+        } else {
             setValue(getValue() + 1);
         }
     }
@@ -134,25 +118,19 @@ public class TimeUnit
     /**
      *
      */
-    public void decrement()
-    {
-        if ((getValue() - 1) < 0)
-        {
-            if (null != next)
-            {
+    public void decrement() {
+        if ((getValue() - 1) < 0) {
+            if (null != next) {
                 next.decrement();
             }
             setValue(getLimit() - 1);
-        }
-        else
-        {
+        } else {
             setValue(getValue() - 1);
         }
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.valueOf(value.asString("%02d"));
     }
 
@@ -160,8 +138,7 @@ public class TimeUnit
      *
      * @return
      */
-    public StringBinding asStringBinding()
-    {
+    public StringBinding asStringBinding() {
         return value.asString("%02d");
     }
 
@@ -169,8 +146,7 @@ public class TimeUnit
      *
      * @return
      */
-    public TimeUnit getNext()
-    {
+    public TimeUnit getNext() {
         return next;
     }
 
@@ -180,43 +156,36 @@ public class TimeUnit
      *
      * @return
      */
-    public TimeUnit setNext(TimeUnit next)
-    {
+    public TimeUnit setNext(TimeUnit next) {
         this.next = next;
         return this;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
-        if (this == object)
-        {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
 
-        if (object == null)
-        {
+        if (object == null) {
             return false;
         }
 
-        if (getClass() != object.getClass())
-        {
+        if (getClass() != object.getClass()) {
             return false;
         }
 
         final TimeUnit other = (TimeUnit) object;
-        if (this.limit != other.limit)
-        {
+        if (this.limit != other.limit) {
             return false;
         }
 
         return !Objects.equals(this.value,
-                               other.value);
+                other.value);
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 7;
         hash = 23 * hash + this.limit;
         hash = 23 * hash + Objects.hashCode(this.value);

@@ -12,8 +12,7 @@ import javafx.event.ActionEvent;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class TimeManager
-{
+public class TimeManager {
 
     private final DayOfWeek dayOfWeek = new DayOfWeek(7).named("weekday");
     private final TimeUnit hour = new TimeUnit(24).named("hour").setNext(
@@ -31,10 +30,9 @@ public class TimeManager
      * @param dayOfWeek
      */
     public TimeManager(int hour,
-                       int minute,
-                       int second,
-                       int dayOfWeek)
-    {
+            int minute,
+            int second,
+            int dayOfWeek) {
         this.hour.setValue(hour);
         this.minute.setValue(minute);
         this.second.setValue(second);
@@ -44,20 +42,18 @@ public class TimeManager
     /**
      *
      */
-    public TimeManager()
-    {
+    public TimeManager() {
         this(LocalDateTime.now().getHour(),
-             LocalDateTime.now().getMinute(),
-             LocalDateTime.now().getSecond(),
-             LocalDateTime.now().getDayOfWeek().getValue());
+                LocalDateTime.now().getMinute(),
+                LocalDateTime.now().getSecond(),
+                LocalDateTime.now().getDayOfWeek().getValue());
     }
 
     /**
      *
      * @return
      */
-    public DayOfWeek getDayOfWeek()
-    {
+    public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
     }
 
@@ -65,8 +61,7 @@ public class TimeManager
      *
      * @return
      */
-    public StringProperty getDayOfWeekProperty()
-    {
+    public StringProperty getDayOfWeekProperty() {
         return dayOfWeek.weekdayProperty();
     }
 
@@ -74,8 +69,7 @@ public class TimeManager
      *
      * @return
      */
-    public TimeUnit getHour()
-    {
+    public TimeUnit getHour() {
         return hour;
     }
 
@@ -83,8 +77,7 @@ public class TimeManager
      *
      * @return
      */
-    public StringBinding getHourBinding()
-    {
+    public StringBinding getHourBinding() {
         return hour.asStringBinding();
     }
 
@@ -92,8 +85,7 @@ public class TimeManager
      *
      * @param event
      */
-    public void hourIncrement(ActionEvent event)
-    {
+    public void hourIncrement(ActionEvent event) {
         hour.increment();
     }
 
@@ -101,8 +93,7 @@ public class TimeManager
      *
      * @param event
      */
-    public void hourDecrement(ActionEvent event)
-    {
+    public void hourDecrement(ActionEvent event) {
         hour.decrement();
     }
 
@@ -110,8 +101,7 @@ public class TimeManager
      *
      * @return
      */
-    public TimeUnit getMinute()
-    {
+    public TimeUnit getMinute() {
         return minute;
     }
 
@@ -119,8 +109,7 @@ public class TimeManager
      *
      * @return
      */
-    public StringBinding getMinuteBinding()
-    {
+    public StringBinding getMinuteBinding() {
         return minute.asStringBinding();
     }
 
@@ -128,8 +117,7 @@ public class TimeManager
      *
      * @param event
      */
-    public void minuteIncrement(ActionEvent event)
-    {
+    public void minuteIncrement(ActionEvent event) {
         minute.increment();
     }
 
@@ -137,8 +125,7 @@ public class TimeManager
      *
      * @param event
      */
-    public void minuteDecrement(ActionEvent event)
-    {
+    public void minuteDecrement(ActionEvent event) {
         minute.decrement();
     }
 
@@ -146,8 +133,7 @@ public class TimeManager
      *
      * @return
      */
-    public TimeUnit getSecond()
-    {
+    public TimeUnit getSecond() {
         return second;
     }
 
@@ -155,8 +141,7 @@ public class TimeManager
      *
      * @return
      */
-    public StringBinding getSecondBinding()
-    {
+    public StringBinding getSecondBinding() {
         return second.asStringBinding();
     }
 
@@ -164,8 +149,7 @@ public class TimeManager
      *
      * @param event
      */
-    public void secondIncrement(ActionEvent event)
-    {
+    public void secondIncrement(ActionEvent event) {
         second.increment();
     }
 
@@ -173,8 +157,7 @@ public class TimeManager
      *
      * @param event
      */
-    public void secondDecrement(ActionEvent event)
-    {
+    public void secondDecrement(ActionEvent event) {
         second.decrement();
     }
 
@@ -182,16 +165,14 @@ public class TimeManager
      *
      * @param event
      */
-    public void sync(ActionEvent event)
-    {
+    public void sync(ActionEvent event) {
         sync();
     }
 
     /**
      *
      */
-    public void sync()
-    {
+    public void sync() {
         LocalDateTime syncTime = LocalDateTime.now();
         hour.setValue(syncTime.getHour());
         minute.setValue(syncTime.getMinute());
@@ -202,8 +183,7 @@ public class TimeManager
     /**
      *
      */
-    public void tick()
-    {
+    public void tick() {
         second.increment();
     }
 
@@ -211,38 +191,33 @@ public class TimeManager
      *
      * @return
      */
-    public String toHhMmString()
-    {
+    public String toHhMmString() {
         StringBuilder stringBuilder = new StringBuilder();
 
         stringBuilder.append(
                 hour.getValue() < 10
-                ? "0" + hour.getValue()
-                : hour.getValue());
+                        ? "0" + hour.getValue()
+                        : hour.getValue());
         stringBuilder.append(":");
         stringBuilder.append(
                 minute.getValue() < 10
-                ? "0" + minute.getValue()
-                : minute.getValue());
+                        ? "0" + minute.getValue()
+                        : minute.getValue());
 
         return stringBuilder.toString();
     }
 
     @Override
-    public boolean equals(Object object)
-    {
-        if (this == object)
-        {
+    public boolean equals(Object object) {
+        if (this == object) {
             return true;
         }
 
-        if (object == null)
-        {
+        if (object == null) {
             return false;
         }
 
-        if (getClass() != object.getClass())
-        {
+        if (getClass() != object.getClass()) {
             return false;
         }
 
@@ -252,8 +227,7 @@ public class TimeManager
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 5;
         hash = 31 * hash + Objects.hashCode(this.dayOfWeek);
         hash = 31 * hash + Objects.hashCode(this.hour);

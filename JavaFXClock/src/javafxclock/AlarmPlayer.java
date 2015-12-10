@@ -10,20 +10,16 @@ import javax.sound.sampled.*;
  *
  * @author Maximilian Walter <m.walter@student.fonty.nl>
  */
-public final class AlarmPlayer
-{
+public final class AlarmPlayer {
 
-    private AlarmPlayer()
-    {
+    private AlarmPlayer() {
     }
 
     /**
      * Plays the alarm sound
      */
-    public static void playAlarmSound()
-    {
-        try
-        {
+    public static void playAlarmSound() {
+        try {
             //http://www.garrens.com/xanacreations/czero/sound/misc/alarm3.wav
             File yourFile = new File("alarm.wav");
             AudioInputStream stream;
@@ -34,16 +30,14 @@ public final class AlarmPlayer
             stream = AudioSystem.getAudioInputStream(yourFile);
             format = stream.getFormat();
             info = new DataLine.Info(Clip.class,
-                                     format);
+                    format);
             clip = (Clip) AudioSystem.getLine(info);
             clip.open(stream);
             clip.start();
-        }
-        catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex)
-        {
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException ex) {
             Logger.getLogger(AlarmPlayer.class.getName()).log(Level.SEVERE,
-                                                              null,
-                                                              ex);
+                    null,
+                    ex);
         }
 
     }

@@ -21,8 +21,7 @@ import static javafx.util.Duration.seconds;
  * @author Ron Gebauer <mail@ron.gebauers.org>
  * @version 1
  */
-public class ClockviewController implements Initializable
-{
+public class ClockviewController implements Initializable {
 
     private static final Logger LOG = Logger.getLogger(ClockviewController.class.getName());
 
@@ -70,58 +69,47 @@ public class ClockviewController implements Initializable
 
     private final DoubleProperty opacity = new SimpleDoubleProperty(1);
 
-    public ClockviewController()
-    {
+    public ClockviewController() {
         //all steps needed to run will be in initialize method
     }
 
     @Override
     public void initialize(URL url,
-                           ResourceBundle resourceBundle)
-    {
+            ResourceBundle resourceBundle) {
         initializeTimeline();
         initializeLabels();
         initializeButtons();
     }
 
-    private void initializeTimeline()
-    {
+    private void initializeTimeline() {
         timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event) ->
-                                                 {
-                                                     checkLabel();
-                                                     time.tick();
-                                                     if (Integer.compare(time.getSecond().getValue(),
-                                                                         0) == 0)
-                                                     {
-                                                         checkAlarm();
-                                                     }
-                                                 }));
+        timeline.getKeyFrames().add(new KeyFrame(seconds(1), (ActionEvent event)
+                -> {
+            checkLabel();
+            time.tick();
+            if (Integer.compare(time.getSecond().getValue(),
+                    0) == 0) {
+                checkAlarm();
+            }
+        }));
 
         startApp(startStopButton.selectedProperty().get());
     }
 
-    private void checkLabel()
-    {
+    private void checkLabel() {
         final double DEFAULT_OPACITY = 1.0;
-        
-        if (alarmRuns)
-        {
-            if (opacity.getValue() >= DEFAULT_OPACITY)
-            {
+
+        if (alarmRuns) {
+            if (opacity.getValue() >= DEFAULT_OPACITY) {
                 opacity.setValue(0.5);
-            }
-            else
-            {
+            } else {
                 opacity.setValue(opacity.getValue() + 0.5);
             }
         }
     }
 
-    private void checkAlarm()
-    {
-        if (alarm.get() && time.equals(alarmTime))
-        {
+    private void checkAlarm() {
+        if (alarm.get() && time.equals(alarmTime)) {
             AlarmPlayer.playAlarmSound();
             alarmRuns = true;
             alarmButton.setText("SNOOZE");
@@ -133,20 +121,15 @@ public class ClockviewController implements Initializable
      *
      * @param start if true clock starts, otherwise clock will be stopped
      */
-    public void startApp(boolean start)
-    {
-        if (start)
-        {
+    public void startApp(boolean start) {
+        if (start) {
             timeline.play();
-        }
-        else
-        {
+        } else {
             timeline.stop();
         }
     }
 
-    private void initializeLabels()
-    {
+    private void initializeLabels() {
         //bind label with day
         weekdayLabel.textProperty().bind(time.getDayOfWeekProperty());
         //bind label with time
@@ -160,12 +143,11 @@ public class ClockviewController implements Initializable
         opacity.set(0.5);
     }
 
-    private void initializeButtons()
-    {
-        startStopButton.setOnAction((ActionEvent event) ->
-                {
-                    startApp(startStopButton.selectedProperty().get());
-                });
+    private void initializeButtons() {
+        startStopButton.setOnAction((ActionEvent event)
+                -> {
+            startApp(startStopButton.selectedProperty().get());
+        });
 
         alarmButton.setOnAction(this::setAlarmTime);
         alarm.bind(alarmButton.selectedProperty());
@@ -181,12 +163,10 @@ public class ClockviewController implements Initializable
         minusSecondButton.setOnAction(time::secondDecrement);
     }
 
-    private void setAlarmTime(ActionEvent event)
-    {
+    private void setAlarmTime(ActionEvent event) {
         LOG.info(event.toString());
 
-        if (alarmButton.selectedProperty().get())
-        {
+        if (alarmButton.selectedProperty().get()) {
             alarmTime = new TimeManager(
                     time.getHour().getValue(),
                     time.getMinute().getValue(),
@@ -194,12 +174,9 @@ public class ClockviewController implements Initializable
                     0);
 
             alarmButton.setText("Alarm set to " + alarmTime.toHhMmString());
-        }
-        else
-        {
+        } else {
             alarmButton.setText("Set Alarm!");
-            if (alarmRuns)
-            {
+            if (alarmRuns) {
                 alarmRuns = false;
                 opacity.set(1.0);
             }
