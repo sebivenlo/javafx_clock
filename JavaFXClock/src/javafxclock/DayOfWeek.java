@@ -35,7 +35,7 @@ public class DayOfWeek extends TimeUnit {
      * @return
      */
     @Override
-    public DayOfWeek named(String name) {
+    public DayOfWeek named(final String name) {
         super.named(name);
         return this;
     }

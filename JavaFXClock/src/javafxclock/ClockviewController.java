@@ -69,13 +69,9 @@ public class ClockviewController implements Initializable {
 
     private final DoubleProperty opacity = new SimpleDoubleProperty(1);
 
-    public ClockviewController() {
-        //all steps needed to run will be in initialize method
-    }
-
     @Override
-    public void initialize(URL url,
-            ResourceBundle resourceBundle) {
+    public void initialize(final URL url,
+            final ResourceBundle resourceBundle) {
         initializeTimeline();
         initializeLabels();
         initializeButtons();
@@ -121,7 +117,7 @@ public class ClockviewController implements Initializable {
      *
      * @param start if true clock starts, otherwise clock will be stopped
      */
-    public void startApp(boolean start) {
+    public void startApp(final boolean start) {
         if (start) {
             timeline.play();
         } else {
@@ -163,7 +159,7 @@ public class ClockviewController implements Initializable {
         minusSecondButton.setOnAction(time::secondDecrement);
     }
 
-    private void setAlarmTime(ActionEvent event) {
+    private void setAlarmTime(final ActionEvent event) {
         LOG.info(event.toString());
 
         if (alarmButton.selectedProperty().get()) {
